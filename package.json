@@ -24,7 +24,10 @@
     },
     "scripts": {
         "format": "bunx prettier --write .",
-        "format:check": "bunx prettier --check ."
+        "format:check": "bunx prettier --check .",
+        "build": "bun build ./src/Main.ts --outdir ./dist/Main.js --target bun --minify",
+        "dev": "bun run --watch ./src/Main.ts",
+        "start": "bun ."
     },
     "devDependencies": {
         "@types/bun": "^1.3.14",
