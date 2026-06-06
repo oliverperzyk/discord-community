@@ -1,0 +1,27 @@
+# IDE files.
+/**/.idea/
+/**/.vscode/
+/**/.cursor/
+# AI files.
+/**/.claude/
+/**/.codex/
+
+# Dependencies & distribution files.
+/**/node_modules/
+/**/dist/
+/**/build/
+/**/out/
+/**/*.tsbuildinfo
+# Lockfiles.
+/**/pnpm-lock.yaml
+/**/yarn.lock
+/**/package-lock.json
+/**/bun.lock
+
+# Environment variables.
+/**/.env
+!/.env.example
+
+# Operating system files.
+/**/.DS_Store
+/**/*.ini
