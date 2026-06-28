@@ -18,6 +18,7 @@ export default defineConfig([
             "build/**",
             "out/**",
             "node_modules/**",
+            "./tsconfig*.json",
             "**/*.{js,mjs,cjs}",
         ]
     },
@@ -26,7 +27,10 @@ export default defineConfig([
         plugins: { js },
         extends: ["js/recommended"],
         languageOptions: { 
-            globals: globals.node 
+            globals: globals.node,
+            parserOptions: {
+                project: "./tsconfig.json",
+            }
         },
         rules: {
             "no-unused-vars": "off",
@@ -34,6 +38,14 @@ export default defineConfig([
                 argsIgnorePattern: "^_{1,2}",
             }],
         }
+    },
+    {
+        files: ["./tests/**/*.ts"],
+        languageOptions: { 
+            parserOptions: {
+                project: "./tsconfig.test.json",
+            }
+        },
     },
     {
         files: ["**/*.json"],
