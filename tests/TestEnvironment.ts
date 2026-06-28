@@ -1,9 +1,9 @@
 /**
- * @summary Entrypoint for the application.
- * @description This class initialized the application and starts the bot.
+ * @summary Entrypoint that initializes the test environment.
+ * @description This class initializes the test environment.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class Main {
+class TestEnvironment {
     /**
      * @summary Private constructor.
      * @description Private constructor to prevent instantiation & inheritance.
@@ -12,17 +12,17 @@ class Main {
 
     /**
      * @summary Static initializer.
-     * @description Static initializer to initialize the application.
+     * @description Static initializer to initialize the test environment.
      */
     static {
         void this.init()
     }
 
     /**
-     * @summary Initialize the application.
-     * @description Initialize the application and start the bot.
+     * @summary Initialize the test environment.
+     * @description Initialize the test environment.
      */
     private static async init(): Promise<void> {
-        console.log("Hello, world!")
+        console.log("Initializing test environment...")
     }
 }
