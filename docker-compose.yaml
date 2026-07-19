@@ -1,0 +1,21 @@
+---
+networks:
+    discord-application:
+        name: discord-community-network
+        driver: bridge
+services:
+    discord-community:
+        container_name: discord-community
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                APP_PORT: ${APP_PORT:-3000}
+        env_file:
+            - .env
+        environment:
+            NODE_ENV: ${NODE_ENV:-production}
+        ports:
+          - ${APP_PORT:-3000}:${APP_PORT:-3000}
+        networks:
+            - discord-application
