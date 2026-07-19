@@ -1,0 +1,5 @@
+#!/bin/bash
+# This file is being executed before pushing via git.
+
+bun run format:check
+bun run lint:fix

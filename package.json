@@ -32,7 +32,7 @@
         "build": "bun build ./src/Main.ts --outdir ./dist/Main.js --target bun --minify",
         "dev": "bun run --watch ./src/Main.ts",
         "start": "bun .",
-        "prepare": "husky"
+        "prepare": "bunx husky"
     },
     "lint-staged": {
         "**/*.{ts,json,json5,jsonc,md}": [
