@@ -1,1 +1,4 @@
-bun test
+#!/bin/bash
+# This file is being executed before committing via git.
+
+bunx lint-staged

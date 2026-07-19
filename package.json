@@ -34,6 +34,15 @@
         "start": "bun .",
         "prepare": "husky"
     },
+    "lint-staged": {
+        "**/*.{ts,json,json5,jsonc,md}": [
+            "bunx prettier --write --ignore-unknown",
+            "bunx eslint --fix"
+        ],
+        "**/*.{yml,yaml}": [
+            "bunx prettier --write --ignore-unknown"
+        ]
+    },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@eslint/json": "^2.0.0",
