@@ -13,38 +13,34 @@ import { defineConfig } from "eslint/config"
 export default defineConfig([
     tseslint.configs.recommended,
     {
-        ignores: [
-            "dist/**",
-            "build/**",
-            "out/**",
-            "node_modules/**",
-            "./tsconfig*.json",
-            "**/*.{js,mjs,cjs}",
-        ]
+        ignores: ["dist/**", "build/**", "out/**", "node_modules/**", "./tsconfig*.json", "**/*.{js,mjs,cjs}"],
     },
     {
         files: ["**/*.ts"],
         plugins: { js },
         extends: ["js/recommended"],
-        languageOptions: { 
+        languageOptions: {
             globals: globals.node,
             parserOptions: {
                 project: "./tsconfig.json",
-            }
+            },
         },
         rules: {
             "no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars": ["error", {
-                argsIgnorePattern: "^_{1,2}",
-            }],
-        }
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    argsIgnorePattern: "^_{1,2}",
+                },
+            ],
+        },
     },
     {
         files: ["./tests/**/*.ts"],
-        languageOptions: { 
+        languageOptions: {
             parserOptions: {
                 project: "./tsconfig.test.json",
-            }
+            },
         },
     },
     {
@@ -71,7 +67,7 @@ export default defineConfig([
         language: "markdown/gfm",
         extends: ["markdown/recommended"],
         rules: {
-            "markdown/no-missing-label-refs": "error"
-        }
+            "markdown/no-missing-label-refs": "error",
+        },
     },
 ])

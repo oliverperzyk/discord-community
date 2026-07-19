@@ -38,12 +38,15 @@ class EnvironmentVariables {
      * @summary Identifier of the Discord's application.
      * @description Identifier of the Discord's application, used to identify the application in Discord.
      */
-    public static readonly DISCORD_APPLICATION_IDENTIFIER: string = EnvironmentVariablesDataManager.getString("DISCORD_APPLICATION_IDENTIFIER", true)
+    public static readonly DISCORD_APPLICATION_IDENTIFIER: string = EnvironmentVariablesDataManager.getString(
+        "DISCORD_APPLICATION_IDENTIFIER",
+        true,
+    )
 
     /**
      * @summary URL of the database.
      * @description URL of the database, used to connect to the database.
-     */ 
+     */
     public static readonly DATABASE_URL: URL = EnvironmentVariablesDataManager.getURL("DATABASE_URL", true)
 
     /**

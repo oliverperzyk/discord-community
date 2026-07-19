@@ -21,7 +21,6 @@ class EnvironmentVariableError extends Error {
         this.variableName = variableName
     }
 
-
     /**
      * @summary Getter for the value of the environment variable that caused the error.
      */
@@ -86,7 +85,10 @@ class EnvironmentVariableError extends Error {
      * @returns A new EnvironmentVariableError instance.
      */
     public static fromInvalidNodeEnvironmentVariable(variableName: string): EnvironmentVariableError {
-        return new this(`Environment variable ${variableName} is not a valid environment variable. ("DEVELOPMENT", "PRODUCTION", "TEST")`, variableName)
+        return new this(
+            `Environment variable ${variableName} is not a valid environment variable. ("DEVELOPMENT", "PRODUCTION", "TEST")`,
+            variableName,
+        )
     }
 }
 

@@ -21,7 +21,10 @@ class EnvironmentVariablesDataManager {
      * @returns The value of the environment variable, or undefined if the environment variable is not set and required is false
      * @throws {EnvironmentVariableError} If the environment variable is required and not set.
      */
-    public static getString<T extends boolean>(variableName: string, required: T): T extends true ? string : string | undefined {
+    public static getString<T extends boolean>(
+        variableName: string,
+        required: T,
+    ): T extends true ? string : string | undefined {
         const value: string | undefined = env[variableName]
         if (required && !value) {
             throw EnvironmentVariableError.fromMissingVariable(variableName)
@@ -37,7 +40,10 @@ class EnvironmentVariablesDataManager {
      * @returns The value of the environment variable, or undefined if the environment variable is not set and required is false.
      * @throws {EnvironmentVariableError} If the environment variable is required and not set, or if the environment variable is not a valid number.
      */
-    public static getNumber<T extends boolean>(variableName: string, required: T): T extends true ? number : number | undefined {
+    public static getNumber<T extends boolean>(
+        variableName: string,
+        required: T,
+    ): T extends true ? number : number | undefined {
         const value: string | undefined = env[variableName]
         if (value === undefined) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
@@ -60,13 +66,16 @@ class EnvironmentVariablesDataManager {
      * @returns The value of the environment variable, or undefined if the environment variable is not set and required is false.
      * @throws {EnvironmentVariableError} If the environment variable is required and not set, or if the environment variable is not a valid boolean.
      */
-    public static getBoolean<T extends boolean>(variableName: string, required: T): T extends true ? boolean : boolean | undefined {
+    public static getBoolean<T extends boolean>(
+        variableName: string,
+        required: T,
+    ): T extends true ? boolean : boolean | undefined {
         const value: string | undefined = env[variableName]
         if (value === undefined) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? boolean : boolean | undefined
         }
-    
+
         switch (value.toLowerCase().trim()) {
             case "true":
             case "1":
@@ -93,7 +102,7 @@ class EnvironmentVariablesDataManager {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? URL : URL | undefined
         }
-        
+
         try {
             return new URL(value) as T extends true ? URL : URL | undefined
         } catch (error) {
@@ -109,13 +118,16 @@ class EnvironmentVariablesDataManager {
      * @returns The value of the environment variable, or undefined if the environment variable is not set and required is false.
      * @throws {EnvironmentVariableError} If the environment variable is required and not set, or if the environment variable is not a valid port.
      */
-    public static getPort<T extends boolean>(variableName: string, required: T): T extends true ? number : number | undefined {
+    public static getPort<T extends boolean>(
+        variableName: string,
+        required: T,
+    ): T extends true ? number : number | undefined {
         const value: string | undefined = env[variableName]
         if (value === undefined) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? number : number | undefined
         }
-        
+
         const parsedValue = Number(value)
         if (Number.isNaN(parsedValue)) {
             throw EnvironmentVariableError.fromInvalidNumberVariable(variableName)

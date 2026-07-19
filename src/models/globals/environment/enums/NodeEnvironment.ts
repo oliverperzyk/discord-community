@@ -17,7 +17,7 @@ const enum NodeEnvironment {
      * @summary Test environment.
      * @description Environment for testing the application, e.g. CI pipeline.
      */
-    TEST = "test"
+    TEST = "test",
 }
 
 export { NodeEnvironment }

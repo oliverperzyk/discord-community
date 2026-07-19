@@ -31,7 +31,8 @@
         "test:init": "bun ./tests/TestEnvironment.ts",
         "build": "bun build ./src/Main.ts --outdir ./dist/Main.js --target bun --minify",
         "dev": "bun run --watch ./src/Main.ts",
-        "start": "bun ."
+        "start": "bun .",
+        "prepare": "husky"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
@@ -41,7 +42,9 @@
         "@types/node": "^25.9.2",
         "eslint": "^10.6.0",
         "globals": "^17.7.0",
+        "husky": "^9.1.7",
         "jiti": "^2.7.0",
+        "lint-staged": "^17.1.0",
         "prettier": "^3.8.3",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.62.0"
