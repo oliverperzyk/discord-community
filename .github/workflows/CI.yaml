@@ -1,0 +1,59 @@
+# Configuration of CI workflow, to validate whole codebase.
+---
+name: Validate whole codebase.
+on:
+    push:
+    pull_request:
+permissions:
+    contents: read
+defaults:
+    run:
+        shell: bash
+jobs:
+    validate-code-quality:
+        name: Validate code's quality.
+        runs-on: ubuntu-latest
+        env:
+            # Options related to the application.
+            NODE_ENV: test
+            # Options related to the HTTP server.
+            APP_PORT: 3000
+            APP_HOST: 127.0.0.1
+            # Options related to the Discord application.
+            DISCORD_TOKEN: special-token
+            DISCORD_APPLICATION_IDENTIFIER: special-snowflake
+            # Options related to the database.
+            DATABASE_URL: postgres://oliverperzyk:oliverperzyk@localhost:6379/oliverperzyk
+        services:
+            database:
+                image: postgres:18.1-alpine
+                env:
+                    POSTGRES_DB: oliverperzyk
+                    POSTGRES_USER: oliverperzyk
+                    POSTGRES_PASSWORD: oliverperzyk
+                ports:
+                    - 6379:6379
+        steps:
+            - name: Checkout repository.
+              uses: actions/checkout@v7
+            - name: Set up Bun.
+              uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - name: Install dependencies.
+              run: bun install --frozen-lockfile
+            - name: Initialize testing environment.
+              run: bun run test:init
+            - name: Check formatting of all files using Prettier.
+              run: bun run format:check
+            - name: Check linting of codebase using ESLint.
+              run: bun run lint
+            - name: Check linting of Dockerfile using Hadolint.
+              uses: hadolint/hadolint-action@v3.3.0
+              with:
+                  dockerfile: Dockerfile
+                  config: .hadolint.yaml
+            - name: Check typings with TypeScript compiler.
+              run: bunx tsc --noEmit --project tsconfig.json
+            - name: Run tests.
+              run: bun run test
