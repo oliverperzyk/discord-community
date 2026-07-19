@@ -1,0 +1,15 @@
+# Configuration of cache container for the application.
+# Caching engine is not required to run the application, but it's recommended for performance.
+---
+services:
+    cache:
+        container_name: oliverperzyk-discord-redis
+        image: redis:8.0-alpine
+        env_file:
+            - .env
+        environment:
+            CACHE_URL: ${CACHE_URL:-redis://localhost:${CACHE_ENGINE_PORT:-6379}}
+        ports:
+            - "{CACHE_ENGINE_PORT:-6379}:6379"
+        networks:
+            - discord-application-network
