@@ -36,7 +36,8 @@
         "./src/**/*.ts",
         "./scripts/**/*.ts",
         "./tests/**/*.ts",
-        "eslint.config.ts"
+        "eslint.config.ts",
+        "drizzle.config.ts"
     ],
     "exclude": [
         "./node_modules/**",

@@ -49,6 +49,7 @@
         "@eslint/markdown": "^8.0.2",
         "@types/bun": "^1.3.14",
         "@types/node": "^25.9.2",
+        "drizzle-kit": "^0.31.10",
         "eslint": "^10.6.0",
         "globals": "^17.7.0",
         "husky": "^9.1.7",
@@ -60,6 +61,7 @@
     },
     "dependencies": {
         "discord.js": "^14.27.0",
+        "drizzle-orm": "^0.45.2",
         "elysia": "^1.4.29"
     }
 }
