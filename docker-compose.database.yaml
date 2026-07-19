@@ -1,0 +1,25 @@
+# Configuration of database container for the application.
+---
+volumes:
+    database-data:
+        name: oliverperzyk-discord-database
+services:
+    database:
+        container_name: oliverperzyk-discord-postgres
+        image: postgres:18.1-alpine
+        env_file:
+            - .env
+        environment:
+            POSTGRES_DB: ${DATABASE_ENGINE_NAME:-oliverperzyk}
+            POSTGRES_USER: ${DATABASE_ENGINE_USERNAME:-oliverperzyk}
+            POSTGRES_PASSWORD: ${DATABASE_ENGINE_PASSWORD:-oliverperzyk}
+        ports:
+            - "{DATABASE_ENGINE_PORT:-5432}:5432"
+        volumes:
+            - database-data:/var/lib/postgresql/data
+        networks:
+            - discord-application-network
+    discord-application:
+        depends_on:
+            database:
+                condition: service_healthy
