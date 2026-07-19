@@ -1,0 +1,13 @@
+# Configuration of Hadolint - Dockerfile's linter.
+---
+# It enforces the use of labels in every single Dockerfile.
+strict-labels: true
+# Labels that must be provided in every single Dockerfile.
+label-schema:
+    org.opencontainers.image.title: text
+    org.opencontainers.image.description: text
+    org.opencontainers.image.version: semver
+    org.opencontainers.image.authors: text
+    org.opencontainers.image.licenses: spdx
+    org.opencontainers.image.url: url
+    org.opencontainers.image.source: url

@@ -13,7 +13,7 @@ LABEL org.opencontainers.image.title="@discord-community/discord-community" \
       org.opencontainers.image.version="0.0.1" \
       org.opencontainers.image.authors="oliverperzyk (Oliwier Perzyński) <olek@oliverperzyk.com>" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.homepage="https://oliverperzyk.com/discord-server" \
+      org.opencontainers.image.url="https://oliverperzyk.com/discord-server" \
       org.opencontainers.image.source="https://github.com/discord-community/discord-community.git"
 
 WORKDIR /app
