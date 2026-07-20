@@ -1,6 +1,7 @@
 import type { ClientEvents } from "discord.js"
 import { BaseEventListener } from "./BaseEventListener"
 import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/managers/DiscordApplicationInstanceManager"
+import { ClientReadyEventListener } from "../client/ClientReadyEventListener"
 
 /**
  * @summary Registry of event listeners.
@@ -16,7 +17,9 @@ class EventListenerRegistry {
      * @summary The event listeners to register.
      * @description The event listeners to register to the Discord API.
      */
-    private static readonly EVENT_LISTENERS: readonly BaseEventListener<keyof ClientEvents>[] = []
+    private static readonly EVENT_LISTENERS: readonly BaseEventListener<keyof ClientEvents>[] = [
+        new ClientReadyEventListener(),
+    ]
     /**
      * @summary Whether the event listeners are initialized.
      * @description Whether the event listeners are initialized already.
