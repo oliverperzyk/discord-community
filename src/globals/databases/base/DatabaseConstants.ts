@@ -20,6 +20,12 @@ class DatabaseConstants {
     public static readonly DATABASE_IDENTIFIER_COLUMN_LENGTH: number = 64
 
     /**
+     * @summary The length of the Discord snowflake column.
+     * @description The length of the Discord snowflake column.
+     */
+    public static readonly DISCORD_SNOWFLAKE_COLUMN_LENGTH: number = 18
+
+    /**
      * @summary The columns for the base tables.
      * @description Columns that are common to all tables, returned as a fresh object every single time to prevent reference errors.
      * @returns Columns that are common to all tables.
