@@ -50,6 +50,7 @@ class DiscordApplicationInstanceManager {
                     version: "10",
                 },
             })
+
             this.internalInstance.rest.setToken(EnvironmentVariables.DISCORD_TOKEN)
             this.internalInstance.login(EnvironmentVariables.DISCORD_TOKEN)
         }
