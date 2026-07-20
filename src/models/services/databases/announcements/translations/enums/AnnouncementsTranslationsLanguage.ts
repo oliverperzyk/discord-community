@@ -6,12 +6,12 @@ const enum AnnouncementsTranslationsLanguage {
     /**
      * @summary The Polish language.
      */
-    POLISH = "pl",
+    POLISH = "PL",
     /**
      * @summary The English language.
      * @description There is no need to split the English language by dialects, as it's not necessary for this type of project.
      */
-    ENGLISH = "en",
+    ENGLISH = "EN",
 }
 
 export { AnnouncementsTranslationsLanguage }

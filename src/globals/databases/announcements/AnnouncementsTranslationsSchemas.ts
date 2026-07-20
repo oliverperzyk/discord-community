@@ -33,7 +33,7 @@ const announcementsTranslationsTable = baseTable(
         title: varchar("title", { length: 255 }).notNull(),
         content: text("content").notNull(),
     },
-    (table) => [unique("announcement_translation").on(table.announcementId, table.language)],
+    (table) => [unique("announcementTranslation").on(table.announcementId, table.language)],
 )
 
 export { announcementsTranslationsTable }
