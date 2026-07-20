@@ -1,0 +1,109 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://discord-server.oliverperzyk.com/schemas/translations.json",
+    "title": "Schema for translations of oliverperzyk's Discord community.",
+    "description": "A locale file mapping translation keys to BASIC or PARAMETER entries.",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "minLength": 1
+        }
+    },
+    "additionalProperties": {
+        "$ref": "#/$defs/TranslationKey"
+    },
+    "propertyNames": {
+        "type": "string",
+        "minLength": 1
+    },
+    "$defs": {
+        "NonEmptyString": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+        },
+        "TranslationArgumentDataType": {
+            "type": "string",
+            "enum": ["STRING", "NUMBER", "FLOAT", "BOOLEAN"]
+        },
+        "TranslationParameter": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type"],
+            "properties": {
+                "type": {
+                    "$ref": "#/$defs/TranslationArgumentDataType"
+                }
+            }
+        },
+        "TranslationParameterTexts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["one", "few", "many", "zero"],
+            "properties": {
+                "one": {
+                    "$ref": "#/$defs/NonEmptyString"
+                },
+                "few": {
+                    "$ref": "#/$defs/NonEmptyString"
+                },
+                "many": {
+                    "$ref": "#/$defs/NonEmptyString"
+                },
+                "zero": {
+                    "$ref": "#/$defs/NonEmptyString"
+                }
+            }
+        },
+        "TranslationBasicKey": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "text"],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "const": "BASIC"
+                },
+                "text": {
+                    "$ref": "#/$defs/NonEmptyString"
+                }
+            }
+        },
+        "TranslationParameterKey": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "texts", "arguments"],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "const": "PARAMETER"
+                },
+                "texts": {
+                    "$ref": "#/$defs/TranslationParameterTexts"
+                },
+                "arguments": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/$defs/TranslationParameter"
+                    },
+                    "propertyNames": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+                    }
+                }
+            }
+        },
+        "TranslationKey": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/TranslationBasicKey"
+                },
+                {
+                    "$ref": "#/$defs/TranslationParameterKey"
+                }
+            ]
+        }
+    }
+}
