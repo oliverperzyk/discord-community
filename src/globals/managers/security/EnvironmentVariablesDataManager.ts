@@ -105,7 +105,7 @@ class EnvironmentVariablesDataManager {
 
         try {
             return new URL(value) as T extends true ? URL : URL | undefined
-        } catch (error) {
+        } catch {
             throw EnvironmentVariableError.fromInvalidURLVariable(variableName)
         }
     }
