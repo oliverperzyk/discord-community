@@ -1,8 +1,8 @@
 import { BunSQLDatabase, drizzle } from "drizzle-orm/bun-sql"
 import { SQL } from "bun"
-import * as databaseSchemas from "../databases/DatabaseSchemas"
 import { EnvironmentVariables } from "../EnvironmentVariables"
 import { ClientStatus } from "@/oliverperzyk/models/globals/clients/general/enums/ClientStatus"
+import * as databaseSchemas from "../databases/DatabaseSchemas"
 
 /**
  * @summary Manager of database connections.
