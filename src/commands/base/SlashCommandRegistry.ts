@@ -68,6 +68,16 @@ class SlashCommandRegistry {
             },
         )
     }
+
+    /**
+     * @summary Finds a command by it's name.
+     * @description It's used by command handler later.
+     * @param name Name of a command.
+     * @returns Instance of a command or null, if it does not exist.
+     */
+    public static getCommandByName(name: string): BaseSlashCommand | null {
+        return this.COMMANDS.find(({ structure }) => structure.name === name) ?? null
+    }
 }
 
 export { SlashCommandRegistry }
