@@ -7,4 +7,5 @@ export * from "./announcements/AnnouncementsTranslationsSchemas"
 /**
  * @summary Schemas related to giveaways.
  */
-export * from "./giveaways/GiveawaySchemas"
+export * from "./giveaways/GiveawaysSchemas"
+export * from "./giveaways/GiveawaysTranslationsSchemas"

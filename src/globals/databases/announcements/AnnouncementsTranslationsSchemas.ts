@@ -36,4 +36,4 @@ const announcementsTranslationsTable = baseTable(
     (table) => [unique("announcementTranslation").on(table.announcementId, table.language)],
 )
 
-export { announcementsTranslationsTable }
+export { announcementsTranslationsLanguageEnum, announcementsTranslationsTable }

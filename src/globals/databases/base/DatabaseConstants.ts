@@ -26,6 +26,12 @@ class DatabaseConstants {
     public static readonly DISCORD_SNOWFLAKE_COLUMN_LENGTH: number = 18
 
     /**
+     * @summary The length of a typical content.
+     * @description This includes titles, short summaries, etc.
+     */
+    public static readonly BASE_CONTENT_COLUMN_LENGTH: number = 255
+
+    /**
      * @summary The columns for the base tables.
      * @description Columns that are common to all tables, returned as a fresh object every single time to prevent reference errors.
      * @returns Columns that are common to all tables.

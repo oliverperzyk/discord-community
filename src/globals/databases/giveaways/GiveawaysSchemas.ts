@@ -2,7 +2,7 @@ import { check, integer, jsonb, timestamp, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
-import { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GIveawayPrizeType"
+import { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GiveawayPrizeType"
 import { baseEnum } from "../base/BaseEnum"
 import { GiveawayPrizeTypeDataManager } from "../../managers/data/giveaways/base/GiveawayPrizeTypeDataManager"
 import { sql } from "drizzle-orm"
@@ -20,7 +20,7 @@ const giveawayPrizeTypeEnum = baseEnum("giveawayPrizeType", GiveawayPrizeTypeDat
 const giveawaysTable = baseTable(
     "giveaways",
     {
-        serverId: varchar("serverId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+        guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
             .notNull()
             .$type<DiscordSnowflake>(),
         messageId: varchar("messageId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
@@ -38,4 +38,4 @@ const giveawaysTable = baseTable(
     (table) => [check("winnerCountIsPositive", sql`${table.winnerCount} > 0`)],
 )
 
-export { giveawaysTable }
+export { giveawayPrizeTypeEnum, giveawaysTable }

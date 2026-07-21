@@ -1,4 +1,4 @@
-import { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GIveawayPrizeType"
+import { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GiveawayPrizeType"
 
 /**
  * @summary The data manager for the giveaway prize type.

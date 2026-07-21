@@ -8,7 +8,7 @@ import { DatabaseConstants } from "../base/DatabaseConstants"
  * @description This table is used to store the announcements.
  */
 const announcementsTable = baseTable("announcements", {
-    serverId: varchar("serverId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+    guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()
         .$type<DiscordSnowflake>(),
     messageId: varchar("messageId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
