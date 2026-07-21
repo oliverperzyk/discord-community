@@ -12,7 +12,7 @@ abstract class BaseComponent<InteractionType extends Interaction, Properties = u
      * @description The custom identifier of the component, that allows to make every single component unique.
      * @remarks This field does not include query options at all.
      */
-    public abstract readonly customId: string
+    public abstract readonly customIdentifier: string
 
     /**
      * @summary The function to execute when the component is invoked.
