@@ -1,4 +1,4 @@
-import { check, integer, jsonb, timestamp, varchar } from "drizzle-orm/pg-core"
+import { boolean, check, integer, jsonb, timestamp, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
@@ -29,10 +29,11 @@ const giveawaysTable = baseTable(
         createdBy: varchar("createdBy", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
             .notNull()
             .$type<DiscordSnowflake>(),
-        startedAt: timestamp("startedAt").notNull(),
-        endedAt: timestamp("endedAt").notNull(),
+        startsAt: timestamp("startedAt").notNull(),
+        endsAt: timestamp("endedAt").notNull(),
         winnerCount: integer("winnerCount").notNull(),
         prizeType: giveawayPrizeTypeEnum("prizeType").notNull().$type<GiveawayPrizeType>(),
+        alreadyRolled: boolean("alreadyRolled").notNull().default(false),
         additionalInformation: jsonb("additionalInformation").$type<Record<string, unknown> | null>(),
     },
     (table) => [check("winnerCountIsPositive", sql`${table.winnerCount} > 0`)],
