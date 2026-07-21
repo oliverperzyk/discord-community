@@ -2,7 +2,7 @@ import { boolean, check, integer, jsonb, timestamp, varchar } from "drizzle-orm/
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
-import { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GiveawayPrizeType"
+import type { GiveawayPrizeType } from "@/oliverperzyk/models/services/databases/giveaways/base/enums/GiveawayPrizeType"
 import { baseEnum } from "../base/BaseEnum"
 import { GiveawayPrizeTypeDataManager } from "../../managers/data/giveaways/base/GiveawayPrizeTypeDataManager"
 import { sql } from "drizzle-orm"

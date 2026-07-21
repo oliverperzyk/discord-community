@@ -31,4 +31,4 @@ const testingThingsTranslationsTable = baseTable("testingThingsTranslations", {
     description: text("description"),
 })
 
-export { testingThingsTranslationsTable }
+export { testingThingsTranslationsLanguageEnum, testingThingsTranslationsTable }
