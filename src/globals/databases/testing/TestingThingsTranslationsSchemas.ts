@@ -1,7 +1,7 @@
 import { baseEnum } from "../base/BaseEnum"
 import { baseTable } from "../base/BaseTable"
 import { TestingThingsTranslationsLanguageDataManager } from "../../managers/data/testing/translations/TestingThingsTranslationsLanguageDataManager"
-import type { TestingThingsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/testing/translations/enums/GiveawaysTranslationsLanguage"
+import type { TestingThingsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/testing/translations/enums/TestingThingsTranslationsLanguage"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import { testingThingsTable } from "./TestingThingsSchemas"
 import { text, varchar } from "drizzle-orm/pg-core"

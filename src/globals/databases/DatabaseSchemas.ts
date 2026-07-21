@@ -17,3 +17,8 @@ export * from "./giveaways/GiveawaysParticipantsSchemas"
 export * from "./testing/TestingThingsSchemas"
 export * from "./testing/TestingThingsTranslationsSchemas"
 export * from "./testing/TestingThingsParticipantsSchemas"
+
+/**
+ * @summary Schemas related to tickets.
+ */
+export * from "./tickets/TicketsSchemas"

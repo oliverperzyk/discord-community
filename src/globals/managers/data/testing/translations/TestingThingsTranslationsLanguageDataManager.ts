@@ -1,4 +1,4 @@
-import { TestingThingsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/testing/translations/enums/GiveawaysTranslationsLanguage"
+import { TestingThingsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/testing/translations/enums/TestingThingsTranslationsLanguage"
 
 /**
  * @summary The data manager for the testing things translations language.
