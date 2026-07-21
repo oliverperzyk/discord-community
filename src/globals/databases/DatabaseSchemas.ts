@@ -10,3 +10,8 @@ export * from "./announcements/AnnouncementsTranslationsSchemas"
 export * from "./giveaways/GiveawaysSchemas"
 export * from "./giveaways/GiveawaysTranslationsSchemas"
 export * from "./giveaways/GiveawaysParticipantsSchemas"
+
+/**
+ * @summary Schemas related to testing things.
+ */
+export * from "./testing/TestingThingsSchemas"
