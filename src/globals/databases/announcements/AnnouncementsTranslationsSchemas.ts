@@ -1,4 +1,4 @@
-import { text, unique, varchar } from "drizzle-orm/pg-core"
+import { text, uniqueIndex, varchar } from "drizzle-orm/pg-core"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
 import { baseTable } from "../base/BaseTable"
@@ -33,7 +33,7 @@ const announcementsTranslationsTable = baseTable(
         title: varchar("title", { length: 255 }).notNull(),
         content: text("content").notNull(),
     },
-    (table) => [unique("announcementTranslation").on(table.announcementId, table.language)],
+    (table) => [uniqueIndex("announcementTranslation").on(table.announcementId, table.language)],
 )
 
 export { announcementsTranslationsLanguageEnum, announcementsTranslationsTable }

@@ -1,4 +1,4 @@
-import { text, unique, varchar } from "drizzle-orm/pg-core"
+import { text, uniqueIndex, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import { giveawaysTable } from "./GiveawaysSchemas"
@@ -7,11 +7,19 @@ import { baseEnum } from "../base/BaseEnum"
 import { GiveawaysTranslationsLanguageDataManager } from "../../managers/data/giveaways/translations/GiveawaysTranslationsLanguageDataManager"
 import type { GiveawaysTranslationsLanguage } from "@/oliverperzyk/models/services/databases/giveaways/translations/enums/GiveawaysTranslationsLanguage"
 
+/**
+ * @summary The giveaways translations language enum.
+ * @description This enum is used to store the language for the giveaways translations.
+ */
 const giveawaysTranslationsLanguageEnum = baseEnum(
     "giveawaysTranslationsLanguages",
     GiveawaysTranslationsLanguageDataManager.VALUES_IN_ARRAY,
 )
 
+/**
+ * @summary The giveaways translations table schema.
+ * @description This table is used to store the giveaways translations.
+ */
 const giveawayTranslationsTable = baseTable(
     "giveawaysTranslations",
     {
@@ -24,7 +32,7 @@ const giveawayTranslationsTable = baseTable(
         prize: varchar("prize", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
         description: text("description"),
     },
-    (table) => [unique("giveawayTranslation").on(table.giveawayId, table.language)],
+    (table) => [uniqueIndex("giveawayTranslation").on(table.giveawayId, table.language)],
 )
 
 export { giveawaysTranslationsLanguageEnum, giveawayTranslationsTable }

@@ -9,3 +9,4 @@ export * from "./announcements/AnnouncementsTranslationsSchemas"
  */
 export * from "./giveaways/GiveawaysSchemas"
 export * from "./giveaways/GiveawaysTranslationsSchemas"
+export * from "./giveaways/GiveawaysParticipantsSchemas"
