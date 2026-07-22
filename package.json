@@ -1,10 +1,10 @@
 {
-    "name": "@oliverperzyk/discord-community",
+    "name": "@oliverperzyk/discord",
     "description": "A Discord application for my Discord community.",
     "version": "0.0.1",
     "private": true,
     "license": "MIT",
-    "homepage": "https://oliverperzyk.com/discord-server",
+    "homepage": "https://oliverperzyk.com/discord",
     "author": {
         "name": "oliverperzyk (Oliwier Perzyński)",
         "email": "olek@oliverperzyk.com",
@@ -12,10 +12,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/oliverperzyk/discord-community.git"
+        "url": "https://github.com/oliverperzyk/discord.git"
     },
     "bugs": {
-        "url": "https://github.com/oliverperzyk/discord-community/issues"
+        "url": "https://github.com/oliverperzyk/discord/issues"
     },
     "entry": "./dist/Main.js",
     "type": "module",
