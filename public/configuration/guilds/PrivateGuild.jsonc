@@ -1,6 +1,43 @@
 {
-    "guildId": "",
-    "roles": {},
-    "channels": {},
-    "categories": {}
+    "guildId": "1529119875379888300",
+    "roles": {
+        // Admin Roles.
+        "owner": "1529120981786951744",
+        // Base (Community) Roles.
+        "bestHomie": "1529121479692783786",
+        "bigHomie": "1529121455483257002",
+        "niceHomie": "1529121430674083963",
+        "regularHomie": "1529121386466115694",
+        // Interests Roles.
+        "testingThings": "1529456937517842514",
+        "giveaways": "1529457035521822881",
+        "games": "1529457087657279508"
+    },
+    "channels": {
+        // Ungropued Channels
+        "verification": "1529119967688261843",
+        // Information Channels
+        "information": "1529119967688261843",
+        "announcements": "1529120240271757433",
+        "socialPosts": "1529122619490566205",
+        "testingThings": "1529123318844625096",
+        "giveaways": "1529122646543831080",
+        "events": "1529124318972477520",
+        // Text Channels
+        "general": "1529123389006938162",
+        "memes": "1529123422267768852",
+        "commands": "1529123663964798996",
+        // Voice Channels
+        "explanation": "1529450916640723076",
+        "privateChannel": "1529124953390055484",
+        "firstGeneral": "1529124903926632570",
+        "secondGeneral": "1529124924625518612",
+        // Other Channels
+        "adminStuff": "1529122244507340982",
+        "messageTrap": "1529124428552863744"
+    },
+    "categories": {
+        "testingThings": "1529458763906682880",
+        "tickets": "1529459163023802438"
+    }
 }
