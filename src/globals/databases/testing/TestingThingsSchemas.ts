@@ -1,4 +1,4 @@
-import { check, integer, timestamp, varchar } from "drizzle-orm/pg-core"
+import { check, integer, timestamp, unique, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
@@ -21,14 +21,18 @@ const testingThingsTable = baseTable(
             .$type<DiscordSnowflake>(),
         roleId: varchar("roleId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
             .notNull()
-            .unique()
             .$type<DiscordSnowflake>(),
+        channelId: varchar("channelId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+            .notNull()
+            .$type<DiscordSnowflake>(),
+        channelName: varchar("channelName", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
         maxParticipants: integer("maxParticipants"),
         startsAt: timestamp("startsAt", { withTimezone: true, mode: "date" }),
         endsAt: timestamp("endsAt", { withTimezone: true, mode: "date" }),
     },
     (table) => [
         check("maxParticipantsIsPositive", sql`${table.maxParticipants} IS NULL OR ${table.maxParticipants} > 0`),
+        unique("testingThing").on(table.guildId, table.channelName),
     ],
 )
 
