@@ -22,6 +22,7 @@ export * from "./testing/TestingThingsParticipantsSchemas"
  * @summary Schemas related to tickets.
  */
 export * from "./tickets/TicketsSchemas"
+export * from "./tickets/TicketsParticipantsSchemas"
 
 /**
  * @summary Schemas related to verification requests.
