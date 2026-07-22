@@ -28,3 +28,8 @@ export * from "./tickets/TicketsParticipantsSchemas"
  * @summary Schemas related to verification requests.
  */
 export * from "./verification/VerificationRequestsSchemas"
+
+/**
+ * @summary Schemas related to moderation.
+ */
+export * from "./moderator/ModeratorsPunishmentsSchemas"
