@@ -1,7 +1,8 @@
 import { ConfigurationFileError } from "@/oliverperzyk/models/builders/process-errors/ConfigurationFileError"
 import { YAML } from "bun"
 import { existsSync, readFileSync } from "fs"
-import { extname } from "path"
+import { extname, join } from "path"
+import { cwd } from "process"
 
 /**
  * @summary Manager for configuration files.
@@ -51,6 +52,7 @@ class ConfigurationManager {
      * @returns The parsed content.
      */
     public static getConfiguration<T>(filePath: string): T {
+        filePath = join(cwd(), "public", filePath)
         if (!existsSync(filePath)) throw ConfigurationFileError.fromMissingFile(filePath)
 
         const fileContent: string = readFileSync(filePath, "utf8")
