@@ -83,11 +83,12 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
         if (interaction.isCommand()) {
             const commandName: string = interaction.commandName
             if (commandName === "badge") return InteractionCreateEventListener.handleBadgeCommand(interaction)
-            const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.getCommandByName(commandName)
+            const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.findCommand(
+                commandName,
+                interaction.guildId,
+            )
+
             if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction)
-            // to-do: refactor this part to make server division system actually work
-            if (commandInstance.serverType === "BOTH")
-                return InteractionCreateEventListener.handleUnavailableCommand(interaction)
             if (
                 !(interaction.member?.permissions instanceof PermissionsBitField) ||
                 !interaction.member.permissions.has(commandInstance.requiredPermissions)
