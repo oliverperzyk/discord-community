@@ -1,5 +1,5 @@
 import { ConfigurationFileError } from "@/oliverperzyk/models/builders/process-errors/ConfigurationFileError"
-import { YAML } from "bun"
+import { JSONC, YAML } from "bun"
 import { existsSync, readFileSync } from "fs"
 import { extname, join } from "path"
 import { cwd } from "process"
@@ -46,6 +46,21 @@ class ConfigurationManager {
     }
 
     /**
+     * @summary Parse a JSONC file.
+     * @description Parses a JSONC file and returns the parsed content.
+     * @param filePath - The path to the JSONC file.
+     * @param fileContent - The content of the JSONC file.
+     * @returns The parsed content.
+     */
+    private static parseJsoncFile<T>(filePath: string, fileContent: string): T {
+        try {
+            return JSONC.parse(fileContent) as T
+        } catch {
+            throw ConfigurationFileError.fromInvalidFile(filePath)
+        }
+    }
+
+    /**
      * @summary Get a configuration from a file.
      * @description Gets a configuration from a file and returns the parsed content.
      * @param filePath - The path to the configuration file.
@@ -62,6 +77,8 @@ class ConfigurationManager {
                 return ConfigurationManager.parseYamlFile<T>(filePath, fileContent)
             case ".json":
                 return ConfigurationManager.parseJsonFile<T>(filePath, fileContent)
+            case ".jsonc":
+                return ConfigurationManager.parseJsoncFile<T>(filePath, fileContent)
             default:
                 throw ConfigurationFileError.fromUnsupportedFileExtension(filePath)
         }

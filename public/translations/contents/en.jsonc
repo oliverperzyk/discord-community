@@ -1,3 +1,21 @@
 {
-    "$schema": "../Translations.schemas.jsonc"
+    "$schema": "../Translations.schemas.jsonc",
+    "hello": {
+        "type": "BASIC",
+        "text": "Hello, world!"
+    },
+    "coffees": {
+        "type": "PARAMETER",
+        "texts": {
+            "one": "You have {{ coffees_count }} coffee to claim.",
+            "few": "You have {{ coffees_count }} coffees to claim.",
+            "many": "You have {{ coffees_count }} coffees to claim.",
+            "zero": "You have 0 coffees to claim."
+        },
+        "arguments": {
+            "coffees_count": {
+                "type": "NUMBER"
+            }
+        }
+    }
 }
