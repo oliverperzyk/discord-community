@@ -7,6 +7,8 @@ networks:
 services:
     discord-application:
         container_name: oliverperzyk-discord-community
+        restart: unless-stopped
+        init: true
         build:
             context: .
             dockerfile: Dockerfile

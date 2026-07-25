@@ -1,0 +1,3 @@
+discord.oliverperzyk.com {
+    reverse_proxy discord-community:3000
+}

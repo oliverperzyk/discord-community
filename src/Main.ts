@@ -68,6 +68,9 @@ class Main {
         }
 
         await EventListenerRegistry.initializeEventListeners()
+        ApplicationInstanceManager.instance.get("/health", (): Readonly<{ status: string }> => {
+            return { status: "ok" }
+        })
         await ApplicationInstanceManager.instance.listen(
             {
                 port: EnvironmentVariables.APP_PORT,

@@ -7,6 +7,8 @@ services:
     database:
         container_name: oliverperzyk-discord-postgres
         image: postgres:18.1-alpine
+        restart: unless-stopped
+        init: true
         env_file:
             - .env
         environment:

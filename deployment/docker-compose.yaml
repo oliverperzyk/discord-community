@@ -1,0 +1,60 @@
+# Configuration of the production deployment stack (VPS).
+# Copy this file + Caddyfile to the VPS (e.g. ~/discord-bot), alongside a real .env.
+---
+networks:
+    app-network:
+        name: oliverperzyk-discord-community-network
+        driver: bridge
+services:
+    discord-community:
+        container_name: oliverperzyk-discord-community
+        image: ghcr.io/oliverperzyk/discord-community:${IMAGE_TAG:-latest}
+        restart: unless-stopped
+        init: true
+        env_file:
+            - .env
+        environment:
+            NODE_ENV: production
+            APP_PORT: ${APP_PORT:-3000}
+            APP_HOST: ${APP_HOST:-0.0.0.0}
+        networks:
+            - app-network
+        healthcheck:
+            test: ["CMD", "bun", "run", "healthcheck"]
+            interval: 30s
+            timeout: 5s
+            start_period: 15s
+            retries: 3
+        logging:
+            driver: json-file
+            options:
+                max-size: "10m"
+                max-file: "3"
+        mem_limit: 512m
+        cpus: "1.0"
+    caddy:
+        container_name: oliverperzyk-caddy
+        image: caddy:2-alpine
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+            - caddy_data:/data
+            - caddy_config:/config
+        depends_on:
+            discord-community:
+                condition: service_healthy
+        networks:
+            - app-network
+        logging:
+            driver: json-file
+            options:
+                max-size: "10m"
+                max-file: "3"
+volumes:
+    caddy_data:
+        name: oliverperzyk-caddy-data
+    caddy_config:
+        name: oliverperzyk-caddy-config

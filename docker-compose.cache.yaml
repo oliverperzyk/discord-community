@@ -5,6 +5,8 @@ services:
     cache:
         container_name: oliverperzyk-discord-redis
         image: redis:8.0-alpine
+        restart: unless-stopped
+        init: true
         env_file:
             - .env
         environment:

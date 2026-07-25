@@ -4,24 +4,30 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 COPY . .
-RUN bun run build
+RUN bun run build \
+    && rm -rf node_modules \
+    && bun install --frozen-lockfile --production
 
 FROM oven/bun:canary-slim AS runner
 
-LABEL org.opencontainers.image.title="@discord-community/discord-community" \
-      org.opencontainers.image.description="A Discord community bot." \
-      org.opencontainers.image.version="0.0.1" \
-      org.opencontainers.image.authors="oliverperzyk (Oliwier Perzyński) <olek@oliverperzyk.com>" \
-      org.opencontainers.image.licenses="MIT" \
+ARG APP_PORT=3000
+
+LABEL org.opencontainers.image.title="@oliverperzyk/discord" \
+    org.opencontainers.image.description="A Discord community bot." \
+    org.opencontainers.image.version="0.0.1" \
+    org.opencontainers.image.authors="oliverperzyk (Oliwier Perzyński) <olek@oliverperzyk.com>" \
+    org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.url="https://oliverperzyk.com/discord-server" \
-      org.opencontainers.image.source="https://github.com/discord-community/discord-community.git"
+      org.opencontainers.image.source="https://github.com/discord-community/discord-community"
 
 WORKDIR /app
 ENV NODE_ENV=production \
-    HOME=/app
+    HOME=/app \
+    APP_PORT=${APP_PORT}
 
-COPY --from=builder /app/.dist ./dist
+COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/bun.lock ./bun.lock
