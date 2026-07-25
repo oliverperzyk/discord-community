@@ -15,7 +15,24 @@
 
 # Environment variables.
 /**/*.env*
-!/.env.example
+
+# Files related to the development process.
+/.git/
+/.gitignore
+/.dockerignore
+/.github/
+/.husky/
+/.prettierrc*
+/.prettierignore
+/.hadolint.yaml
+/eslint.config.ts
+/Dockerfile
+/docker-compose*.yaml
+/drizzle.config.ts
+
+# Testing files.
+/tests/
+/tsconfig.test.json
 
 # Operating system files.
 /**/.DS_Store
