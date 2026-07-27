@@ -1,0 +1,30 @@
+# Configuration of database container for the application.
+# It's recommended to host a database container for the application in a cloud environment, but it's an alternative.
+---
+services:
+    discord-community:
+        depends_on:
+            database:
+                condition: service_healthy
+    database:
+        container_name: oliverperzyk-discord-database
+        image: postgres:18.1-alpine
+        restart: unless-stopped
+        init: true
+        env_file:
+            - .env
+        environment:
+            DATABASE_URL: ${DATABASE_URL:-postgres://postgres:postgres@localhost:${DATABASE_PORT:-5432}}
+            POSTGRES_DB: ${DATABASE_ENGINE_NAME:-discord-community}
+            POSTGRES_USER: ${DATABASE_ENGINE_USER:-oliverperzyk}
+            POSTGRES_PASSWORD: ${DATABASE_ENGINE_PASSWORD:-oliverperzyk}
+        ports:
+            - "{DATABASE_ENGINE_PORT:-5432}:5432"
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "postgres"]
+            interval: 30s
+            timeout: 5s
+            start_period: 15s
+            retries: 3
+        networks:
+            - app-network

@@ -1,0 +1,10 @@
+# Configuration of the GitHub issue template.
+---
+blank_issues_enabled: false
+contact_links:
+    - name: Join official Discord server.
+      about: Join the Discord server that this bot uses and text with me directly.
+      url: https://oliverperzyk.com/discord-server
+    - name: Contact me via mail.
+      about: Send me an email if you have any questions or suggestions that you don't want to share with others.
+      url: https://oliverperzyk.com/contact

@@ -1,0 +1,68 @@
+# Configuration of Deploy workflow, to build, push, and deploy the application.
+---
+name: Deploy application.
+on:
+    push:
+        tags:
+            - "v[0-9]+.[0-9]+.[0-9]+"
+permissions:
+    contents: read
+    packages: write
+defaults:
+    run:
+        shell: bash
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
+jobs:
+    build-and-push:
+        name: Build and push container image.
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository.
+              uses: actions/checkout@v7
+            - name: Set up Docker Buildx.
+              uses: docker/setup-buildx-action@v3
+            - name: Log in to GitHub Container Registry.
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ env.REGISTRY }}
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Extract Docker metadata.
+              id: meta
+              uses: docker/metadata-action@v5
+              with:
+                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  tags: |
+                      type=raw,value=latest
+                      type=raw,value=${{ github.sha }}
+            - name: Build and push Docker image.
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
+                  build-args: |
+                      APP_PORT=3000
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+    deploy:
+        name: Deploy to VPS.
+        needs: build-and-push
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy over SSH.
+              uses: appleboy/ssh-action@v1.2.2
+              with:
+                  host: ${{ secrets.VPS_HOST }}
+                  username: ${{ secrets.VPS_USER }}
+                  key: ${{ secrets.VPS_SSH_KEY }}
+                  script: |
+                      set -euo pipefail
+                      cd ~/discord-bot
+                      export IMAGE_TAG="${{ github.sha }}"
+                      docker compose pull
+                      docker compose up -d
+                      docker image prune -f
