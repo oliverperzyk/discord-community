@@ -10,20 +10,17 @@ RUN bun run build \
 
 FROM oven/bun:canary-slim AS runner
 
-ARG APP_PORT=3000
-
-LABEL org.opencontainers.image.title="@oliverperzyk/discord" \
-    org.opencontainers.image.description="A Discord community bot." \
+LABEL org.opencontainers.image.title="@oliverperzyk/discord-community" \
+    org.opencontainers.image.description="A Discord application for my Discord community." \
     org.opencontainers.image.version="0.0.1" \
     org.opencontainers.image.authors="oliverperzyk (Oliwier Perzyński) <olek@oliverperzyk.com>" \
     org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.url="https://oliverperzyk.com/discord-server" \
-      org.opencontainers.image.source="https://github.com/discord-community/discord-community"
+    org.opencontainers.image.url="https://oliverperzyk.com/discord-server" \
+    org.opencontainers.image.source="https://github.com/oliverperzyk/discord-community"
 
 WORKDIR /app
 ENV NODE_ENV=production \
-    HOME=/app \
-    APP_PORT=${APP_PORT}
+    HOME=/app
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
@@ -37,5 +34,6 @@ RUN groupadd --gid 1001 app \
     && chown -R app:app /app
 
 USER app
-EXPOSE ${APP_PORT}
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD bun -e "process.exit(0)"
 CMD ["bun", "run", "start"]

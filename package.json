@@ -1,5 +1,5 @@
 {
-    "name": "@oliverperzyk/discord",
+    "name": "@oliverperzyk/discord-community",
     "description": "A Discord application for my Discord community.",
     "version": "0.0.1",
     "private": true,
@@ -29,7 +29,6 @@
         "lint:fix": "bunx eslint --fix .",
         "test": "bun test",
         "test:init": "bun ./tests/TestEnvironment.ts",
-        "healthcheck": "bun run ./scripts/docker/HealthCheckDockerScript.ts",
         "build": "bun build ./src/Main.ts --outdir ./dist --target bun --minify",
         "dev": "bun run --watch ./src/Main.ts",
         "start": "bun .",
@@ -63,7 +62,6 @@
     "dependencies": {
         "@elysiajs/cors": "^1.4.2",
         "discord.js": "^14.27.0",
-        "drizzle-orm": "^0.45.2",
-        "elysia": "^1.4.29"
+        "drizzle-orm": "^0.45.2"
     }
 }

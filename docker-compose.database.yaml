@@ -4,6 +4,10 @@ volumes:
     database-data:
         name: oliverperzyk-discord-database
 services:
+    discord-community:
+        depends_on:
+            database:
+                condition: service_healthy
     database:
         container_name: oliverperzyk-discord-postgres
         image: postgres:18.1-alpine
@@ -20,7 +24,7 @@ services:
         volumes:
             - database-data:/var/lib/postgresql/data
         networks:
-            - discord-application-network
+            - app-network
     discord-application:
         depends_on:
             database:

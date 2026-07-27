@@ -19,17 +19,6 @@ class EnvironmentVariables {
     public static readonly NODE_ENV: NodeEnvironment = EnvironmentVariablesDataManager.getNodeEnvironment()
 
     /**
-     * @summary Port that the application will listen on.
-     * @description Port for HTTP server that the application will listen on.
-     */
-    public static readonly APP_PORT: number = EnvironmentVariablesDataManager.getPort("APP_PORT", true)
-    /**
-     * @summary Host that the application will listen on.
-     * @description Host for HTTP server that the application will listen on.
-     */
-    public static readonly APP_HOST: string = EnvironmentVariablesDataManager.getString("APP_HOST", true)
-
-    /**
      * @summary Token for the Discord's application.
      * @description Token for the Discord's application, used to authenticate the application.
      */
