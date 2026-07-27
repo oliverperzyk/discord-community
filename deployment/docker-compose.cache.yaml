@@ -2,6 +2,10 @@
 # Caching engine is not required to run the application, but it's recommended for performance.
 ---
 services:
+    discord-community:
+        depends_on:
+            cache:
+                condition: service_healthy
     cache:
         container_name: oliverperzyk-discord-redis
         image: redis:8.0-alpine
@@ -14,4 +18,4 @@ services:
         ports:
             - "{CACHE_ENGINE_PORT:-6379}:6379"
         networks:
-            - discord-application-network
+            - app-network
