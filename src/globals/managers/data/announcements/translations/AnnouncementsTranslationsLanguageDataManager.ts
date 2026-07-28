@@ -36,6 +36,18 @@ class AnnouncementsTranslationsLanguageDataManager {
     public static isAnnouncementsTranslationsLanguage(value: string): value is AnnouncementsTranslationsLanguage {
         return this.VALUES.has(value as AnnouncementsTranslationsLanguage)
     }
+
+    /**
+     * @summary Resolves the language.
+     * @description Resolves the language, if the language is not valid, it will return the default language.
+     * @param language - The language to resolve.
+     * @returns The resolved language.
+     */
+    public static resolveLanguage(language: string): AnnouncementsTranslationsLanguage {
+        language = language.toLowerCase().trim()
+        if (this.isAnnouncementsTranslationsLanguage(language)) return language
+        return AnnouncementsTranslationsLanguage.ENGLISH
+    }
 }
 
 export { AnnouncementsTranslationsLanguageDataManager }

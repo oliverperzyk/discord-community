@@ -36,6 +36,18 @@ class TestingThingsTranslationsLanguageDataManager {
     public static isTestingThingsTranslationsLanguage(value: string): value is TestingThingsTranslationsLanguage {
         return this.VALUES.has(value as TestingThingsTranslationsLanguage)
     }
+
+    /**
+     * @summary Resolves the language.
+     * @description Resolves the language, if the language is not valid, it will return the default language.
+     * @param language - The language to resolve.
+     * @returns The resolved language.
+     */
+    public static resolveLanguage(language: string): TestingThingsTranslationsLanguage {
+        language = language.toLowerCase().trim()
+        if (this.isTestingThingsTranslationsLanguage(language)) return language
+        return TestingThingsTranslationsLanguage.ENGLISH
+    }
 }
 
 export { TestingThingsTranslationsLanguageDataManager }

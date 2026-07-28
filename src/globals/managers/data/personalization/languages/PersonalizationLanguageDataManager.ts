@@ -35,6 +35,18 @@ class PersonalizationLanguageDataManager {
     public static isPersonalizationLanguage(value: string): value is PersonalizationLanguage {
         return this.VALUES.has(value as PersonalizationLanguage)
     }
+
+    /**
+     * @summary Resolves the language.
+     * @description Resolves the language, if the language is not valid, it will return the default language.
+     * @param language - The language to resolve.
+     * @returns The resolved language.
+     */
+    public static resolveLanguage(language: string): PersonalizationLanguage {
+        language = language.toLowerCase().trim()
+        if (this.isPersonalizationLanguage(language)) return language
+        return PersonalizationLanguage.ENGLISH
+    }
 }
 
 export { PersonalizationLanguageDataManager }

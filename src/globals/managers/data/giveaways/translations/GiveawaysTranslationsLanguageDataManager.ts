@@ -34,6 +34,18 @@ class GiveawaysTranslationsLanguageDataManager {
     public static isGiveawaysTranslationsLanguage(value: string): value is GiveawaysTranslationsLanguage {
         return this.VALUES.has(value as GiveawaysTranslationsLanguage)
     }
+
+    /**
+     * @summary Resolves the language.
+     * @description Resolves the language, if the language is not valid, it will return the default language.
+     * @param language - The language to resolve.
+     * @returns The resolved language.
+     */
+    public static resolveLanguage(language: string): GiveawaysTranslationsLanguage {
+        language = language.toLowerCase().trim()
+        if (this.isGiveawaysTranslationsLanguage(language)) return language
+        return GiveawaysTranslationsLanguage.ENGLISH
+    }
 }
 
 export { GiveawaysTranslationsLanguageDataManager }
