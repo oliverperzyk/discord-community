@@ -30,29 +30,3 @@ services:
                 max-file: "3"
         mem_limit: 512m
         cpus: "1.0"
-    caddy:
-        container_name: oliverperzyk-caddy
-        image: caddy:2-alpine
-        restart: unless-stopped
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./Caddyfile:/etc/caddy/Caddyfile:ro
-            - caddy_data:/data
-            - caddy_config:/config
-        depends_on:
-            discord-community:
-                condition: service_healthy
-        networks:
-            - app-network
-        logging:
-            driver: json-file
-            options:
-                max-size: "10m"
-                max-file: "3"
-volumes:
-    caddy_data:
-        name: oliverperzyk-caddy-data
-    caddy_config:
-        name: oliverperzyk-caddy-config
