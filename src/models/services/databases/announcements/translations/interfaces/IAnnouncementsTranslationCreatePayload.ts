@@ -28,4 +28,4 @@ interface IAnnouncementsTranslationCreatePayload {
     readonly content: string
 }
 
-export { IAnnouncementsTranslationCreatePayload }
+export type { IAnnouncementsTranslationCreatePayload }

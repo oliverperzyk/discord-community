@@ -23,4 +23,4 @@ interface IAnnouncement extends IBaseEntity {
     readonly createdByUserId: DiscordSnowflake
 }
 
-export { IAnnouncement }
+export type { IAnnouncement }

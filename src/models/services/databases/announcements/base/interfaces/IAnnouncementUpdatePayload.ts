@@ -22,4 +22,4 @@ interface IAnnouncementUpdatePayload {
     readonly createdByUserId: DiscordSnowflake
 }
 
-export { IAnnouncementUpdatePayload }
+export type { IAnnouncementUpdatePayload }

@@ -1,3 +1,4 @@
+import { IBaseEntity } from "../../../base/interfaces/IBaseEntity"
 import type { DatabaseIdentifier } from "../../../base/types/DatabaseIdentifier"
 import type { AnnouncementsTranslationsLanguage } from "../enums/AnnouncementsTranslationsLanguage"
 
@@ -5,7 +6,7 @@ import type { AnnouncementsTranslationsLanguage } from "../enums/AnnouncementsTr
  * @summary The announcements translation interface.
  * @description This interface is used to store the announcements translation.
  */
-interface IAnnouncementsTranslation {
+interface IAnnouncementsTranslation extends IBaseEntity {
     /**
      * @summary The announcement ID.
      * @description The announcement ID, the announcement that is being translated.
@@ -28,4 +29,4 @@ interface IAnnouncementsTranslation {
     readonly content: string
 }
 
-export { IAnnouncementsTranslation }
+export type { IAnnouncementsTranslation }
