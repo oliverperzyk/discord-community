@@ -30,6 +30,11 @@ export * from "./tickets/TicketsParticipantsSchemas"
 export * from "./verification/VerificationRequestsSchemas"
 
 /**
+ * @summary Schemas related to personalization.
+ */
+export * from "./personalization/PersonalizationLanguageSchemas"
+
+/**
  * @summary Schemas related to moderation.
  */
 export * from "./moderator/ModeratorsPunishmentsSchemas"
