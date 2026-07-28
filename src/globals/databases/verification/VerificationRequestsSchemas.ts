@@ -6,11 +6,19 @@ import { baseEnum } from "../base/BaseEnum"
 import { VerificationRequestStateDataManager } from "../../managers/data/verification/requests/VerificationRequestStateDataManager"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
 
+/**
+ * @summary The verification request states enum.
+ * @description This enum is used to store the state of the verification request.
+ */
 const verificationRequestStatesEnum = baseEnum(
     "verificationRequestStates",
     VerificationRequestStateDataManager.VALUES_IN_ARRAY,
 )
 
+/**
+ * @summary The verification requests table schema.
+ * @description This table is used to store the verification requests.
+ */
 const verificationRequestsTable = baseTable("verificationRequests", {
     userId: varchar("userId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()

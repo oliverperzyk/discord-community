@@ -29,8 +29,8 @@ const giveawayTranslationsTable = baseTable(
             .$type<DatabaseIdentifier>(),
         language: giveawaysTranslationsLanguageEnum().notNull().$type<GiveawaysTranslationsLanguage>(),
         title: varchar("title", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
+        content: text("content").notNull(),
         prize: varchar("prize", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
-        description: text("description"),
     },
     (table) => [uniqueIndex("giveawayTranslation").on(table.giveawayId, table.language)],
 )

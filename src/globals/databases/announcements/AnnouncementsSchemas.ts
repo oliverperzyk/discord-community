@@ -14,7 +14,7 @@ const announcementsTable = baseTable("announcements", {
     messageId: varchar("messageId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()
         .$type<DiscordSnowflake>(),
-    createdBy: varchar("createdBy", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+    createdByUserId: varchar("createdByUserId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()
         .$type<DiscordSnowflake>(),
 })

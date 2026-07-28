@@ -6,7 +6,7 @@ import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/database
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 
 /**
- * @summary The giveaways participants schema.
+ * @summary The giveaways participants table schema.
  * @description This table stores all participants of all giveaways.
  */
 const giveawaysParticipantsTable = baseTable(

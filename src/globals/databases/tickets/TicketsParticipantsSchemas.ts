@@ -5,6 +5,10 @@ import { ticketsTable } from "./TicketsSchemas"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 
+/**
+ * @summary The tickets participants table schema.
+ * @description This table is used to store the tickets participants.
+ */
 const ticketsParticipantsTable = baseTable("ticketsParticipants", {
     ticketId: varchar("ticketId", { length: DatabaseConstants.DATABASE_IDENTIFIER_COLUMN_LENGTH })
         .notNull()

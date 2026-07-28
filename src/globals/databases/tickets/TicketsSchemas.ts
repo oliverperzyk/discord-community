@@ -8,9 +8,22 @@ import type { TicketCategory } from "@/oliverperzyk/models/services/databases/ti
 import { TicketState } from "@/oliverperzyk/models/services/databases/tickets/base/enums/TicketState"
 import { TicketStateDataManager } from "../../managers/data/tickets/base/TicketStateDataManager"
 
+/**
+ * @summary The tickets categories enum.
+ * @description This enum is used to store the category of the ticket.
+ */
 const ticketsCategoriesEnum = baseEnum("ticketsCategories", TicketCategoryDataManager.VALUES_IN_ARRAY)
+
+/**
+ * @summary The tickets states enum.
+ * @description This enum is used to store the state of the ticket.
+ */
 const ticketsStatesEnum = baseEnum("ticketsStates", TicketStateDataManager.VALUES_IN_ARRAY)
 
+/**
+ * @summary The tickets table schema.
+ * @description This table is used to store the tickets.
+ */
 const ticketsTable = baseTable("tickets", {
     guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()

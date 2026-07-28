@@ -33,6 +33,7 @@ const testingThingsTable = baseTable(
     (table) => [
         check("maxParticipantsIsPositive", sql`${table.maxParticipants} IS NULL OR ${table.maxParticipants} > 0`),
         unique("testingThing").on(table.guildId, table.channelName),
+        unique("testingThingRole").on(table.guildId, table.roleId),
     ],
 )
 
