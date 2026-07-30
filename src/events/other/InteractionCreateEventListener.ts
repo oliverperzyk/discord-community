@@ -25,22 +25,23 @@ import type { RoleSelectMenuComponent } from "@/oliverperzyk/components/base/com
 import { UserSelectMenuComponentRegister } from "@/oliverperzyk/components/base/registries/UserSelectMenuComponentRegister"
 import type { UserSelectMenuComponent } from "@/oliverperzyk/components/base/components/UserSelectMenuComponent"
 
+/**
+ * @summary Event listener for the interaction create event.
+ * @description This class is used to register the interaction create event listener.
+ */
 class InteractionCreateEventListener extends BaseEventListener<Events.InteractionCreate> {
+    /**
+     * @summary The name of the event.
+     * @description The name of the event.
+     */
     public readonly eventName: Events.InteractionCreate = Events.InteractionCreate
 
-    private static async handleBadgeCommand(interaction: CommandInteraction): Promise<void> {
-        await interaction.reply({
-            flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-            components: [
-                new TextDisplayBuilder().setContent("### 🎖️ Badge Command"),
-                new TextDisplayBuilder().setContent(
-                    "This command is only used for me (@oliverperzyk) to have a badge on my profile. Sorry for interrupting your day!",
-                ),
-            ],
-            allowedMentions: {},
-        })
-    }
-
+    /**
+     * @summary Handles unknown commands.
+     * @description If the command is not found, it will reply with a message indicating that the command is not implemented yet.
+     * @param interaction - The interaction that triggered the event.
+     * @returns A promise that resolves when the message is sent.
+     */
     private static async handleUnknownCommand(interaction: CommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
@@ -54,6 +55,12 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
         })
     }
 
+    /**
+     * @summary Handles unavailable commands.
+     * @description If the command is not available, it will reply with a message indicating that the command is not available.
+     * @param interaction - The interaction that triggered the event.
+     * @returns A promise that resolves when the message is sent.
+     */
     private static async handleUnavailableCommand(interaction: CommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
@@ -65,6 +72,12 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
         })
     }
 
+    /**
+     * @summary Handles unimplemented components.
+     * @description If the component is not implemented, it will reply with a message indicating that the component is not implemented yet.
+     * @param interaction - The interaction that triggered the event.
+     * @returns A promise that resolves when the message is sent.
+     */
     private static async handleUnimplementedComponent(
         interaction: MessageComponentInteraction | ModalSubmitInteraction,
     ): Promise<void> {
@@ -79,12 +92,14 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
         })
     }
 
+    /**
+     * @summary Handles all interactions across the application.
+     * @description It's in demand to redirect the interaction to the correct component or command.
+     */
     public override async onEvent(interaction: Interaction): Promise<void> {
         if (interaction.isCommand()) {
-            const commandName: string = interaction.commandName
-            if (commandName === "badge") return InteractionCreateEventListener.handleBadgeCommand(interaction)
             const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.findCommand(
-                commandName,
+                interaction.commandName,
                 interaction.guildId,
             )
 

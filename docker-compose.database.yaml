@@ -4,7 +4,7 @@ volumes:
     database-data:
         name: oliverperzyk-discord-database
 services:
-    discord-community:
+    discord-application:
         depends_on:
             database:
                 condition: service_healthy
@@ -19,13 +19,21 @@ services:
             POSTGRES_DB: ${DATABASE_ENGINE_NAME:-oliverperzyk}
             POSTGRES_USER: ${DATABASE_ENGINE_USERNAME:-oliverperzyk}
             POSTGRES_PASSWORD: ${DATABASE_ENGINE_PASSWORD:-oliverperzyk}
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "pg_isready",
+                    "-U",
+                    "${DATABASE_ENGINE_USERNAME:-oliverperzyk}",
+                ]
+            interval: 30s
+            timeout: 5s
+            start_period: 15s
+            retries: 3
         ports:
             - "{DATABASE_ENGINE_PORT:-5432}:5432"
         volumes:
             - database-data:/var/lib/postgresql/data
         networks:
             - app-network
-    discord-application:
-        depends_on:
-            database:
-                condition: service_healthy

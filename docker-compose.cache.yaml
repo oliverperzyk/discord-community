@@ -2,7 +2,7 @@
 # Caching engine is not required to run the application, but it's recommended for performance.
 ---
 services:
-    discord-community:
+    discord-application:
         depends_on:
             cache:
                 condition: service_healthy

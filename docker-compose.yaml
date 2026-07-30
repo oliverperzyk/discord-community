@@ -6,7 +6,7 @@ networks:
         driver: bridge
 services:
     discord-application:
-        container_name: oliverperzyk-discord-community
+        container_name: oliverperzyk-discord-application
         restart: unless-stopped
         init: true
         build:

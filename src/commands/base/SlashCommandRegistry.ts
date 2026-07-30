@@ -1,7 +1,7 @@
 import { SlashCommandServerType } from "@/oliverperzyk/models/commands/base/constructor/enums/SlashCommandServerType"
 import type { BaseSlashCommand } from "./BaseSlashCommand"
 import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/managers/DiscordApplicationInstanceManager"
-import { PermissionsBitField, Routes, SlashCommandBuilder } from "discord.js"
+import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
 import { PublicGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PublicGuildConfiguration"
@@ -21,6 +21,11 @@ class SlashCommandRegistry {
      * @description The commands to register.
      */
     private static readonly COMMANDS: BaseSlashCommand[] = []
+
+    /**
+     * @summary The server type map.
+     * @description The server type map, it's used to match server's type to it's guild identifier.
+     */
     private static readonly SERVER_TYPE_MAP: ReadonlyMap<string, SlashCommandServerType> = new Map<
         string,
         SlashCommandServerType
@@ -48,34 +53,24 @@ class SlashCommandRegistry {
 
         await Promise.all([
             await DiscordApplicationInstanceManager.instance.rest.put(
-                Routes.applicationGuildCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER, "to-be-added"),
+                Routes.applicationGuildCommands(
+                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
+                    PublicGuildConfiguration.guildId,
+                ),
                 {
                     body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
                 },
             ),
             await DiscordApplicationInstanceManager.instance.rest.put(
-                Routes.applicationGuildCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER, "to-be-added"),
+                Routes.applicationGuildCommands(
+                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
+                    PrivateGuildConfiguration.guildId,
+                ),
                 {
                     body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
                 },
             ),
         ])
-    }
-
-    /**
-     * @summary Register the badge command to the Discord API.
-     * @description This method registers the badge command to the Discord API.
-     */
-    public static async registerCommandForBadge(): Promise<void> {
-        await DiscordApplicationInstanceManager.instance.rest.put(
-            Routes.applicationCommand(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER, "to-be-added"),
-            {
-                body: new SlashCommandBuilder()
-                    .setName("badge")
-                    .setDescription("This command is so I can have a badge on my Discord profile.")
-                    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
-            },
-        )
     }
 
     /**

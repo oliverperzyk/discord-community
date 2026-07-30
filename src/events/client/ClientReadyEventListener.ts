@@ -29,7 +29,6 @@ class ClientReadyEventListener extends BaseEventListener<Events.ClientReady> {
      */
     public override async onceEvent(): Promise<void> {
         await SlashCommandRegistry.registerCommands()
-        await SlashCommandRegistry.registerCommandForBadge()
     }
 }
 
