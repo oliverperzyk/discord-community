@@ -61,15 +61,15 @@ class SlashCommandRegistry {
                     body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
                 },
             ),
-            await DiscordApplicationInstanceManager.instance.rest.put(
-                Routes.applicationGuildCommands(
-                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
-                    PrivateGuildConfiguration.guildId,
-                ),
-                {
-                    body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
-                },
-            ),
+            // await DiscordApplicationInstanceManager.instance.rest.put(
+            //     Routes.applicationGuildCommands(
+            //         EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
+            //         PrivateGuildConfiguration.guildId,
+            //     ),
+            //     {
+            //         body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
+            //     },
+            // ),
         ])
     }
 

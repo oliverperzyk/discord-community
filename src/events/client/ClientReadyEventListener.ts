@@ -1,4 +1,4 @@
-import { Events } from "discord.js"
+import { type Client, Events } from "discord.js"
 import { BaseEventListener } from "../base/BaseEventListener"
 import { SlashCommandRegistry } from "@/oliverperzyk/commands/base/SlashCommandRegistry"
 
@@ -27,7 +27,8 @@ class ClientReadyEventListener extends BaseEventListener<Events.ClientReady> {
      * @summary Listener's behavior.
      * @description Method is triggered once the client is ready.
      */
-    public override async onceEvent(): Promise<void> {
+    public override async onceEvent(_client: Client<true>): Promise<void> {
+        console.log(_client.user?.id)
         await SlashCommandRegistry.registerCommands()
     }
 }

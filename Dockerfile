@@ -18,20 +18,19 @@ LABEL org.opencontainers.image.title="@oliverperzyk/discord-community" \
     org.opencontainers.image.url="https://oliverperzyk.com/discord-server" \
     org.opencontainers.image.source="https://github.com/oliverperzyk/discord-community"
 
-WORKDIR /app
+WORKDIR /opt/app
 ENV NODE_ENV=production \
-    HOME=/app
+    HOME=/opt/app
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/bun.lock ./bun.lock
 
 RUN groupadd --gid 1001 app \
     && useradd --uid 1001 --gid app --no-create-home --shell /usr/sbin/nologin app \
-    && chown -R app:app /app
+    && chown -R app:app /opt/app
 
 USER app
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \

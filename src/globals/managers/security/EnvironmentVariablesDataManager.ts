@@ -26,7 +26,7 @@ class EnvironmentVariablesDataManager {
         required: T,
     ): T extends true ? string : string | undefined {
         const value: string | undefined = env[variableName]
-        if (required && !value) {
+        if (!value && required) {
             throw EnvironmentVariableError.fromMissingVariable(variableName)
         }
         return value as T extends true ? string : string | undefined
@@ -45,7 +45,7 @@ class EnvironmentVariablesDataManager {
         required: T,
     ): T extends true ? number : number | undefined {
         const value: string | undefined = env[variableName]
-        if (value === undefined) {
+        if (!value) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? number : number | undefined
         }
@@ -71,7 +71,7 @@ class EnvironmentVariablesDataManager {
         required: T,
     ): T extends true ? boolean : boolean | undefined {
         const value: string | undefined = env[variableName]
-        if (value === undefined) {
+        if (!value) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? boolean : boolean | undefined
         }
@@ -98,7 +98,7 @@ class EnvironmentVariablesDataManager {
      */
     public static getURL<T extends boolean>(variableName: string, required: T): T extends true ? URL : URL | undefined {
         const value: string | undefined = env[variableName]
-        if (value === undefined) {
+        if (!value) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? URL : URL | undefined
         }
@@ -123,7 +123,7 @@ class EnvironmentVariablesDataManager {
         required: T,
     ): T extends true ? number : number | undefined {
         const value: string | undefined = env[variableName]
-        if (value === undefined) {
+        if (!value) {
             if (required) throw EnvironmentVariableError.fromMissingVariable(variableName)
             return undefined as T extends true ? number : number | undefined
         }
@@ -148,7 +148,7 @@ class EnvironmentVariablesDataManager {
      */
     public static getNodeEnvironment(): NodeEnvironment {
         const value: string | undefined = env["NODE_ENV"]
-        if (value === undefined) {
+        if (!value) {
             throw EnvironmentVariableError.fromMissingVariable("NODE_ENV")
         }
 
