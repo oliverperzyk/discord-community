@@ -28,6 +28,7 @@ export * from "./tickets/TicketsParticipantsSchemas"
  * @summary Schemas related to verification requests.
  */
 export * from "./verification/VerificationRequestsSchemas"
+export * from "./verification/VerificationStateSchemas"
 
 /**
  * @summary Schemas related to personalization.
