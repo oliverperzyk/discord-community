@@ -52,24 +52,25 @@ class SlashCommandRegistry {
         }
 
         await Promise.all([
-            await DiscordApplicationInstanceManager.instance.rest.put(
-                Routes.applicationGuildCommands(
-                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
-                    PublicGuildConfiguration.guildId,
-                ),
-                {
-                    body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
-                },
-            ),
+            // chore: uncomment this when public guild is ready
             // await DiscordApplicationInstanceManager.instance.rest.put(
             //     Routes.applicationGuildCommands(
             //         EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
-            //         PrivateGuildConfiguration.guildId,
+            //         PublicGuildConfiguration.guildId,
             //     ),
             //     {
-            //         body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
+            //         body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
             //     },
             // ),
+            await DiscordApplicationInstanceManager.instance.rest.put(
+                Routes.applicationGuildCommands(
+                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
+                    PrivateGuildConfiguration.guildId,
+                ),
+                {
+                    body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
+                },
+            ),
         ])
     }
 
