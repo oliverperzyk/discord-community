@@ -4,7 +4,7 @@ import { verificationRequestsTable } from "@/oliverperzyk/globals/databases/Data
 import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
-import { and, eq } from "drizzle-orm"
+import { and, desc, eq } from "drizzle-orm"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
@@ -55,7 +55,7 @@ class VerificationRequestsService extends BaseDatabaseService {
      */
     public static async getVerificationRequestsByPage(
         page: number,
-        options: IVerificationRequestPaginationFilterOptions,
+        options?: IVerificationRequestPaginationFilterOptions,
     ): Promise<IVerificationRequest[]> {
         const cacheKey: string = `verificationRequestsByPage:${page}:${JSON.stringify(options)}`
         const cachedValue: IVerificationRequest[] | null = await CacheClient.getValue(cacheKey)
@@ -66,11 +66,12 @@ class VerificationRequestsService extends BaseDatabaseService {
             .from(verificationRequestsTable)
             .where(
                 and(
-                    options.state ? eq(verificationRequestsTable.state, options.state) : undefined,
-                    options.guildId ? eq(verificationRequestsTable.guildId, options.guildId) : undefined,
-                    options.userId ? eq(verificationRequestsTable.userId, options.userId) : undefined,
+                    options?.state ? eq(verificationRequestsTable.state, options.state) : undefined,
+                    options?.guildId ? eq(verificationRequestsTable.guildId, options.guildId) : undefined,
+                    options?.userId ? eq(verificationRequestsTable.userId, options.userId) : undefined,
                 ),
             )
+            .orderBy(desc(verificationRequestsTable.createdAt))
             .offset((page - 1) * this.PAGE_SIZE)
             .limit(this.PAGE_SIZE)
 
@@ -153,7 +154,7 @@ class VerificationRequestsService extends BaseDatabaseService {
             })
 
             await DatabaseClient.drizzleInstance.insert(verificationRequestsTable).values(verificationRequest)
-            await CacheClient.deleteValues(
+            await CacheClient.deleteValuesByPattern(
                 this.VERIFICATION_REQUESTS_COUNT_CACHE_KEY,
                 `verificationRequestsByPage:*`,
                 `verificationRequestById:${id}`,
