@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://discord-server.oliverperzyk.com/schemas/guild-configuration.json",
+    "title": "Schema for guilds of oliverperzyk's Discord community.",
+    "description": "A guild configuration file containing the guild ID and maps of roles, channels, and categories.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["guildId", "roles", "channels", "categories"],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "minLength": 1
+        },
+        "guildId": {
+            "type": "string",
+            "pattern": "^[0-9]{17,20}$",
+            "description": "A Discord snowflake identifier."
+        },
+        "roles": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "pattern": "^[0-9]{17,20}$"
+            }
+        },
+        "channels": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "pattern": "^[0-9]{17,20}$"
+            }
+        },
+        "categories": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "pattern": "^[0-9]{17,20}$"
+            }
+        }
+    }
+}

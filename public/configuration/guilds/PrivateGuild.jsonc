@@ -1,4 +1,5 @@
 {
+    "$schema": "./GuildConfiguration.schema.json",
     "guildId": "1529119875379888300",
     "roles": {
         // Admin Roles.
@@ -24,6 +25,7 @@
         "giveaways": "1529122646543831080",
         "events": "1529124318972477520",
         // Text Channels
+        "lobby": "1533577067193696358",
         "general": "1529123389006938162",
         "memes": "1529123422267768852",
         "commands": "1529123663964798996",

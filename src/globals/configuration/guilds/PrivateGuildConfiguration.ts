@@ -15,12 +15,25 @@ class PrivateGuildConfiguration {
     private constructor() {}
 
     /**
+     * @summary Resolves the internal configuration.
+     * @description This method is used to resolve the internal configuration.
+     * @returns The internal configuration.
+     */
+    private static resolveInternalConfiguration(): Readonly<Omit<IPrivateGuild, "$schema">> {
+        const configuration: IPrivateGuild = ConfigurationManager.getConfiguration(
+            "configuration/guilds/PrivateGuild.jsonc",
+        )
+
+        const { $schema: _, ...rest } = configuration
+        return rest
+    }
+
+    /**
      * @summary The internal configuration.
      * @description This is the internal configuration for the private guild.
      */
-    private static readonly interalConfiguration: Readonly<IPrivateGuild> = ConfigurationManager.getConfiguration(
-        "configuration/guilds/PrivateGuild.jsonc",
-    )
+    private static readonly interalConfiguration: Readonly<Omit<IPrivateGuild, "$schema">> =
+        this.resolveInternalConfiguration()
 
     /**
      * @summary The ID of the guild.

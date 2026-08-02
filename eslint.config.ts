@@ -31,6 +31,7 @@ export default defineConfig([
                 "error",
                 {
                     argsIgnorePattern: "^_{1,2}",
+                    varsIgnorePattern: "^_{1,2}",
                 },
             ],
         },

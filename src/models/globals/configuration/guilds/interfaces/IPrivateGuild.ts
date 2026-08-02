@@ -1,13 +1,10 @@
+import { IBaseGuildConfiguration } from "./IBaseGuildConfiguration"
+
 /**
  * @summary Represents the private guild configuration.
  * @description This interface is used to store the private guild configuration.
  */
-interface IPrivateGuild {
-    /**
-     * @summary The ID of the guild.
-     * @description Discord's identifier for the guild.
-     */
-    readonly guildId: string
+interface IPrivateGuild extends IBaseGuildConfiguration {
     /**
      * @summary The roles of the guild.
      * @description This object contains the roles of the guild.
