@@ -19,9 +19,9 @@ interface IVerificationRequest extends IBaseEntity {
     readonly guildId: DiscordSnowflake
     /**
      * @summary The comment of the verification request.
-     * @description The comment of the verification request (e.g. "I want to join to the community to test the bot.").
+     * @description The comment of the verification request (e.g. "I want to join to the community to test the bot."). Might be null if the comment is not provided by an user.
      */
-    readonly comment: string
+    readonly comment: string | null
     /**
      * @summary The state of the verification request.
      * @description The state of the verification request (e.g. OPENED, CLOSED, etc.).

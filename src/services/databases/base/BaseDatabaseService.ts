@@ -43,6 +43,17 @@ abstract class BaseDatabaseService {
     public static readonly MAX_UPDATE_ATTEMPTS: number = 3
 
     /**
+     * @summary Resolve single item query result.
+     * @description Resolves the single item query result.
+     * @param result The result to resolve the single item query result of.
+     * @template T The type of the result to resolve the single item query result of.
+     * @returns The single item query result.
+     */
+    protected static resolveSingleItemQueryResult<T>(result: T[]): T | null {
+        return result.length === 0 ? null : result[0]
+    }
+
+    /**
      * @summary Resolve create element.
      * @description Resolves the creation date and time of the element and adds it to the entity.
      * @param element The element to resolve the creation date and time of.
@@ -50,14 +61,14 @@ abstract class BaseDatabaseService {
      * @returns The element with the creation date and time added.
      */
     protected static resolveCreateElement<CreatePayloadType extends Record<string, unknown>>(
-        element: Omit<CreatePayloadType, "createdAt" | "updatedAt">,
-    ): CreatePayloadType {
+        element: CreatePayloadType,
+    ): CreatePayloadType & { createdAt: Date; updatedAt: Date } {
         const date: Date = new Date()
         return {
             ...element,
             createdAt: date,
             updatedAt: date,
-        } as unknown as CreatePayloadType
+        }
     }
 
     /**
@@ -68,12 +79,12 @@ abstract class BaseDatabaseService {
      * @returns The element with the update date and time added.
      */
     protected static resolveUpdateElement<UpdatePayloadType extends Record<string, unknown>>(
-        element: Omit<UpdatePayloadType, "updatedAt">,
-    ): UpdatePayloadType {
+        element: UpdatePayloadType,
+    ): UpdatePayloadType & { updatedAt: Date } {
         return {
             ...element,
             updatedAt: new Date(),
-        } as unknown as UpdatePayloadType
+        }
     }
 
     /**
