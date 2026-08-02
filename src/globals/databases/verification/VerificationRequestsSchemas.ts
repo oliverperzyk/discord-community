@@ -1,4 +1,4 @@
-import { timestamp, varchar } from "drizzle-orm/pg-core"
+import { uniqueIndex, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
@@ -19,19 +19,22 @@ const verificationRequestStatesEnum = baseEnum(
  * @summary The verification requests table schema.
  * @description This table is used to store the verification requests.
  */
-const verificationRequestsTable = baseTable("verificationRequests", {
-    userId: varchar("userId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
-        .notNull()
-        .$type<DiscordSnowflake>(),
-    guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
-        .notNull()
-        .$type<DiscordSnowflake>(),
-    comment: varchar("comment", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }),
-    state: verificationRequestStatesEnum("state")
-        .notNull()
-        .default(VerificationRequestState.UNOPENED)
-        .$type<VerificationRequestState>(),
-    openedAt: timestamp("openedAt", { withTimezone: true, mode: "date" }).notNull(),
-})
+const verificationRequestsTable = baseTable(
+    "verificationRequests",
+    {
+        userId: varchar("userId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+            .notNull()
+            .$type<DiscordSnowflake>(),
+        guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+            .notNull()
+            .$type<DiscordSnowflake>(),
+        comment: varchar("comment", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }),
+        state: verificationRequestStatesEnum("state")
+            .notNull()
+            .default(VerificationRequestState.UNOPENED)
+            .$type<VerificationRequestState>(),
+    },
+    (table) => [uniqueIndex("verificationRequest").on(table.userId, table.guildId)],
+)
 
 export { verificationRequestStatesEnum, verificationRequestsTable }

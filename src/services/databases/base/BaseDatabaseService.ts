@@ -1,7 +1,7 @@
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { DatabaseCountReturnType } from "@/oliverperzyk/models/services/databases/base/types/DatabaseCountReturnType"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
-import { Table, count } from "drizzle-orm"
+import { Table, count, type SQL } from "drizzle-orm"
 
 /**
  * @summary Base database service class.
@@ -80,12 +80,14 @@ abstract class BaseDatabaseService {
      * @summary Counts the entries in a table.
      * @description This method is used to count the entries in a table.
      * @param table - The table to count the entries in.
+     * @param where - Optional where condition to filter the counted entries.
      * @returns The number of entries in the table.
      */
-    protected static async countEntriesInTable(table: Table): Promise<number> {
+    protected static async countEntriesInTable(table: Table, where?: SQL): Promise<number> {
         const queriedValue: DatabaseCountReturnType = (await DatabaseClient.drizzleInstance
             .select({ count: count() })
-            .from(table)) as DatabaseCountReturnType
+            .from(table)
+            .where(where)) as DatabaseCountReturnType
         return queriedValue[0].count ?? 0
     }
 }
