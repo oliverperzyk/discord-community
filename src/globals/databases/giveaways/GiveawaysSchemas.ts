@@ -23,9 +23,9 @@ const giveawaysTable = baseTable(
         guildId: varchar("guildId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
             .notNull()
             .$type<DiscordSnowflake>(),
-        messageId: varchar("messageId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
-            .notNull()
-            .$type<DiscordSnowflake>(),
+        messageId: varchar("messageId", {
+            length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH,
+        }).$type<DiscordSnowflake | null>(),
         createdByUserId: varchar("createdByUserId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
             .notNull()
             .$type<DiscordSnowflake>(),

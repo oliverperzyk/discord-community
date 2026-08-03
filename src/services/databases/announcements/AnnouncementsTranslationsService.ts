@@ -17,8 +17,8 @@ import type { IAnnouncementsTranslationUpdatePayload } from "@/oliverperzyk/mode
  */
 class AnnouncementsTranslationsService extends BaseDatabaseService {
     /**
-     * @summary The constructor of the announcements translations service.
-     * @description This constructor is used to create a new announcements translations service.
+     * @summary Private constructor.
+     * @description Private constructor to prevent instantiation & inheritance.
      */
     private constructor() {
         super()

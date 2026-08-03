@@ -14,8 +14,9 @@ interface IGivewayCreatePayload {
     /**
      * @summary The message ID.
      * @description The message ID, the message that is being announced.
+     * @remarks It can be null if the giveaway is not yet posted.
      */
-    readonly messageId: DiscordSnowflake
+    readonly messageId?: DiscordSnowflake
     /**
      * @summary The user ID of the creator.
      * @description The user ID of the creator, the user who created the giveaway.
