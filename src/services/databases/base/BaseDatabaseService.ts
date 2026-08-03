@@ -98,7 +98,8 @@ abstract class BaseDatabaseService {
         const queriedValue: DatabaseCountReturnType = (await DatabaseClient.drizzleInstance
             .select({ count: count() })
             .from(table)
-            .where(where)) as DatabaseCountReturnType
+            .where(where)
+            .execute()) as DatabaseCountReturnType
         return queriedValue[0].count ?? 0
     }
 }

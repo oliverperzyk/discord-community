@@ -74,6 +74,7 @@ class VerificationRequestsService extends BaseDatabaseService {
             .orderBy(desc(verificationRequestsTable.createdAt))
             .offset((page - 1) * this.PAGE_SIZE)
             .limit(this.PAGE_SIZE)
+            .execute()
 
         await CacheClient.setValue(cacheKey, queriedValue)
         return queriedValue
@@ -95,7 +96,8 @@ class VerificationRequestsService extends BaseDatabaseService {
                 .select()
                 .from(verificationRequestsTable)
                 .where(eq(verificationRequestsTable.id, id))
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -124,7 +126,8 @@ class VerificationRequestsService extends BaseDatabaseService {
                 .where(
                     and(eq(verificationRequestsTable.userId, userId), eq(verificationRequestsTable.guildId, guildId)),
                 )
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -153,7 +156,7 @@ class VerificationRequestsService extends BaseDatabaseService {
                 state: VerificationRequestState.UNOPENED,
             })
 
-            await DatabaseClient.drizzleInstance.insert(verificationRequestsTable).values(verificationRequest)
+            await DatabaseClient.drizzleInstance.insert(verificationRequestsTable).values(verificationRequest).execute()
             await CacheClient.deleteValuesByPattern(
                 this.VERIFICATION_REQUESTS_COUNT_CACHE_KEY,
                 `verificationRequestsByPage:*`,
@@ -190,6 +193,7 @@ class VerificationRequestsService extends BaseDatabaseService {
             .update(verificationRequestsTable)
             .set(updatedVerificationRequest)
             .where(eq(verificationRequestsTable.id, id))
+            .execute()
         await CacheClient.deleteValues(
             this.VERIFICATION_REQUESTS_COUNT_CACHE_KEY,
             `verificationRequestsByPage:*`,
@@ -213,6 +217,7 @@ class VerificationRequestsService extends BaseDatabaseService {
         await DatabaseClient.drizzleInstance
             .delete(verificationRequestsTable)
             .where(eq(verificationRequestsTable.id, id))
+            .execute()
         await CacheClient.deleteValues(
             this.VERIFICATION_REQUESTS_COUNT_CACHE_KEY,
             `verificationRequestsByPage:*`,

@@ -1,16 +1,16 @@
-import { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
+import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import { BaseDatabaseService } from "../base/BaseDatabaseService"
 import { CacheClient } from "@/oliverperzyk/globals/clients/CacheClient"
 import { announcementsTable } from "@/oliverperzyk/globals/databases/DatabaseSchemas"
 import { and, desc, eq } from "drizzle-orm"
-import { IAnnouncement } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncement"
-import { IAnnouncementPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementPaginationFilterOptions"
+import type { IAnnouncement } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncement"
+import type { IAnnouncementPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementPaginationFilterOptions"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
-import { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
-import { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
-import { IAnnouncementCreatePayload } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementCreatePayload"
+import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
+import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
+import type { IAnnouncementCreatePayload } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementCreatePayload"
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
-import { IAnnouncementUpdatePayload } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementUpdatePayload"
+import type { IAnnouncementUpdatePayload } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementUpdatePayload"
 
 /**
  * @summary Announcements service class.
@@ -81,6 +81,7 @@ class AnnouncementsService extends BaseDatabaseService {
             .orderBy(desc(announcementsTable.createdAt))
             .offset((page - 1) * this.PAGE_SIZE)
             .limit(this.PAGE_SIZE)
+            .execute()
 
         await CacheClient.setValue(cacheKey, queriedValue)
         return queriedValue
@@ -102,7 +103,8 @@ class AnnouncementsService extends BaseDatabaseService {
                 .select()
                 .from(announcementsTable)
                 .where(eq(announcementsTable.id, id))
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -129,7 +131,8 @@ class AnnouncementsService extends BaseDatabaseService {
                 .select()
                 .from(announcementsTable)
                 .where(and(eq(announcementsTable.guildId, guildId), eq(announcementsTable.messageId, messageId)))
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -153,7 +156,7 @@ class AnnouncementsService extends BaseDatabaseService {
                 ...payload,
             })
 
-            await DatabaseClient.drizzleInstance.insert(announcementsTable).values(announcement)
+            await DatabaseClient.drizzleInstance.insert(announcementsTable).values(announcement).execute()
             await CacheClient.deleteValuesByPattern(
                 this.ANNOUNCEMENTS_COUNT_CACHE_KEY,
                 `announcementsCountByGuildId:${payload.guildId}`,
@@ -190,6 +193,7 @@ class AnnouncementsService extends BaseDatabaseService {
             .update(announcementsTable)
             .set(updatedAnnouncement)
             .where(eq(announcementsTable.id, id))
+            .execute()
         await CacheClient.deleteValuesByPattern(
             this.ANNOUNCEMENTS_COUNT_CACHE_KEY,
             `announcementsCountByGuildId:${announcement.guildId}`,
@@ -210,7 +214,7 @@ class AnnouncementsService extends BaseDatabaseService {
         const announcement: IAnnouncement | null = await this.getAnnouncementById(id)
         if (announcement === null) return false
 
-        await DatabaseClient.drizzleInstance.delete(announcementsTable).where(eq(announcementsTable.id, id))
+        await DatabaseClient.drizzleInstance.delete(announcementsTable).where(eq(announcementsTable.id, id)).execute()
         await CacheClient.deleteValuesByPattern(
             this.ANNOUNCEMENTS_COUNT_CACHE_KEY,
             `announcementsCountByGuildId:${announcement.guildId}`,

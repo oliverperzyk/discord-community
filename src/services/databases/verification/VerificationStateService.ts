@@ -48,7 +48,8 @@ class VerificationStateService extends BaseDatabaseService {
                 .select()
                 .from(verificationStateTable)
                 .where(eq(verificationStateTable.id, id))
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -65,7 +66,8 @@ class VerificationStateService extends BaseDatabaseService {
                 .select()
                 .from(verificationStateTable)
                 .where(eq(verificationStateTable.guildId, guildId))
-                .limit(1),
+                .limit(1)
+                .execute(),
         )
 
         await CacheClient.setValue(cacheKey, queriedValue === null ? this.NOT_FOUND_CACHE_FLAG : queriedValue)
@@ -95,7 +97,7 @@ class VerificationStateService extends BaseDatabaseService {
                     enabled,
                 })
 
-                await DatabaseClient.drizzleInstance.insert(verificationStateTable).values(verificationState)
+                await DatabaseClient.drizzleInstance.insert(verificationStateTable).values(verificationState).execute()
                 await CacheClient.deleteValues(`verificationStateById:${id}`, `verificationStateByGuildId:${guildId}`)
                 return verificationState
             }
@@ -112,6 +114,7 @@ class VerificationStateService extends BaseDatabaseService {
             .update(verificationStateTable)
             .set(updatedVerificationState)
             .where(eq(verificationStateTable.id, verificationState.id))
+            .execute()
         await CacheClient.deleteValues(
             `verificationStateById:${verificationState.id}`,
             `verificationStateByGuildId:${guildId}`,
@@ -129,7 +132,10 @@ class VerificationStateService extends BaseDatabaseService {
         const verificationState: IVerificationState | null = await this.getVerificationStateById(id)
         if (verificationState === null) return false
 
-        await DatabaseClient.drizzleInstance.delete(verificationStateTable).where(eq(verificationStateTable.id, id))
+        await DatabaseClient.drizzleInstance
+            .delete(verificationStateTable)
+            .where(eq(verificationStateTable.id, id))
+            .execute()
         await CacheClient.deleteValues(`verificationStateById:${id}`)
         return true
     }
