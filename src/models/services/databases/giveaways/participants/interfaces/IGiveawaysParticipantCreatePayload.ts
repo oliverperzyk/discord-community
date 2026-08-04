@@ -9,7 +9,7 @@ interface IGiveawaysParticipantCreatePayload {
     /**
      * @summary The ID of the giveaway.
      */
-    readonly givewayId: DatabaseIdentifier
+    readonly giveawayId: DatabaseIdentifier
     /**
      * @summary The ID of the user who is participating in the giveaway.
      */

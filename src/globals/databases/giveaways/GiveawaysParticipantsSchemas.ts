@@ -12,7 +12,7 @@ import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/ba
 const giveawaysParticipantsTable = baseTable(
     "giveawaysParticipants",
     {
-        givewayId: varchar("givewayId", { length: DatabaseConstants.DATABASE_IDENTIFIER_COLUMN_LENGTH })
+        giveawayId: varchar("giveawayId", { length: DatabaseConstants.DATABASE_IDENTIFIER_COLUMN_LENGTH })
             .notNull()
             .references(() => giveawaysTable.id)
             .$type<DatabaseIdentifier>(),
@@ -21,7 +21,7 @@ const giveawaysParticipantsTable = baseTable(
             .$type<DiscordSnowflake>(),
         isWinner: boolean("isWinner").notNull().default(false),
     },
-    (table) => [uniqueIndex("giveawayParticipant").on(table.givewayId, table.userId)],
+    (table) => [uniqueIndex("giveawayParticipant").on(table.giveawayId, table.userId)],
 )
 
 export { giveawaysParticipantsTable }
