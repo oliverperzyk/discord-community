@@ -10,13 +10,13 @@ import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/ba
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
 
 /**
- * @summary Verification state service class.
- * @description This class is used to manage the verification state.
+ * @summary Verification states service class.
+ * @description This class is used to manage the verification states.
  */
 class VerificationStateService extends BaseDatabaseService {
     /**
-     * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @summary Protected constructor.
+     * @description Protected constructor to prevent instantiation, while allowing inheritance.
      */
     private constructor() {
         super()
