@@ -1,4 +1,4 @@
-import type { PersonalizationLanguage } from "../enums/PersonalizationLanguage"
+import type { Language } from "../../../base/enums/Language"
 
 /**
  * @summary The personalization update payload interface.
@@ -9,7 +9,7 @@ interface IPersonalizationUpdatePayload {
      * @summary The language.
      * @description The language, that user will see some of the messages in.
      */
-    readonly language: PersonalizationLanguage
+    readonly language: Language
 }
 
 export type { IPersonalizationUpdatePayload }

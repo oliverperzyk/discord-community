@@ -1,5 +1,5 @@
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
-import type { PersonalizationLanguage } from "../enums/PersonalizationLanguage"
+import type { Language } from "../../../base/enums/Language"
 
 /**
  * @summary The personalization create payload interface.
@@ -15,7 +15,7 @@ interface IPersonalizationCreatePayload {
      * @summary The language.
      * @description The language, that user will see some of the messages in.
      */
-    readonly language: PersonalizationLanguage
+    readonly language: Language
 }
 
 export type { IPersonalizationCreatePayload }

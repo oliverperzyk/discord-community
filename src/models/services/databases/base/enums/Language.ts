@@ -1,8 +1,8 @@
 /**
- * @summary The language enum for the giveaways translations.
- * @description This enum is used to store the language for the giveaways translations.
+ * @summary The language enum.
+ * @description Shared language values used across translations and personalization.
  */
-const enum GiveawaysTranslationsLanguage {
+const enum Language {
     /**
      * @summary The Polish language.
      */
@@ -14,4 +14,4 @@ const enum GiveawaysTranslationsLanguage {
     ENGLISH = "EN",
 }
 
-export { GiveawaysTranslationsLanguage }
+export { Language }

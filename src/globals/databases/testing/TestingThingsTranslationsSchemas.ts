@@ -1,20 +1,10 @@
-import { baseEnum } from "../base/BaseEnum"
 import { baseTable } from "../base/BaseTable"
-import { TestingThingsTranslationsLanguageDataManager } from "../../managers/data/testing/translations/TestingThingsTranslationsLanguageDataManager"
-import type { TestingThingsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/testing/translations/enums/TestingThingsTranslationsLanguage"
+import { languageEnum } from "../base/shared/LanguageEnum"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import { testingThingsTable } from "./TestingThingsSchemas"
 import { text, uniqueIndex, varchar } from "drizzle-orm/pg-core"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
-
-/**
- * @summary The enum for the testing things translations languages.
- * @description This enum is used to store the languages for the testing things translations.
- */
-const testingThingsTranslationsLanguageEnum = baseEnum(
-    "testingThingsTranslationsLanguages",
-    TestingThingsTranslationsLanguageDataManager.VALUES_IN_ARRAY,
-)
 
 /**
  * @summary The table for the testing things translations.
@@ -23,9 +13,7 @@ const testingThingsTranslationsLanguageEnum = baseEnum(
 const testingThingsTranslationsTable = baseTable(
     "testingThingsTranslations",
     {
-        language: testingThingsTranslationsLanguageEnum("language")
-            .notNull()
-            .$type<TestingThingsTranslationsLanguage>(),
+        language: languageEnum("language").notNull().$type<Language>(),
         testingThingId: varchar("testingThingId", { length: DatabaseConstants.DATABASE_IDENTIFIER_COLUMN_LENGTH })
             .notNull()
             .references(() => testingThingsTable.id)
@@ -37,4 +25,4 @@ const testingThingsTranslationsTable = baseTable(
     (table) => [uniqueIndex("testingThingTranslation").on(table.testingThingId, table.language)],
 )
 
-export { testingThingsTranslationsLanguageEnum, testingThingsTranslationsTable }
+export { testingThingsTranslationsTable }

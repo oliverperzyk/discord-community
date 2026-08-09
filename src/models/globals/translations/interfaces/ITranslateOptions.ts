@@ -1,4 +1,4 @@
-import type { LanguageCode } from "../types/LanguageCode"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import type { TranslationArgumentValue } from "../types/TranslationArgumentValue"
 
 /**
@@ -13,7 +13,7 @@ interface ITranslateOptions {
     /**
      * @summary The language to translate into.
      */
-    readonly language: LanguageCode | string
+    readonly language: Language | string
     /**
      * @summary Optional argument values for PARAMETER translations.
      */

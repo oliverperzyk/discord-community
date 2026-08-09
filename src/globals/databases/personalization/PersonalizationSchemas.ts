@@ -2,18 +2,8 @@ import { varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
-import { baseEnum } from "../base/BaseEnum"
-import { PersonalizationLanguageDataManager } from "../../managers/data/personalization/languages/PersonalizationLanguageDataManager"
-import type { PersonalizationLanguage } from "@/oliverperzyk/models/services/databases/personalization/languages/enums/PersonalizationLanguage"
-
-/**
- * @summary The personalization language enum.
- * @description This enum is used to store the language of the personalization.
- */
-const personalizationLanguageEnum = baseEnum(
-    "personalizationLanguage",
-    PersonalizationLanguageDataManager.VALUES_IN_ARRAY,
-)
+import { languageEnum } from "../base/shared/LanguageEnum"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 
 /**
  * @summary The personalization language table schema.
@@ -24,7 +14,7 @@ const personalizationTable = baseTable("personalization", {
         .notNull()
         .primaryKey()
         .$type<DiscordSnowflake>(),
-    language: personalizationLanguageEnum("language").notNull().$type<PersonalizationLanguage>(),
+    language: languageEnum("language").notNull().$type<Language>(),
 })
 
 export { personalizationTable }

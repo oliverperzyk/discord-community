@@ -3,18 +3,8 @@ import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import { giveawaysTable } from "./GiveawaysSchemas"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
-import { baseEnum } from "../base/BaseEnum"
-import { GiveawaysTranslationsLanguageDataManager } from "../../managers/data/giveaways/translations/GiveawaysTranslationsLanguageDataManager"
-import type { GiveawaysTranslationsLanguage } from "@/oliverperzyk/models/services/databases/giveaways/translations/enums/GiveawaysTranslationsLanguage"
-
-/**
- * @summary The giveaways translations language enum.
- * @description This enum is used to store the language for the giveaways translations.
- */
-const giveawaysTranslationsLanguageEnum = baseEnum(
-    "giveawaysTranslationsLanguages",
-    GiveawaysTranslationsLanguageDataManager.VALUES_IN_ARRAY,
-)
+import { languageEnum } from "../base/shared/LanguageEnum"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 
 /**
  * @summary The giveaways translations table schema.
@@ -27,7 +17,7 @@ const giveawayTranslationsTable = baseTable(
             .notNull()
             .references(() => giveawaysTable.id)
             .$type<DatabaseIdentifier>(),
-        language: giveawaysTranslationsLanguageEnum().notNull().$type<GiveawaysTranslationsLanguage>(),
+        language: languageEnum("language").notNull().$type<Language>(),
         title: varchar("title", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
         content: text("content").notNull(),
         prize: varchar("prize", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
@@ -35,4 +25,4 @@ const giveawayTranslationsTable = baseTable(
     (table) => [uniqueIndex("giveawayTranslation").on(table.giveawayId, table.language)],
 )
 
-export { giveawaysTranslationsLanguageEnum, giveawayTranslationsTable }
+export { giveawayTranslationsTable }
