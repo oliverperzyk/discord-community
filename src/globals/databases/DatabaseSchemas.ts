@@ -33,7 +33,7 @@ export * from "./verification/VerificationStateSchemas"
 /**
  * @summary Schemas related to personalization.
  */
-export * from "./personalization/PersonalizationLanguageSchemas"
+export * from "./personalization/PersonalizationSchemas"
 
 /**
  * @summary Schemas related to moderation.
