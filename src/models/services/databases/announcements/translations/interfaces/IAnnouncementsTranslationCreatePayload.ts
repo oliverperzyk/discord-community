@@ -1,5 +1,5 @@
 import type { DatabaseIdentifier } from "../../../base/types/DatabaseIdentifier"
-import type { AnnouncementsTranslationsLanguage } from "../enums/AnnouncementsTranslationsLanguage"
+import type { Language } from "../../../base/enums/Language"
 
 /**
  * @summary The announcements translation create payload interface.
@@ -15,7 +15,7 @@ interface IAnnouncementsTranslationCreatePayload {
      * @summary The language.
      * @description The language, the language of the translation.
      */
-    readonly language: AnnouncementsTranslationsLanguage
+    readonly language: Language
     /**
      * @summary The title.
      * @description The title, the title of the translation.

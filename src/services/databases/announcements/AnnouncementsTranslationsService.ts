@@ -6,7 +6,7 @@ import { and, desc, eq } from "drizzle-orm"
 import type { IAnnouncementsTranslation } from "@/oliverperzyk/models/services/databases/announcements/translations/interfaces/IAnnouncementsTranslation"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
-import { AnnouncementsTranslationsLanguage } from "@/oliverperzyk/models/services/databases/announcements/translations/enums/AnnouncementsTranslationsLanguage"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import type { IAnnouncementsTranslationCreatePayload } from "@/oliverperzyk/models/services/databases/announcements/translations/interfaces/IAnnouncementsTranslationCreatePayload"
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
 import type { IAnnouncementsTranslationUpdatePayload } from "@/oliverperzyk/models/services/databases/announcements/translations/interfaces/IAnnouncementsTranslationUpdatePayload"
@@ -122,7 +122,7 @@ class AnnouncementsTranslationsService extends BaseDatabaseService {
      */
     public static async getAnnouncementsTranslationByAnnouncementIdAndLanguage(
         announcementId: DatabaseIdentifier,
-        language: AnnouncementsTranslationsLanguage,
+        language: Language,
     ): Promise<IAnnouncementsTranslation | null> {
         const cacheKey = `announcementsTranslationByAnnouncementIdAndLanguage:${announcementId}:${language}`
         const cachedValue: IAnnouncementsTranslation | NotFoundCacheFlag | null = await CacheClient.getValue(cacheKey)

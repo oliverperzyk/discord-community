@@ -1,5 +1,5 @@
 import type { DatabaseIdentifier } from "../../../base/types/DatabaseIdentifier"
-import type { GiveawaysTranslationsLanguage } from "../enums/GiveawaysTranslationsLanguage"
+import type { Language } from "../../../base/enums/Language"
 
 /**
  * @summary The giveaways translation create payload interface.
@@ -15,7 +15,7 @@ interface IGiveawaysTranslationCreatePayload {
      * @summary The language.
      * @description The language, the language of the translation.
      */
-    readonly language: GiveawaysTranslationsLanguage
+    readonly language: Language
     /**
      * @summary The title.
      * @description The title, the title of the translation.

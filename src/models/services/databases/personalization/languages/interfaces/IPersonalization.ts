@@ -1,5 +1,6 @@
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import type { IBaseEntity } from "../../../base/interfaces/IBaseEntity"
+import type { Language } from "../../../base/enums/Language"
 
 /**
  * @summary The personalization language interface.
@@ -15,7 +16,7 @@ interface IPersonalization extends Omit<IBaseEntity, "id"> {
      * @summary The language.
      * @description The language, that user will see some of the messages in.
      */
-    readonly language: string
+    readonly language: Language
 }
 
 export type { IPersonalization }
