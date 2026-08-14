@@ -26,7 +26,7 @@ interface IModeratorsPunishment extends IBaseEntity {
      * @summary The comment.
      * @description The comment, the comment of the punishment.
      */
-    readonly comment: string
+    readonly comment: string | null
     /**
      * @summary The expires at.
      * @description The expires at, the date and time when the punishment expires.
