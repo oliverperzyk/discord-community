@@ -8,6 +8,7 @@ import type { IGiveawaysParticipant } from "@/oliverperzyk/models/services/datab
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { IGiveawaysParticipantPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/giveaways/participants/interfaces/IGiveawaysParticipantPaginationFilterOptions"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import type { IGiveawaysParticipantCreatePayload } from "@/oliverperzyk/models/services/databases/giveaways/participants/interfaces/IGiveawaysParticipantCreatePayload"
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
 import type { IGiveawaysParticipantUpdatePayload } from "@/oliverperzyk/models/services/databases/giveaways/participants/interfaces/IGiveawaysParticipantUpdatePayload"
@@ -100,32 +101,35 @@ class GiveawaysParticipantsService extends BaseDatabaseService {
      * @description This method is used to get the giveaways participants by page.
      * @param page The page number to get the participants for.
      * @param options The options for the pagination.
-     * @returns The giveaways participants.
+     * @returns The pagination result of the giveaways participants.
      */
     public static async getGiveawaysParticipantsByPage(
         page: number,
         { giveawayId, ...options }: IGiveawaysParticipantPaginationFilterOptions,
-    ): Promise<IGiveawaysParticipant[]> {
+    ): Promise<IPaginationResult<IGiveawaysParticipant>> {
         const cacheKey = `giveawaysParticipantsByPage:${giveawayId}:${page}:${JSON.stringify(options)}`
-        const cachedValue: IGiveawaysParticipant[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IGiveawaysParticipant> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
+        const where = and(
+            eq(giveawaysParticipantsTable.giveawayId, giveawayId),
+            options?.userId ? eq(giveawaysParticipantsTable.userId, options.userId) : undefined,
+            options?.isWinner ? eq(giveawaysParticipantsTable.isWinner, options.isWinner) : undefined,
+        )
         const queriedValue: IGiveawaysParticipant[] = await DatabaseClient.drizzleInstance
             .select()
             .from(giveawaysParticipantsTable)
-            .where(
-                and(
-                    eq(giveawaysParticipantsTable.giveawayId, giveawayId),
-                    options?.userId ? eq(giveawaysParticipantsTable.userId, options.userId) : undefined,
-                    options?.isWinner ? eq(giveawaysParticipantsTable.isWinner, options.isWinner) : undefined,
-                ),
-            )
+            .where(where)
             .limit(this.PAGE_SIZE)
             .offset((page - 1) * this.PAGE_SIZE)
             .execute()
+        const result: IPaginationResult<IGiveawaysParticipant> = {
+            items: queriedValue,
+            totalCount: await this.countEntriesInTable(giveawaysParticipantsTable, where),
+        }
 
-        await CacheClient.setValue(cacheKey, queriedValue)
-        return queriedValue
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**

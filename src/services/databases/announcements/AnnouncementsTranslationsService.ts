@@ -4,6 +4,7 @@ import { CacheClient } from "@/oliverperzyk/globals/clients/CacheClient"
 import { announcementsTranslationsTable } from "@/oliverperzyk/globals/databases/DatabaseSchemas"
 import { and, desc, eq } from "drizzle-orm"
 import type { IAnnouncementsTranslation } from "@/oliverperzyk/models/services/databases/announcements/translations/interfaces/IAnnouncementsTranslation"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
 import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
@@ -64,14 +65,14 @@ class AnnouncementsTranslationsService extends BaseDatabaseService {
      * @description This method is used to get the announcements translations by page.
      * @param page The page number to get the translations for.
      * @param announcementId The ID of the announcement to get the translations for.
-     * @returns The announcements translations by page.
+     * @returns The pagination result of the announcements translations.
      */
     public static async getAnnouncementsTranslationsByPage(
         page: number,
         announcementId: DatabaseIdentifier,
-    ): Promise<IAnnouncementsTranslation[]> {
+    ): Promise<IPaginationResult<IAnnouncementsTranslation>> {
         const cacheKey = `announcementsTranslationsByPage:${announcementId}:${page}`
-        const cachedValue: IAnnouncementsTranslation[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IAnnouncementsTranslation> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
         const queriedValue: IAnnouncementsTranslation[] = await DatabaseClient.drizzleInstance
@@ -82,9 +83,13 @@ class AnnouncementsTranslationsService extends BaseDatabaseService {
             .offset((page - 1) * 10)
             .orderBy(desc(announcementsTranslationsTable.language))
             .execute()
+        const result: IPaginationResult<IAnnouncementsTranslation> = {
+            items: queriedValue,
+            totalCount: await this.getAnnouncementsTranslationsCount(announcementId),
+        }
 
-        await CacheClient.setValue(cacheKey, queriedValue)
-        return queriedValue
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**

@@ -3,7 +3,8 @@ import { BaseDatabaseService } from "../base/BaseDatabaseService"
 import { giveawaysTable } from "@/oliverperzyk/globals/databases/DatabaseSchemas"
 import type { IGiveaway } from "@/oliverperzyk/models/services/databases/giveaways/base/interfaces/IGiveaway"
 import type { IGiveawayPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/giveaways/base/interfaces/IGiveawayPaginationFilterOptions"
-import { and, desc, eq } from "drizzle-orm"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
+import { and, desc, eq, type SQL } from "drizzle-orm"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
@@ -49,26 +50,32 @@ class GiveawaysService extends BaseDatabaseService {
      * @description This method is used to get the giveaways by page.
      * @param page The page number.
      * @param options The options for the giveaways.
-     * @returns The giveaways by page.
+     * @returns The pagination result of the giveaways.
      */
     public static async getGiveawaysByPage(
         page: number,
         options?: IGiveawayPaginationFilterOptions,
-    ): Promise<IGiveaway[]> {
+    ): Promise<IPaginationResult<IGiveaway>> {
         const cacheKey: string = `giveawaysByPage:${page}`
-        const cachedValue: IGiveaway[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IGiveaway> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
+        const where: SQL | undefined =
+            options?.guildId === undefined ? undefined : eq(giveawaysTable.guildId, options.guildId)
         const queriedValues: IGiveaway[] = await DatabaseClient.drizzleInstance
             .select()
             .from(giveawaysTable)
-            .where(options?.guildId === undefined ? undefined : eq(giveawaysTable.guildId, options.guildId))
+            .where(where)
             .limit(this.PAGE_SIZE)
             .offset((page - 1) * this.PAGE_SIZE)
             .orderBy(desc(giveawaysTable.createdAt))
             .execute()
-        await CacheClient.setValue(cacheKey, queriedValues)
-        return queriedValues
+        const result: IPaginationResult<IGiveaway> = {
+            items: queriedValues,
+            totalCount: await this.countEntriesInTable(giveawaysTable, where),
+        }
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**
