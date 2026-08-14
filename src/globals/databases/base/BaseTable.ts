@@ -12,7 +12,7 @@ import {
 import { DatabaseConstants } from "./DatabaseConstants"
 import { UpdatedAtTriggersManager } from "./triggers/UpdatedAtTriggersManager"
 
-type BaseTableColumns<T extends Record<string, PgColumnBuilderBase>> = T & DefaultColumnsMap
+type BaseTableColumns<T extends Record<string, PgColumnBuilderBase>> = Omit<DefaultColumnsMap, keyof T> & T
 type BaseTableColumnsInput<T extends Record<string, PgColumnBuilderBase>> =
     | UserColumns<T>
     | ((_builders: PgColumnsBuilders) => UserColumns<T>)
@@ -35,8 +35,8 @@ function mergeColumns<T extends Record<string, PgColumnBuilderBase>>(
     const defaults: DefaultColumnsMap = DatabaseConstants.BASE_TABLES_COLUMNS
 
     return typeof columns === "function"
-        ? (_builders: PgColumnsBuilders) => ({ ...columns(_builders), ...defaults }) as BaseTableColumns<T>
-        : ({ ...columns, ...defaults } as BaseTableColumns<T>)
+        ? (_builders: PgColumnsBuilders) => ({ ...defaults, ...columns(_builders) }) as BaseTableColumns<T>
+        : ({ ...defaults, ...columns } as BaseTableColumns<T>)
 }
 
 /**

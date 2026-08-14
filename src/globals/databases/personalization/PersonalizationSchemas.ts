@@ -3,7 +3,7 @@ import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import { languageEnum } from "../base/shared/LanguageEnum"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 
 /**
  * @summary The personalization language table schema.
@@ -14,7 +14,7 @@ const personalizationTable = baseTable("personalization", {
         .notNull()
         .primaryKey()
         .$type<DiscordSnowflake>(),
-    language: languageEnum("language").notNull().$type<Language>(),
+    language: languageEnum("language").notNull().default(Language.ENGLISH).$type<Language>(),
 })
 
 export { personalizationTable }
