@@ -10,7 +10,7 @@ import type { Language } from "@/oliverperzyk/models/services/databases/base/enu
  * @summary The giveaways translations table schema.
  * @description This table is used to store the giveaways translations.
  */
-const giveawayTranslationsTable = baseTable(
+const giveawaysTranslationsTable = baseTable(
     "giveawaysTranslations",
     {
         giveawayId: varchar("giveawayId", { length: DatabaseConstants.DATABASE_IDENTIFIER_COLUMN_LENGTH })
@@ -25,4 +25,4 @@ const giveawayTranslationsTable = baseTable(
     (table) => [uniqueIndex("giveawayTranslation").on(table.giveawayId, table.language)],
 )
 
-export { giveawayTranslationsTable }
+export { giveawaysTranslationsTable }

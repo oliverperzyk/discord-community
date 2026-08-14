@@ -34,7 +34,7 @@ class DrizzleConfiguration {
      * @summary Configuration of Drizzle ORM.
      * @description Complete configuration of Drizzle's ORM and Kit.
      */
-    public static readonly CONFIGURATION: Config = {
+    public static readonly CONFIGURATION: Readonly<Config> = {
         schema: "./src/globals/databases/DatabaseSchemas.ts",
         dialect: "postgresql",
         casing: "camelCase",

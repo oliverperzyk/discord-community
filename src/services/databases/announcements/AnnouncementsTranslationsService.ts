@@ -70,7 +70,7 @@ class AnnouncementsTranslationsService extends BaseDatabaseService {
         page: number,
         announcementId: DatabaseIdentifier,
     ): Promise<IAnnouncementsTranslation[]> {
-        const cacheKey = `announcementsTranslationsByPage:${announcementId}${page}`
+        const cacheKey = `announcementsTranslationsByPage:${announcementId}:${page}`
         const cachedValue: IAnnouncementsTranslation[] | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
