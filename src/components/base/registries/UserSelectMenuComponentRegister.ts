@@ -8,7 +8,7 @@ import { UserSelectMenuComponent } from "../components/UserSelectMenuComponent"
 class UserSelectMenuComponentRegister extends BaseComponentRegister {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {
         super()

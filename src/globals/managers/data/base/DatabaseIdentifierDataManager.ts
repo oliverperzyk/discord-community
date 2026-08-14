@@ -9,7 +9,7 @@ import { randomBytes } from "crypto"
 class DatabaseIdentifierDataManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
     /**

@@ -9,7 +9,7 @@ import { ClientStatus } from "@/oliverperzyk/models/globals/clients/general/enum
 class CacheClient {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
     /**

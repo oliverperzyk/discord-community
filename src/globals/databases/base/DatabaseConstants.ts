@@ -9,7 +9,7 @@ import { timestamp, varchar } from "drizzle-orm/pg-core"
 class DatabaseConstants {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

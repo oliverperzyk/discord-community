@@ -7,7 +7,7 @@ import { Language } from "@/oliverperzyk/models/services/databases/base/enums/La
 class LanguageDataManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

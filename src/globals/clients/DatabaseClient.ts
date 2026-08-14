@@ -11,7 +11,7 @@ import * as databaseSchemas from "../databases/DatabaseSchemas"
 class DatabaseClient {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
     /**

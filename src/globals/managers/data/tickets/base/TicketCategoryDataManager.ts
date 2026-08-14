@@ -7,7 +7,7 @@ import { TicketCategory } from "@/oliverperzyk/models/services/databases/tickets
 class TicketCategoryDataManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

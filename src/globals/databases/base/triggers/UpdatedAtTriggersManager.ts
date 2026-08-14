@@ -9,7 +9,7 @@ import { UpdatedAtTrigger } from "./UpdatedAtTrigger"
 class UpdatedAtTriggersManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

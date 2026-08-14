@@ -11,7 +11,7 @@ import { cwd } from "process"
 class ConfigurationManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

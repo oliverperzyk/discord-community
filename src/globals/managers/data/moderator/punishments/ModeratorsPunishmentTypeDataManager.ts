@@ -7,7 +7,7 @@ import { ModeratorsPunishmentType } from "@/oliverperzyk/models/services/databas
 class ModeratorsPunishmentTypeDataManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 

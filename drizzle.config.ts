@@ -8,7 +8,7 @@ import type { Config } from "drizzle-kit"
 class DrizzleConfiguration {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 
@@ -20,6 +20,7 @@ class DrizzleConfiguration {
     private static get DATABASE_URL(): string {
         const rawValue: string | undefined = env.DATABASE_URL
         if (!rawValue) throw new Error("Couldn't finish migration. Environment variable DATABASE_URL is missing.")
+
         try {
             return new URL(rawValue).toString()
         } catch {

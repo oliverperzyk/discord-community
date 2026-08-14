@@ -19,7 +19,7 @@ import type { IGivewayUpdatePayload } from "@/oliverperzyk/models/services/datab
 class GiveawaysService extends BaseDatabaseService {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {
         super()

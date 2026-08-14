@@ -7,7 +7,7 @@ import { TicketState } from "@/oliverperzyk/models/services/databases/tickets/ba
 class TicketStateDataManager {
     /**
      * @summary Private constructor.
-     * @description Private constructor to prevent instantiation & inheritance.
+     * @description Prevents instantiation & inheritance.
      */
     private constructor() {}
 
