@@ -4,13 +4,14 @@ import { verificationRequestsTable } from "@/oliverperzyk/globals/databases/Data
 import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
-import { and, desc, eq } from "drizzle-orm"
+import { and, desc, eq, type SQL } from "drizzle-orm"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import type { IVerificationRequestCreatePayload } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequestCreatePayload"
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
 import type { IVerificationRequestPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequestPaginationFilterOptions"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import type { IVerificationRequestUpdatePayload } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequestUpdatePayload"
 
 /**
@@ -51,33 +52,36 @@ class VerificationRequestsService extends BaseDatabaseService {
      * @description This method is used to get the verification requests by page.
      * @param page The page to get the verification requests by.
      * @param state The state of the verification requests to get.
-     * @returns The verification requests by page.
+     * @returns The pagination result of the verification requests.
      */
     public static async getVerificationRequestsByPage(
         page: number,
         options?: IVerificationRequestPaginationFilterOptions,
-    ): Promise<IVerificationRequest[]> {
+    ): Promise<IPaginationResult<IVerificationRequest>> {
         const cacheKey: string = `verificationRequestsByPage:${page}:${JSON.stringify(options)}`
-        const cachedValue: IVerificationRequest[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IVerificationRequest> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
+        const where: SQL | undefined = and(
+            options?.state ? eq(verificationRequestsTable.state, options.state) : undefined,
+            options?.guildId ? eq(verificationRequestsTable.guildId, options.guildId) : undefined,
+            options?.userId ? eq(verificationRequestsTable.userId, options.userId) : undefined,
+        )
         const queriedValue: IVerificationRequest[] = await DatabaseClient.drizzleInstance
             .select()
             .from(verificationRequestsTable)
-            .where(
-                and(
-                    options?.state ? eq(verificationRequestsTable.state, options.state) : undefined,
-                    options?.guildId ? eq(verificationRequestsTable.guildId, options.guildId) : undefined,
-                    options?.userId ? eq(verificationRequestsTable.userId, options.userId) : undefined,
-                ),
-            )
+            .where(where)
             .orderBy(desc(verificationRequestsTable.createdAt))
             .offset((page - 1) * this.PAGE_SIZE)
             .limit(this.PAGE_SIZE)
             .execute()
+        const result: IPaginationResult<IVerificationRequest> = {
+            items: queriedValue,
+            totalCount: await this.countEntriesInTable(verificationRequestsTable, where),
+        }
 
-        await CacheClient.setValue(cacheKey, queriedValue)
-        return queriedValue
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**

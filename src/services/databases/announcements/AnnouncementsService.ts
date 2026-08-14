@@ -5,6 +5,7 @@ import { announcementsTable } from "@/oliverperzyk/globals/databases/DatabaseSch
 import { and, desc, eq } from "drizzle-orm"
 import type { IAnnouncement } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncement"
 import type { IAnnouncementPaginationFilterOptions } from "@/oliverperzyk/models/services/databases/announcements/base/interfaces/IAnnouncementPaginationFilterOptions"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
@@ -64,14 +65,14 @@ class AnnouncementsService extends BaseDatabaseService {
      * @description This method is used to get the announcements by page.
      * @param page The page number.
      * @param options The pagination filter options.
-     * @returns The announcements by page.
+     * @returns The pagination result of the announcements.
      */
     public static async getAnnouncementsByPage(
         page: number,
         options?: IAnnouncementPaginationFilterOptions,
-    ): Promise<IAnnouncement[]> {
+    ): Promise<IPaginationResult<IAnnouncement>> {
         const cacheKey: string = `announcementsByPage:${page}:${JSON.stringify(options)}`
-        const cachedValue: IAnnouncement[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IAnnouncement> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
         const queriedValue: IAnnouncement[] = await DatabaseClient.drizzleInstance
@@ -82,9 +83,13 @@ class AnnouncementsService extends BaseDatabaseService {
             .offset((page - 1) * this.PAGE_SIZE)
             .limit(this.PAGE_SIZE)
             .execute()
+        const result: IPaginationResult<IAnnouncement> = {
+            items: queriedValue,
+            totalCount: await this.getAnnouncementsCount(options?.guildId),
+        }
 
-        await CacheClient.setValue(cacheKey, queriedValue)
-        return queriedValue
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**

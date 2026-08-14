@@ -4,6 +4,7 @@ import { CacheClient } from "@/oliverperzyk/globals/clients/CacheClient"
 import { giveawaysTranslationsTable } from "@/oliverperzyk/globals/databases/giveaways/GiveawaysTranslationsSchemas"
 import { and, desc, eq } from "drizzle-orm"
 import type { IGiveawaysTranslation } from "@/oliverperzyk/models/services/databases/giveaways/translations/interfaces/IGiveawaysTranslation"
+import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import { DatabaseClient } from "@/oliverperzyk/globals/clients/DatabaseClient"
 import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
 import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
@@ -64,14 +65,14 @@ class GiveawaysTranslationsService extends BaseDatabaseService {
      * @description This method is used to get the giveaways translations by page.
      * @param page The page number.
      * @param giveawayId The ID of the giveaway.
-     * @returns The giveaways translations by page.
+     * @returns The pagination result of the giveaways translations.
      */
     public static async getGiveawayTranslationsByPage(
         page: number,
         giveawayId: DatabaseIdentifier,
-    ): Promise<IGiveawaysTranslation[]> {
+    ): Promise<IPaginationResult<IGiveawaysTranslation>> {
         const cacheKey = `giveawayTranslationsByPage:${giveawayId}:${page}`
-        const cachedValue: IGiveawaysTranslation[] | null = await CacheClient.getValue(cacheKey)
+        const cachedValue: IPaginationResult<IGiveawaysTranslation> | null = await CacheClient.getValue(cacheKey)
         if (cachedValue !== null) return cachedValue
 
         const queriedValue: IGiveawaysTranslation[] = await DatabaseClient.drizzleInstance
@@ -82,9 +83,13 @@ class GiveawaysTranslationsService extends BaseDatabaseService {
             .offset((page - 1) * this.PAGE_SIZE)
             .orderBy(desc(giveawaysTranslationsTable.language))
             .execute()
+        const result: IPaginationResult<IGiveawaysTranslation> = {
+            items: queriedValue,
+            totalCount: await this.getGiveawayTranslationsCount(giveawayId),
+        }
 
-        await CacheClient.setValue(cacheKey, queriedValue)
-        return queriedValue
+        await CacheClient.setValue(cacheKey, result)
+        return result
     }
 
     /**
