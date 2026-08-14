@@ -27,8 +27,8 @@ const testingThingsTable = baseTable(
             .$type<DiscordSnowflake>(),
         channelName: varchar("channelName", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }).notNull(),
         maxParticipants: integer("maxParticipants"),
-        startsAt: timestamp("startsAt", { withTimezone: true, mode: "date" }),
-        endsAt: timestamp("endsAt", { withTimezone: true, mode: "date" }),
+        startsAt: timestamp("startsAt", { withTimezone: true, mode: "date" }).notNull(),
+        endsAt: timestamp("endsAt", { withTimezone: true, mode: "date" }).notNull(),
     },
     (table) => [
         check("maxParticipantsIsPositive", sql`${table.maxParticipants} IS NULL OR ${table.maxParticipants} > 0`),
