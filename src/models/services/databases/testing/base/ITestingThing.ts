@@ -34,8 +34,9 @@ interface ITestingThing extends IBaseEntity {
     /**
      * @summary The maximum number of participants.
      * @description Maximum number of participants for the recruitment.
+     * @remarks If there is no limit, the maximum number of participants will be `null`.
      */
-    readonly maxParticipants: number
+    readonly maxParticipants: number | null
     /**
      * @summary The start date.
      * @description Start date of the recruitment.
