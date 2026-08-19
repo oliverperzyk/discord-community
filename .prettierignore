@@ -18,10 +18,6 @@
 /**/package-lock.json
 /**/bun.lock
 
-# Environment variables.
-/**/.env
-!/.env.example
-
 # Operating system files.
 /**/.DS_Store
 /**/*.ini
