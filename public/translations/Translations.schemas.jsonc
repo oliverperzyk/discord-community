@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://discord-server.oliverperzyk.com/schemas/translations.json",
+    "$id": "https://discord.oliverperzyk.com/schemas/translations.json",
     "title": "Schema for translations of oliverperzyk's Discord community.",
     "description": "A locale file mapping translation keys to BASIC or PARAMETER entries.",
     "type": "object",
