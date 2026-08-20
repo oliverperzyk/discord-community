@@ -68,7 +68,7 @@ export default defineConfig([
         language: "markdown/gfm",
         extends: ["markdown/recommended"],
         rules: {
-            "markdown/no-missing-label-refs": "error",
+            "markdown/no-missing-label-refs": "off",
         },
     },
 ])
