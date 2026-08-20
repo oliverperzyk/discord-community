@@ -5,6 +5,7 @@ import { Language } from "@/oliverperzyk/models/services/databases/base/enums/La
 import { TranslationArgumentDataType } from "@/oliverperzyk/models/globals/translations/enums/TranslationArgumentDataType"
 import { TranslationKeyType } from "@/oliverperzyk/models/globals/translations/enums/TranslationKeyType"
 import { TranslationPluralForm } from "@/oliverperzyk/models/globals/translations/enums/TranslationPluralForm"
+import type { ITranslateMarkdownOptions } from "@/oliverperzyk/models/globals/translations/interfaces/ITranslateMarkdownOptions"
 import type { ITranslateOptions } from "@/oliverperzyk/models/globals/translations/interfaces/ITranslateOptions"
 import type { ITranslationParameterKey } from "@/oliverperzyk/models/globals/translations/interfaces/ITranslationParameterKey"
 import type { ITranslationsLocale } from "@/oliverperzyk/models/globals/translations/interfaces/ITranslationsLocale"
@@ -13,7 +14,7 @@ import type { TranslationKey } from "@/oliverperzyk/models/globals/translations/
 
 /**
  * @summary Manager for locale translations.
- * @description Loads locale files from public/translations and resolves BASIC/PARAMETER keys.
+ * @description Loads locale JSONC and Markdown files from public/translations and resolves BASIC/PARAMETER keys.
  */
 class TranslationsManager {
     /**
@@ -23,16 +24,22 @@ class TranslationsManager {
     private constructor() {}
 
     /**
-     * @summary Placeholder pattern.
-     * @description Matches `{{ argument_name }}` placeholders inside PARAMETER texts.
+     * @summary Placeholder pattern source.
+     * @description Matches `{{ argument_name }}` placeholders inside PARAMETER texts and Markdown files.
      */
-    private static readonly PLACEHOLDER_PATTERN: RegExp = /\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}/g
+    private static readonly PLACEHOLDER_PATTERN_SOURCE: string = String.raw`\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}`
 
     /**
      * @summary Loaded locale cache.
      * @description Caches parsed locale files keyed by language.
      */
     private static readonly localeCache: Map<Language, ITranslationsLocale> = new Map<Language, ITranslationsLocale>()
+
+    /**
+     * @summary Loaded Markdown cache.
+     * @description Caches raw Markdown files keyed by language and relative file path.
+     */
+    private static readonly markdownCache: Map<string, string> = new Map<string, string>()
 
     /**
      * @summary Translate a key.
@@ -46,6 +53,18 @@ class TranslationsManager {
 
         if (entry.type === TranslationKeyType.BASIC) return entry.text
         return this.renderParameterTranslation(options.key, language, entry, options.data)
+    }
+
+    /**
+     * @summary Translate a Markdown file.
+     * @description Loads a locale Markdown file and replaces `{{ key }}` placeholders like JSON entries.
+     * @param options - The Markdown translation options.
+     * @returns The rendered Markdown content.
+     */
+    public static translateMarkdown(options: ITranslateMarkdownOptions): string {
+        const language: Language = LanguageDataManager.resolveLanguage(options.language)
+        const content: string = this.getMarkdown(options.file, language)
+        return this.interpolateMarkdown(options.file, language, content, options.data)
     }
 
     /**
@@ -63,6 +82,98 @@ class TranslationsManager {
         )
         this.localeCache.set(language, locale)
         return locale
+    }
+
+    /**
+     * @summary Get a Markdown translation file.
+     * @description Loads and caches the Markdown file for a language.
+     * @param file - The Markdown file to load.
+     * @param language - The language to load.
+     * @returns The Markdown file contents.
+     */
+    private static getMarkdown(file: string, language: Language): string {
+        const relativeFilePath: string = this.resolveMarkdownFilePath(file, language)
+        const cachedMarkdown: string | undefined = this.markdownCache.get(relativeFilePath)
+        if (cachedMarkdown !== undefined) return cachedMarkdown
+
+        const markdown: string = ConfigurationManager.getConfiguration<string>(relativeFilePath)
+        this.markdownCache.set(relativeFilePath, markdown)
+        return markdown
+    }
+
+    /**
+     * @summary Resolve a Markdown translation file path.
+     * @description Builds a `public/translations/contents/{locale}/{file}.md` path and rejects traversal.
+     * @param file - The Markdown file requested by the caller.
+     * @param language - The language used to select the locale directory.
+     * @returns The path relative to `public/`.
+     */
+    private static resolveMarkdownFilePath(file: string, language: Language): string {
+        const normalizedFile: string = file.trim().replaceAll("\\", "/").replace(/\.md$/i, "")
+        if (
+            normalizedFile.length === 0 ||
+            normalizedFile.includes("..") ||
+            normalizedFile.startsWith("/") ||
+            normalizedFile.endsWith("/")
+        ) {
+            throw TranslationError.fromInvalidMarkdownFile(file)
+        }
+
+        return `translations/contents/${LanguageDataManager.toLocaleCode(language)}/${normalizedFile}.md`
+    }
+
+    /**
+     * @summary Interpolate placeholders in Markdown.
+     * @description Resolves translation keys like JSON entries, then fills remaining placeholders from `data`.
+     * @param file - The Markdown file being rendered.
+     * @param language - The language used to resolve nested translation keys.
+     * @param content - The raw Markdown content.
+     * @param data - Optional argument values.
+     * @returns The interpolated Markdown content.
+     */
+    private static interpolateMarkdown(
+        file: string,
+        language: Language,
+        content: string,
+        data: ITranslateMarkdownOptions["data"],
+    ): string {
+        const values: Readonly<Record<string, TranslationArgumentValue>> = data ?? {}
+        return content.replace(this.createPlaceholderPattern(), (_match: string, placeholderName: string): string => {
+            const locale: ITranslationsLocale = this.getLocale(language)
+            const entry: TranslationKey | string | undefined = locale[placeholderName]
+            if (entry !== undefined && typeof entry !== "string" && "type" in entry) {
+                return this.translate({ key: placeholderName, language, data: values })
+            }
+
+            return this.interpolatePlaceholderValue(file, placeholderName, values)
+        })
+    }
+
+    /**
+     * @summary Create a placeholder matcher.
+     * @description Returns a fresh global regular expression so nested interpolation cannot share lastIndex.
+     * @returns A regular expression that matches translation placeholders.
+     */
+    private static createPlaceholderPattern(): RegExp {
+        return new RegExp(this.PLACEHOLDER_PATTERN_SOURCE, "g")
+    }
+
+    /**
+     * @summary Interpolate a placeholder value.
+     * @description Replaces a `{{ argument_name }}` placeholder with its provided value.
+     * @param key - The translation key or Markdown file used in error messages.
+     * @param argumentName - The placeholder name to resolve.
+     * @param values - The provided argument values.
+     * @returns The stringified argument value.
+     */
+    private static interpolatePlaceholderValue(
+        key: string,
+        argumentName: string,
+        values: Readonly<Record<string, TranslationArgumentValue>>,
+    ): string {
+        const value: TranslationArgumentValue | undefined = values[argumentName]
+        if (value === undefined) throw TranslationError.fromMissingArgument(key, argumentName)
+        return String(value)
     }
 
     /**
@@ -102,10 +213,8 @@ class TranslationsManager {
 
         const pluralForm: TranslationPluralForm = this.resolvePluralForm(language, entry, values)
         const template: string = entry.texts[pluralForm]
-        return template.replace(this.PLACEHOLDER_PATTERN, (_match: string, argumentName: string): string => {
-            const value: TranslationArgumentValue | undefined = values[argumentName]
-            if (value === undefined) throw TranslationError.fromMissingArgument(key, argumentName)
-            return String(value)
+        return template.replace(this.createPlaceholderPattern(), (_match: string, argumentName: string): string => {
+            return this.interpolatePlaceholderValue(key, argumentName, values)
         })
     }
 
