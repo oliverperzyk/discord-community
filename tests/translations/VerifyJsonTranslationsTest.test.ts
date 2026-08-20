@@ -16,7 +16,7 @@ describe("Verify JSON translations", async (): Promise<void> => {
      */
     beforeAll(async (): Promise<void> => {
         const jsonTranslations: Record<string, unknown> = await import(
-            `@/public/translations/contents/${defaultLanguage}.jsonc`
+            `../../public/translations/contents/${defaultLanguage.toLowerCase()}.jsonc`
         )
         expect(jsonTranslations).toBeObject()
         expect(jsonTranslations).toHaveProperty("$schema")
@@ -35,14 +35,14 @@ describe("Verify JSON translations", async (): Promise<void> => {
          */
         test(`check if JSON translations for ${language} are valid & they do exist`, async (): Promise<void> => {
             const jsonTranslations: Record<string, unknown> = await import(
-                `@/public/translations/contents/${language}.jsonc`
+                `@/public/translations/contents/${language.toLowerCase()}.jsonc`
             )
             expect(jsonTranslations).toBeObject()
             expect(jsonTranslations).toHaveProperty("$schema")
             expect(jsonTranslations.$schema).toBe(`../Translations.schemas.jsonc`)
             for (const key of Object.keys(jsonTranslations)) {
                 if (key === "$schema") continue
-                expect(allKeys.has(key)).toBe(true)
+                expect(allKeys.has(key)).toBeTrue()
             }
         })
     }
