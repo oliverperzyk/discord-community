@@ -1,6 +1,8 @@
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { describe, expect, test, beforeAll } from "bun:test"
+import { join } from "path"
+import { cwd } from "process"
 
 /**
  * @summary Verify JSON translations.
@@ -11,12 +13,22 @@ describe("Verify JSON translations", async (): Promise<void> => {
     const allKeys: Set<string> = new Set<string>()
 
     /**
+     * @summary Resolve the JSON translations directory for a language.
+     * @description This function resolves the path to the JSON translations directory for a language.
+     * @param language - The language to resolve the directory for.
+     * @returns The path to the JSON translations directory.
+     */
+    const resolveLanguageDirectory = (language: Language): string => {
+        return join(cwd(), "public", "translations", "contents", LanguageDataManager.toLocaleCode(language))
+    }
+
+    /**
      * @summary Load all keys from the default language.
      * @description This function loads all keys from the default language.
      */
     beforeAll(async (): Promise<void> => {
         const jsonTranslations: Record<string, unknown> = await import(
-            `../../public/translations/contents/${defaultLanguage.toLowerCase()}.jsonc`
+            `${resolveLanguageDirectory(defaultLanguage)}.jsonc`
         )
         expect(jsonTranslations).toBeObject()
         expect(jsonTranslations).toHaveProperty("$schema")
@@ -35,7 +47,7 @@ describe("Verify JSON translations", async (): Promise<void> => {
          */
         test(`check if JSON translations for ${language} are valid & they do exist`, async (): Promise<void> => {
             const jsonTranslations: Record<string, unknown> = await import(
-                `@/public/translations/contents/${language.toLowerCase()}.jsonc`
+                `${resolveLanguageDirectory(language)}.jsonc`
             )
             expect(jsonTranslations).toBeObject()
             expect(jsonTranslations).toHaveProperty("$schema")
