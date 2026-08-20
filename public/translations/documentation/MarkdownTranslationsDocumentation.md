@@ -18,8 +18,8 @@ The only exception is when you use many conditions - then it's better **to use m
 
     If there's a folder with the language, you can go to second step, otherwise create it in `contents` directory.
 
-    > [!IMPORTANT]
-    > If you don't know how to name the directory, refer to [Discord's API reference](https://docs.discord.com/developers/reference#locales). The application does not support region-based locales of a certain language, so omit the second part of it (e.g, we do not support `en-GB` and `en-US` as there's only `en`).
+> [!IMPORTANT]
+> If you don't know how to name the directory, refer to [Discord's API reference](https://docs.discord.com/developers/reference#locales). The application does not support region-based locales of a certain language, so omit the second part of it (e.g, we do not support `en-GB` and `en-US` as there's only `en`).
 
 2. Add new markdown file with your translation.
 
