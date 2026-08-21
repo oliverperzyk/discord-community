@@ -57,6 +57,16 @@ class TranslationError extends Error {
             key,
         )
     }
+
+    /**
+     * @summary Create an error for an invalid Markdown translation file.
+     * @description Creates a new instance of an error related to an invalid Markdown file path.
+     * @param file - The invalid Markdown file path.
+     * @returns The TranslationError instance.
+     */
+    public static fromInvalidMarkdownFile(file: string): TranslationError {
+        return new this(`Translation markdown file "${file}" is invalid.`, file)
+    }
 }
 
 export { TranslationError }

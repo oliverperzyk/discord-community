@@ -62,7 +62,7 @@ class ConfigurationManager {
 
     /**
      * @summary Get a configuration from a file.
-     * @description Gets a configuration from a file and returns the parsed content.
+     * @description Gets a configuration from a file and returns the parsed content. Markdown files are returned as raw text.
      * @param filePath - The path to the configuration file.
      * @returns The parsed content.
      */
@@ -79,6 +79,8 @@ class ConfigurationManager {
                 return ConfigurationManager.parseJsonFile<T>(filePath, fileContent)
             case ".jsonc":
                 return ConfigurationManager.parseJsoncFile<T>(filePath, fileContent)
+            case ".md":
+                return fileContent as T
             default:
                 throw ConfigurationFileError.fromUnsupportedFileExtension(filePath)
         }
