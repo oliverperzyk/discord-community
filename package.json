@@ -48,6 +48,8 @@
         "@eslint/json": "^2.0.0",
         "@eslint/markdown": "^8.0.2",
         "@types/bun": "^1.3.14",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
         "@types/node": "^25.9.2",
         "drizzle-kit": "^0.31.10",
         "eslint": "^10.6.0",
@@ -60,8 +62,9 @@
         "typescript-eslint": "^8.62.0"
     },
     "dependencies": {
-        "@elysiajs/cors": "^1.4.2",
+        "cors": "^2.8.6",
         "discord.js": "^14.27.0",
-        "drizzle-orm": "^0.45.2"
+        "drizzle-orm": "^0.45.2",
+        "express": "^5.2.1"
     }
 }
