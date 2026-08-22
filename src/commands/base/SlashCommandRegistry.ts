@@ -41,13 +41,19 @@ class SlashCommandRegistry {
     public static async registerCommands(): Promise<void> {
         const publicCommands: BaseSlashCommand[] = []
         const privateCommands: BaseSlashCommand[] = []
+        const applicationCommands: BaseSlashCommand[] = []
 
         for (const command of this.COMMANDS) {
-            if (command.serverType !== SlashCommandServerType.PRIVATE) {
-                publicCommands.push(command)
-            }
-            if (command.serverType !== SlashCommandServerType.PUBLIC) {
-                privateCommands.push(command)
+            switch (command.serverType) {
+                case SlashCommandServerType.PUBLIC:
+                    publicCommands.push(command)
+                    break
+                case SlashCommandServerType.PRIVATE:
+                    privateCommands.push(command)
+                    break
+                case SlashCommandServerType.APPLICATION:
+                    applicationCommands.push(command)
+                    break
             }
         }
 
@@ -62,6 +68,12 @@ class SlashCommandRegistry {
             //         body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
             //     },
             // ),
+            await DiscordApplicationInstanceManager.instance.rest.put(
+                Routes.applicationCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER),
+                {
+                    body: applicationCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
+                },
+            ),
             await DiscordApplicationInstanceManager.instance.rest.put(
                 Routes.applicationGuildCommands(
                     EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
@@ -84,11 +96,12 @@ class SlashCommandRegistry {
     public static findCommand(name: string, guildId: string | null | undefined): BaseSlashCommand | null {
         const serverType: SlashCommandServerType = guildId
             ? this.SERVER_TYPE_MAP.get(guildId.trim())!
-            : SlashCommandServerType.BOTH
+            : SlashCommandServerType.APPLICATION
         return (
             this.COMMANDS.find(
                 ({ structure, serverType: commandServerType }) =>
-                    structure.name === name && serverType === commandServerType,
+                    structure.name === name &&
+                    (serverType === commandServerType || commandServerType === SlashCommandServerType.APPLICATION),
             ) ?? null
         )
     }

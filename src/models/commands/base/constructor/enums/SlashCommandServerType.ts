@@ -5,7 +5,7 @@
 const enum SlashCommandServerType {
     /**
      * @summary Public server.
-     * @description The command is available only on the public Discord server.
+     * @description The command is available only on the public Discord server(s).
      */
     PUBLIC = "PUBLIC",
     /**
@@ -14,10 +14,10 @@ const enum SlashCommandServerType {
      */
     PRIVATE = "PRIVATE",
     /**
-     * @summary Both servers.
-     * @description The command is available on both the public and private Discord servers.
+     * @summary Application commands.
+     * @description The command is available on all Discord servers, as a global application.
      */
-    BOTH = "BOTH",
+    APPLICATION = "APPLICATION",
 }
 
 export { SlashCommandServerType }
