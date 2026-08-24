@@ -1,0 +1,31 @@
+# Caddy reverse proxy for the production deployment stack (VPS).
+# Use when Caddy is not already installed on the host.
+# Merge with the base stack: docker compose -f docker-compose.yaml -f docker-compose.caddy.yaml up -d
+---
+services:
+    caddy:
+        container_name: oliverperzyk-discord-caddy
+        image: caddy:2-alpine
+        restart: unless-stopped
+        init: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+            - caddy_data:/data
+            - caddy_config:/config
+        networks:
+            - app-network
+        depends_on:
+            discord-community:
+                condition: service_healthy
+        logging:
+            driver: json-file
+            options:
+                max-size: "10m"
+                max-file: "3"
+
+volumes:
+    caddy_data:
+    caddy_config:
