@@ -34,7 +34,7 @@ const ticketsTable = baseTable("tickets", {
     createdByUserId: varchar("createdByUserId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
         .notNull()
         .$type<DiscordSnowflake>(),
-    comment: text("comment").notNull(),
+    comment: text("comment"),
     category: ticketsCategoriesEnum("category").notNull().$type<TicketCategory>(),
     state: ticketsStatesEnum("state").notNull().default(TicketState.OPEN).$type<TicketState>(),
 })
