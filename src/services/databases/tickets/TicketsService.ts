@@ -5,6 +5,7 @@ import { ticketsTable } from "@/oliverperzyk/globals/databases/tickets/TicketsSc
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
 import type { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import type { DatabaseIdentifier } from "@/oliverperzyk/models/services/databases/base/types/DatabaseIdentifier"
+import type { NotFoundCacheFlag } from "@/oliverperzyk/models/services/databases/base/types/NotFoundCacheFlag"
 import { TicketState } from "@/oliverperzyk/models/services/databases/tickets/base/enums/TicketState"
 import type { ITicket } from "@/oliverperzyk/models/services/databases/tickets/base/interfaces/ITicket"
 import type { ITicketCreatePayload } from "@/oliverperzyk/models/services/databases/tickets/base/interfaces/ITicketCreatePayload"
@@ -91,8 +92,8 @@ class TicketsService extends BaseDatabaseService {
      */
     public static async getTicketById(id: DatabaseIdentifier): Promise<ITicket | null> {
         const cacheKey: string = `ticketById:${id}`
-        const cachedValue: ITicket | null = await CacheClient.getValue(cacheKey)
-        if (cachedValue !== null) return cachedValue
+        const cachedValue: ITicket | NotFoundCacheFlag | null = await CacheClient.getValue(cacheKey)
+        if (cachedValue !== null) return cachedValue === this.NOT_FOUND_CACHE_FLAG ? null : cachedValue
 
         const queriedValue: ITicket | null = this.resolveSingleItemQueryResult(
             await DatabaseClient.drizzleInstance
@@ -119,8 +120,8 @@ class TicketsService extends BaseDatabaseService {
         channelId: DiscordSnowflake,
     ): Promise<ITicket | null> {
         const cacheKey: string = `ticketByGuildIdAndChannelId:${guildId}:${channelId}`
-        const cachedValue: ITicket | null = await CacheClient.getValue(cacheKey)
-        if (cachedValue !== null) return cachedValue
+        const cachedValue: ITicket | NotFoundCacheFlag | null = await CacheClient.getValue(cacheKey)
+        if (cachedValue !== null) return cachedValue === this.NOT_FOUND_CACHE_FLAG ? null : cachedValue
 
         const queriedValue: ITicket | null = this.resolveSingleItemQueryResult(
             await DatabaseClient.drizzleInstance
