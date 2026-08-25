@@ -1,0 +1,46 @@
+# Template for reporting bugs in the application.
+---
+name: Bug Report
+description: Report something that is broken or not working as expected
+title: "bug: "
+labels:
+    - bug
+body:
+    - type: textarea
+      id: description
+      attributes:
+          label: Description
+          description: A clear and concise description of what is wrong.
+          placeholder: What isn't working?
+      validations:
+          required: true
+    - type: textarea
+      id: steps-to-reproduce
+      attributes:
+          label: Steps to reproduce
+          description: Exact steps to trigger the bug.
+          placeholder: |
+              1.
+              2.
+              3.
+      validations:
+          required: true
+    - type: textarea
+      id: expected-behavior
+      attributes:
+          label: Expected behavior
+          description: What you expected to happen.
+      validations:
+          required: true
+    - type: textarea
+      id: actual-behavior
+      attributes:
+          label: Actual behavior
+          description: What actually happened instead.
+      validations:
+          required: true
+    - type: textarea
+      id: screenshots-logs
+      attributes:
+          label: Screenshots / logs
+          description: Optional screenshots, error messages, or logs. You can paste images here.

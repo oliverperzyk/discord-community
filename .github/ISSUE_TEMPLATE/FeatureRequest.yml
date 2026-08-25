@@ -1,0 +1,33 @@
+# Template for suggesting a new feature or improvement.
+---
+name: Feature Request
+description: Suggest a new feature or improvement
+title: "feat: "
+labels:
+    - enhancement
+body:
+    - type: textarea
+      id: summary
+      attributes:
+          label: Summary
+          description: A clear and concise description of what you want.
+          placeholder: What should be added or changed?
+      validations:
+          required: true
+    - type: textarea
+      id: problem-use-case
+      attributes:
+          label: Problem / use case
+          description: Why this feature is needed and who it helps.
+      validations:
+          required: true
+    - type: textarea
+      id: proposed-solution
+      attributes:
+          label: Proposed solution
+          description: How you would like this to work, if you have an idea.
+    - type: textarea
+      id: alternatives-considered
+      attributes:
+          label: Alternatives considered
+          description: Other approaches you thought about, if any.

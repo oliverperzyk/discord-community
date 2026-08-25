@@ -1,0 +1,56 @@
+# Template for reporting a wrong, missing, or poorly worded translation.
+---
+name: Incorrect Translation
+description: Report a wrong, missing, or poorly worded translation
+title: "translation: "
+labels:
+    - translation
+body:
+    - type: dropdown
+      id: language
+      attributes:
+          label: Language
+          description: The locale of the incorrect translation.
+          options:
+              - English (EN)
+              - Polish (PL)
+      validations:
+          required: true
+    - type: dropdown
+      id: source
+      attributes:
+          label: Source
+          description: Whether this comes from a JSON key or a Markdown file under public/translations/contents/.
+          options:
+              - JSON key
+              - Markdown file
+              - Unsure
+      validations:
+          required: true
+    - type: input
+      id: key-or-file-path
+      attributes:
+          label: Key or file path
+          description: The translation key or Markdown file path.
+          placeholder: coffees or public/translations/contents/pl/some-file.md
+      validations:
+          required: false
+    - type: textarea
+      id: current-text
+      attributes:
+          label: Current text
+          description: The incorrect string as it currently appears.
+      validations:
+          required: true
+    - type: textarea
+      id: suggested-text
+      attributes:
+          label: Suggested text
+          description: The corrected wording you would use instead.
+      validations:
+          required: true
+    - type: textarea
+      id: where-you-saw-it
+      attributes:
+          label: Where you saw it
+          description: Optional context such as a command, embed, or docs page.
