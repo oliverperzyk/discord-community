@@ -1,4 +1,5 @@
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import { Locale } from "discord.js"
 
 /**
  * @summary The data manager for languages.
@@ -12,19 +13,19 @@ class LanguageDataManager {
     private constructor() {}
 
     /**
+     * @summary The Discord locales for the languages.
+     * @description Maps a language to its Discord locales.
+     */
+    private static readonly DISCORD_LOCALES: Readonly<Record<Language, Locale[]>> = {
+        [Language.ENGLISH]: [Locale.EnglishGB, Locale.EnglishUS],
+        [Language.POLISH]: [Locale.Polish],
+    }
+
+    /**
      * @summary The values of the language enum.
      * @description The values of the language enum.
      */
-    private static readonly VALUES: ReadonlySet<Language> = new Set<Language>([Language.POLISH, Language.ENGLISH])
-
-    /**
-     * @summary Locale file codes keyed by language.
-     * @description Maps database language values to locale file / BCP-47 codes.
-     */
-    private static readonly LOCALE_CODES: ReadonlyMap<Language, "en" | "pl"> = new Map<Language, "en" | "pl">([
-        [Language.ENGLISH, "en"],
-        [Language.POLISH, "pl"],
-    ])
+    private static readonly VALUES: ReadonlySet<Language> = new Set(Object.keys(this.DISCORD_LOCALES) as Language[])
 
     /**
      * @summary The values of the language enum in an array.
@@ -56,13 +57,13 @@ class LanguageDataManager {
     }
 
     /**
-     * @summary Maps a language to its locale file code.
-     * @description Returns the lowercase locale code used for locale files and Intl.PluralRules.
+     * @summary Maps a language to its discord.js locale.
+     * @description Returns the Discord API locale used for command and UI localizations.
      * @param language - The language to map.
-     * @returns The locale file code.
+     * @returns The discord.js locale.
      */
-    public static toLocaleCode(language: Language): "en" | "pl" {
-        return this.LOCALE_CODES.get(language) ?? "en"
+    public static resolveDiscordLocales(language: Language): Locale[] {
+        return this.DISCORD_LOCALES[language] ?? [Locale.EnglishUS]
     }
 }
 

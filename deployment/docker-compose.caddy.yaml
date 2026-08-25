@@ -1,6 +1,5 @@
 # Caddy reverse proxy for the production deployment stack (VPS).
 # Use when Caddy is not already installed on the host.
-# Merge with the base stack: docker compose -f docker-compose.yaml -f docker-compose.caddy.yaml up -d
 ---
 services:
     caddy:
