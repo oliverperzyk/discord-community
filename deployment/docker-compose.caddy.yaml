@@ -25,7 +25,8 @@ services:
             options:
                 max-size: "10m"
                 max-file: "3"
-
 volumes:
     caddy_data:
+        name: oliverperzyk-discord-caddy-data
     caddy_config:
+        name: oliverperzyk-discord-caddy-config
