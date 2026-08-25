@@ -9,15 +9,20 @@ REPOSITORY="oliverperzyk/discord-community"
 # Color is a 6-digit hex (with or without '#'). Description may be "".
 LABELS=(
 	# Name of a label, color (6-digit hex with or without '#'), description.
-	"bug" "d73a4a" "Something isn't working"
-	"documentation" "0075ca" "Improvements or additions to documentation"
-	"duplicate" "cfd3d7" "This issue or pull request already exists"
-	"enhancement" "a2eeef" "New feature or request"
-	"good first issue" "7057ff" "Good for newcomers"
-	"help wanted" "008672" "Extra attention is needed"
-	"invalid" "e4e669" "This doesn't seem right"
-	"question" "d876e3" "Further information is requested"
-	"wontfix" "ffffff" "This will not be worked on"
+
+    # Labels related to dependencies.
+    "deps" "000000" "Dependencies"
+    "deps/bun" "ddeedd" "Bun"
+    "deps/docker" "ddddee" "Docker"
+    "deps/docker-compose" "ffddff" "Docker Compose"
+    "deps/actions" "ddffdd" "GitHub Actions"
+
+    # Labels related to issues.
+    "bug" "ff5555" "Something isn't working, not optimized enough, etc."
+    "enhancement" "5555ff" "New feature or request to the codebase or the application itself."
+    "documentation" "55ff55" "Improvements or additions to documentation."
+    "question" "ddcc55" "Further information is requested."
+    "translation" "ff55ff" "Issue related to translations."
 )
 
 if (( ${#LABELS[@]} % 3 != 0 )); then
