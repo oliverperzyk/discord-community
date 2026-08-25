@@ -34,22 +34,6 @@ updates:
     - package-ecosystem: docker-compose
       target-branch: development
       open-pull-requests-limit: 10
-      directories:
-          - /
-          - /deployment
-      assignees:
-          - oliverperzyk
-      labels:
-          - deps
-          - deps/docker-compose
-      schedule:
-          interval: quarterly
-          timezone: Europe/Warsaw
-      commit-message:
-          prefix: chore(docker-compose)
-    - package-ecosystem: docker-compose
-      target-branch: development
-      open-pull-requests-limit: 10
       directory: /deployment
       assignees:
           - oliverperzyk
