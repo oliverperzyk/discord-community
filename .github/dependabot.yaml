@@ -9,8 +9,8 @@ updates:
       assignees:
           - oliverperzyk
       labels:
-          - 🔁 Dependencies
-          - 🍞 Bun
+          - deps
+          - deps/bun
       schedule:
           interval: quarterly
           timezone: Europe/Warsaw
@@ -24,8 +24,8 @@ updates:
       assignees:
           - oliverperzyk
       labels:
-          - 🔁 Dependencies
-          - 🐳 Docker
+          - deps
+          - deps/docker
       schedule:
           interval: quarterly
           timezone: Europe/Warsaw
@@ -34,12 +34,14 @@ updates:
     - package-ecosystem: docker-compose
       target-branch: development
       open-pull-requests-limit: 10
-      directory: /
+      directories:
+          - /
+          - /deployment
       assignees:
           - oliverperzyk
       labels:
-          - 🔁 Dependencies
-          - 🐋 Docker Compose
+          - deps
+          - deps/docker-compose
       schedule:
           interval: quarterly
           timezone: Europe/Warsaw
@@ -52,8 +54,8 @@ updates:
       assignees:
           - oliverperzyk
       labels:
-          - 🔁 Dependencies
-          - 🐋 Docker Compose
+          - deps
+          - deps/actions
       schedule:
           interval: quarterly
           timezone: Europe/Warsaw
@@ -66,8 +68,8 @@ updates:
       assignees:
           - oliverperzyk
       labels:
-          - 🔁 Dependencies
-          - 🦊 GitHub Workflows
+          - deps
+          - deps/github-actions
       schedule:
           interval: quarterly
           timezone: Europe/Warsaw
