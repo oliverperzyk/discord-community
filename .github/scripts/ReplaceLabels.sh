@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Replace all issue labels in a GitHub repository using the gh CLI.
+# Sync issue labels in a GitHub repository using the gh CLI.
+# Existing labels are updated in place; missing ones are created;
+# labels not listed below are deleted.
 # Edit the LABELS array below, then run: ./ReplaceLabels.sh
 set -euo pipefail
 
@@ -11,11 +13,11 @@ LABELS=(
 	# Name of a label, color (6-digit hex with or without '#'), description.
 
     # Labels related to dependencies.
-    "deps" "000000" "Dependencies"
-    "deps/bun" "ddeedd" "Bun"
-    "deps/docker" "ddddee" "Docker"
-    "deps/docker-compose" "ffddff" "Docker Compose"
-    "deps/actions" "ddffdd" "GitHub Actions"
+    "deps" "000000" "General tag for updating dependencies."
+    "deps/bun" "ddeedd" "Tag for updating Bun's dependencies."
+    "deps/docker" "ddddee" "Tag for updating Dockerfile images."
+    "deps/docker-compose" "ffddff" "Tag for updating Docker Compose images."
+    "deps/actions" "ddffdd" "Tag for updating GitHub Actions workflows."
 
     # Labels related to issues.
     "bug" "ff5555" "Something isn't working, not optimized enough, etc."
@@ -40,14 +42,28 @@ if ! gh auth status >/dev/null 2>&1; then
 	exit 1
 fi
 
-echo "Deleting existing labels in ${REPOSITORY}..."
+array_contains() {
+	local needle="$1"
+	shift
+	local item
+	for item in "$@"; do
+		[[ "${item}" == "${needle}" ]] && return 0
+	done
+	return 1
+}
+
+existing_names=()
 while IFS= read -r name; do
 	[[ -z "${name}" ]] && continue
-	echo "  - ${name}"
-	gh label delete "${name}" --repo "${REPOSITORY}" --yes
+	existing_names+=("${name}")
 done < <(gh label list --repo "${REPOSITORY}" --limit 1000 --json name --jq '.[].name')
 
-echo "Creating labels..."
+desired_names=()
+for ((i = 0; i < ${#LABELS[@]}; i += 3)); do
+	desired_names+=("${LABELS[i]}")
+done
+
+echo "Syncing labels in ${REPOSITORY}..."
 for ((i = 0; i < ${#LABELS[@]}; i += 3)); do
 	name="${LABELS[i]}"
 	color="${LABELS[i + 1]#\#}"
@@ -58,12 +74,29 @@ for ((i = 0; i < ${#LABELS[@]}; i += 3)); do
 		exit 1
 	fi
 
-	echo "  + ${name} (#${color})"
-	args=(label create "${name}" --repo "${REPOSITORY}" --color "${color}" --force)
-	if [[ -n "${description}" ]]; then
-		args+=(--description "${description}")
+	if array_contains "${name}" "${existing_names[@]+"${existing_names[@]}"}"; then
+		echo "  ~ ${name} (#${color})"
+		args=(label edit "${name}" --repo "${REPOSITORY}" --color "${color}")
+	else
+		echo "  + ${name} (#${color})"
+		args=(label create "${name}" --repo "${REPOSITORY}" --color "${color}")
 	fi
+
+	args+=(--description "${description}")
 	gh "${args[@]}"
+done
+
+deleted_any=0
+for name in "${existing_names[@]+"${existing_names[@]}"}"; do
+	if array_contains "${name}" "${desired_names[@]}"; then
+		continue
+	fi
+	if (( deleted_any == 0 )); then
+		echo "Deleting labels not in the desired set..."
+		deleted_any=1
+	fi
+	echo "  - ${name}"
+	gh label delete "${name}" --repo "${REPOSITORY}" --yes
 done
 
 echo "Done. Current labels:"
