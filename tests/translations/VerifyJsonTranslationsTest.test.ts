@@ -19,7 +19,7 @@ describe("Verify JSON translations", async (): Promise<void> => {
      * @returns The path to the JSON translations directory.
      */
     const resolveLanguageDirectory = (language: Language): string => {
-        return join(cwd(), "public", "translations", "contents", LanguageDataManager.toLocaleCode(language))
+        return join(cwd(), "public", "translations", "contents", LanguageDataManager.resolveLocaleCode(language))
     }
 
     /**
