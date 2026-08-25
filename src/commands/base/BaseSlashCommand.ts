@@ -1,11 +1,10 @@
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 import type { SlashCommandServerType } from "@/oliverperzyk/models/commands/base/constructor/enums/SlashCommandServerType"
+import type { SlashCommandNameLocalizations } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandNameLocalizations"
 import type { SlashCommandPermissionFlag } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandPermissionFlag"
 import type { SlashCommandStructureType } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandStructureType"
-import { type CommandInteraction, type SlashCommandBuilder } from "discord.js"
-
-type SlashCommandNameLocalizations = NonNullable<Parameters<SlashCommandBuilder["setNameLocalizations"]>[0]>
+import { type CommandInteraction } from "discord.js"
 
 /**
  * @summary Base class for all slash commands.
@@ -37,12 +36,12 @@ abstract class BaseSlashCommand {
     public abstract onExecute(interaction: CommandInteraction): unknown
 
     /**
-     * @summary Generates the name translations for the slash command.
-     * @description Generates the name translations for the slash command in all supported languages.
+     * @summary Generates the translations for the slash command.
+     * @description Generates the translations for the slash command's name or description in all supported languages.
      * @param key - The key of the translation.
      * @returns The name translations.
      */
-    public static generateCommandsNameTranslations(key: string): SlashCommandNameLocalizations {
+    public static generateCommandsTranslations(key: string): SlashCommandNameLocalizations {
         const localizations: SlashCommandNameLocalizations = {}
 
         for (const language of LanguageDataManager.VALUES_IN_ARRAY) {
