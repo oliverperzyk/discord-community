@@ -78,7 +78,7 @@ class TranslationsManager {
         if (cachedLocale) return cachedLocale
 
         const locale: ITranslationsLocale = ConfigurationManager.getConfiguration<ITranslationsLocale>(
-            `translations/contents/${LanguageDataManager.toLocaleCode(language)}.jsonc`,
+            `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}.jsonc`,
         )
         this.localeCache.set(language, locale)
         return locale
@@ -119,7 +119,7 @@ class TranslationsManager {
             throw TranslationError.fromInvalidMarkdownFile(file)
         }
 
-        return `translations/contents/${LanguageDataManager.toLocaleCode(language)}/${normalizedFile}.md`
+        return `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}/${normalizedFile}.md`
     }
 
     /**
@@ -279,9 +279,9 @@ class TranslationsManager {
         if (count === undefined) return TranslationPluralForm.ONE
         if (count === 0) return TranslationPluralForm.ZERO
 
-        const category: Intl.LDMLPluralRule = new Intl.PluralRules(LanguageDataManager.toLocaleCode(language)).select(
-            count,
-        )
+        const category: Intl.LDMLPluralRule = new Intl.PluralRules(
+            LanguageDataManager.resolveLocaleCode(language),
+        ).select(count)
         switch (category) {
             case "one":
                 return TranslationPluralForm.ONE
