@@ -35,5 +35,46 @@
     "commands.verification-state.state.already": {
         "type": "BASIC",
         "text": "System weryfikacji jest już {{ state }}."
+    },
+    // Slowdown command.
+    "commands.slowdown.name": {
+        "type": "BASIC",
+        "text": "spowolnienie"
+    },
+    "commands.slowdown.description": {
+        "type": "BASIC",
+        "text": "Ustawia spowolnienie dla bieżącego kanału."
+    },
+    "commands.slowdown.seconds.name": {
+        "type": "BASIC",
+        "text": "sekundy"
+    },
+    "commands.slowdown.seconds.description": {
+        "type": "BASIC",
+        "text": "Sekundy do spowolnienia wiadomości użytkowników."
+    },
+    "commands.slowdown.minutes.name": {
+        "type": "BASIC",
+        "text": "minuty"
+    },
+    "commands.slowdown.minutes.description": {
+        "type": "BASIC",
+        "text": "Minuty do spowolnienia wiadomości użytkowników."
+    },
+    "commands.slowdown.hours.name": {
+        "type": "BASIC",
+        "text": "godziny"
+    },
+    "commands.slowdown.hours.description": {
+        "type": "BASIC",
+        "text": "Godziny do spowolnienia wiadomości użytkowników."
+    },
+    "commands.slowdown.success": {
+        "type": "BASIC",
+        "text": "Spowolnienie zostało pomyślnie zmienione dla tego kanału."
+    },
+    "commands.slowdown.channel.invalid": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy kanał. Proszę użyć kanału tekstowego do ustawienia spowolnienia."
     }
 }

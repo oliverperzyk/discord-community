@@ -72,7 +72,7 @@ class VerificationStatePrivateCommand extends BaseSlashCommand {
 
     /**
      * @summary The required permissions of the command.
-     * @description The required permissions of the command, in order to execute it.
+     * @description The required permissions of the command, in order to execute it successfully.
      */
     public override readonly requiredPermissions: readonly SlashCommandPermissionFlag[] = [
         PermissionFlagsBits.Administrator,
@@ -102,11 +102,10 @@ class VerificationStatePrivateCommand extends BaseSlashCommand {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        "> " +
-                            TranslationsManager.translate({
-                                key: "commands.verification-state.state.invalid",
-                                language,
-                            }),
+                        TranslationsManager.translate({
+                            key: "commands.verification-state.state.invalid",
+                            language,
+                        }),
                     ),
                 ],
             })
@@ -122,20 +121,19 @@ class VerificationStatePrivateCommand extends BaseSlashCommand {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        "> " +
-                            TranslationsManager.translate({
-                                key: "commands.verification-state.state.success",
-                                language,
-                                data: {
-                                    state: TranslationsManager.translate({
-                                        key:
-                                            "commands.verification-state.state.choices." +
-                                            (booleanState ? "enabled" : "disabled") +
-                                            ".name",
-                                        language,
-                                    }),
-                                },
-                            }),
+                        TranslationsManager.translate({
+                            key: "commands.verification-state.state.success",
+                            language,
+                            data: {
+                                state: TranslationsManager.translate({
+                                    key:
+                                        "commands.verification-state.state.choices." +
+                                        (booleanState ? "enabled" : "disabled") +
+                                        ".name",
+                                    language,
+                                }),
+                            },
+                        }),
                     ),
                 ],
             })

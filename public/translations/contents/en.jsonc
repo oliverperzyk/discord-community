@@ -1,5 +1,6 @@
 {
     "$schema": "../Translations.schemas.jsonc",
+    // Verification state command.
     "commands.verification-state.name": {
         "type": "BASIC",
         "text": "verification-state"
@@ -35,5 +36,46 @@
     "commands.verification-state.state.already": {
         "type": "BASIC",
         "text": "Verification system is already {{ state }}."
+    },
+    // Slowdown command.
+    "commands.slowdown.name": {
+        "type": "BASIC",
+        "text": "slowdown"
+    },
+    "commands.slowdown.description": {
+        "type": "BASIC",
+        "text": "Sets the slowdown for the current channel."
+    },
+    "commands.slowdown.seconds.name": {
+        "type": "BASIC",
+        "text": "seconds"
+    },
+    "commands.slowdown.seconds.description": {
+        "type": "BASIC",
+        "text": "Seconds to slow down the users' messages."
+    },
+    "commands.slowdown.minutes.name": {
+        "type": "BASIC",
+        "text": "minutes"
+    },
+    "commands.slowdown.minutes.description": {
+        "type": "BASIC",
+        "text": "Minutes to slow down the users' messages."
+    },
+    "commands.slowdown.hours.name": {
+        "type": "BASIC",
+        "text": "hours"
+    },
+    "commands.slowdown.hours.description": {
+        "type": "BASIC",
+        "text": "Hours to slow down the users' messages."
+    },
+    "commands.slowdown.success": {
+        "type": "BASIC",
+        "text": "Slowdown has been successfully changed for this channel."
+    },
+    "commands.slowdown.channel.invalid": {
+        "type": "BASIC",
+        "text": "Invalid channel. Please use a text channel to set the slowdown."
     }
 }
