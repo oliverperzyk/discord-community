@@ -1,6 +1,8 @@
+import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { ConfigurationManager } from "@/oliverperzyk/globals/managers/ConfigurationManager"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { TranslationError } from "@/oliverperzyk/models/builders/process-errors/TranslationError"
+import { NodeEnvironment } from "@/oliverperzyk/models/globals/environment/enums/NodeEnvironment"
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { TranslationArgumentDataType } from "@/oliverperzyk/models/globals/translations/enums/TranslationArgumentDataType"
 import { TranslationKeyType } from "@/oliverperzyk/models/globals/translations/enums/TranslationKeyType"
@@ -197,7 +199,7 @@ class TranslationsManager {
 
     /**
      * @summary Render a PARAMETER translation.
-     * @description Selects a plural form, validates arguments, and interpolates placeholders.
+     * @description Selects a plural form, validates arguments in the test environment, and interpolates placeholders.
      * @param key - The translation key being rendered.
      * @param language - The language used for plural rules.
      * @param entry - The PARAMETER translation entry.
@@ -234,7 +236,7 @@ class TranslationsManager {
 
     /**
      * @summary Validate PARAMETER arguments.
-     * @description Ensures all declared arguments exist and match their declared types.
+     * @description Ensures all declared arguments exist and match their declared types. Skipped outside the test environment.
      * @param key - The translation key being validated.
      * @param entry - The PARAMETER translation entry.
      * @param values - The provided argument values.
@@ -244,6 +246,8 @@ class TranslationsManager {
         entry: ITranslationParameterKey,
         values: Readonly<Record<string, TranslationArgumentValue>>,
     ): void {
+        if (EnvironmentVariables.NODE_ENV !== NodeEnvironment.TEST) return
+
         for (const [argumentName, argument] of Object.entries(entry.arguments)) {
             if (!(argumentName in values)) throw TranslationError.fromMissingArgument(key, argumentName)
 
