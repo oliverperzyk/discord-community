@@ -4,7 +4,6 @@ import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/manage
 import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
-import { PublicGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PublicGuildConfiguration"
 import { VerificationStatePrivateCommand } from "../private/verification/VerificationStatePrivateCommand"
 import { SlowdownPrivateCommand } from "../private/moderation/SlowdownPrivateCommand"
 
@@ -35,45 +34,31 @@ class SlashCommandRegistry {
     private static readonly SERVER_TYPE_MAP: ReadonlyMap<string, SlashCommandServerType> = new Map<
         string,
         SlashCommandServerType
-    >([
-        [PublicGuildConfiguration.guildId, SlashCommandServerType.PUBLIC],
-        [PrivateGuildConfiguration.guildId, SlashCommandServerType.PRIVATE],
-    ])
+    >([[PrivateGuildConfiguration.guildId, SlashCommandServerType.PRIVATE]])
 
     /**
      * @summary Register all slash commands to the Discord API.
      * @description This method registers all slash commands to the Discord API.
      */
     public static async registerCommands(): Promise<void> {
-        const publicCommands: BaseSlashCommand[] = []
         const privateCommands: BaseSlashCommand[] = []
         const applicationCommands: BaseSlashCommand[] = []
 
         for (const command of this.COMMANDS) {
             switch (command.serverType) {
-                case SlashCommandServerType.PUBLIC:
-                    publicCommands.push(command)
-                    break
                 case SlashCommandServerType.PRIVATE:
                     privateCommands.push(command)
                     break
                 case SlashCommandServerType.APPLICATION:
                     applicationCommands.push(command)
                     break
+                case SlashCommandServerType.ALL_SERVERS:
+                    privateCommands.push(command)
+                    break
             }
         }
 
         await Promise.all([
-            // chore: uncomment this when public guild is ready
-            // await DiscordApplicationInstanceManager.instance.rest.put(
-            //     Routes.applicationGuildCommands(
-            //         EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
-            //         PublicGuildConfiguration.guildId,
-            //     ),
-            //     {
-            //         body: publicCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
-            //     },
-            // ),
             await DiscordApplicationInstanceManager.instance.rest.put(
                 Routes.applicationCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER),
                 {
@@ -107,7 +92,9 @@ class SlashCommandRegistry {
             this.COMMANDS.find(
                 ({ structure, serverType: commandServerType }) =>
                     structure.name === name &&
-                    (serverType === commandServerType || commandServerType === SlashCommandServerType.APPLICATION),
+                    (serverType === commandServerType ||
+                        commandServerType === SlashCommandServerType.APPLICATION ||
+                        commandServerType === SlashCommandServerType.ALL_SERVERS),
             ) ?? null
         )
     }

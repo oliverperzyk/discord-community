@@ -1,7 +1,0 @@
-{
-    "$schema": "./GuildConfiguration.schema.json",
-    "guildId": "",
-    "roles": {},
-    "channels": {},
-    "categories": {}
-}
