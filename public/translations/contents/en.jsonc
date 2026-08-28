@@ -1,21 +1,39 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    "hello": {
+    "commands.verification-state.name": {
         "type": "BASIC",
-        "text": "Hello, world!"
+        "text": "verification-state"
     },
-    "coffees": {
-        "type": "PARAMETER",
-        "texts": {
-            "one": "You have {{ coffees_count }} coffee to claim.",
-            "few": "You have {{ coffees_count }} coffees to claim.",
-            "many": "You have {{ coffees_count }} coffees to claim.",
-            "zero": "You have 0 coffees to claim."
-        },
-        "arguments": {
-            "coffees_count": {
-                "type": "NUMBER"
-            }
-        }
+    "commands.verification-state.description": {
+        "type": "BASIC",
+        "text": "Toggles availability of verification system in current guild."
+    },
+    "commands.verification-state.state.name": {
+        "type": "BASIC",
+        "text": "state"
+    },
+    "commands.verification-state.state.description": {
+        "type": "BASIC",
+        "text": "State of the verification"
+    },
+    "commands.verification-state.state.choices.enabled.name": {
+        "type": "BASIC",
+        "text": "enabled"
+    },
+    "commands.verification-state.state.choices.disabled.name": {
+        "type": "BASIC",
+        "text": "disabled"
+    },
+    "commands.verification-state.state.invalid": {
+        "type": "BASIC",
+        "text": "Invalid state. Please use `enabled` or `disabled`."
+    },
+    "commands.verification-state.state.success": {
+        "type": "BASIC",
+        "text": "Verification system has been successfully changed to be {{ state }}."
+    },
+    "commands.verification-state.state.already": {
+        "type": "BASIC",
+        "text": "Verification system is already {{ state }}."
     }
 }

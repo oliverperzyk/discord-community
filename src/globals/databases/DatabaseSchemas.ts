@@ -1,4 +1,9 @@
 /**
+ * @summary Shared PostgreSQL enums.
+ */
+export * from "./base/shared/LanguageEnum"
+
+/**
  * @summary Schemas related to announcements.
  */
 export * from "./announcements/AnnouncementsSchemas"

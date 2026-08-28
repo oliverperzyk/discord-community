@@ -28,7 +28,6 @@ class ClientReadyEventListener extends BaseEventListener<Events.ClientReady> {
      * @description Method is triggered once the client is ready.
      */
     public override async onceEvent(_client: Client<true>): Promise<void> {
-        console.log(_client.user?.id)
         await SlashCommandRegistry.registerCommands()
     }
 }

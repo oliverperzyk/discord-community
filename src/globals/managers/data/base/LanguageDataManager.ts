@@ -1,5 +1,8 @@
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { Locale } from "discord.js"
+import type { IPersonalization } from "@/oliverperzyk/models/services/databases/personalization/languages/interfaces/IPersonalization"
+import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
+import { PersonalizationService } from "@/oliverperzyk/services/databases/personalization/PersonalizationService"
+import { Interaction, Locale } from "discord.js"
 
 /**
  * @summary The data manager for languages.
@@ -83,6 +86,19 @@ class LanguageDataManager {
      */
     public static resolveDiscordLocales(language: Language): Locale[] {
         return this.DISCORD_LOCALES.get(language) ?? [Locale.EnglishUS]
+    }
+
+    /**
+     * @summary Resolves the language by interaction.
+     * @description Resolves the language by interaction.
+     * @param interaction - The interaction to resolve the language by.
+     * @returns The resolved language.
+     */
+    public static async resolveLanguageByInteraction(interaction: Interaction): Promise<Language> {
+        const personalization: IPersonalization | null = await PersonalizationService.getPersonalizationByUserId(
+            interaction.user.id as DiscordSnowflake,
+        )
+        return personalization?.language ?? this.resolveLanguage(interaction.locale)
     }
 }
 

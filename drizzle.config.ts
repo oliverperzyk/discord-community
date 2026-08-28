@@ -1,4 +1,4 @@
-import { env } from "bun"
+import { env } from "process"
 import type { Config } from "drizzle-kit"
 
 /**

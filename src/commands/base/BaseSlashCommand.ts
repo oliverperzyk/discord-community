@@ -4,7 +4,8 @@ import type { SlashCommandServerType } from "@/oliverperzyk/models/commands/base
 import type { SlashCommandNameLocalizations } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandNameLocalizations"
 import type { SlashCommandPermissionFlag } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandPermissionFlag"
 import type { SlashCommandStructureType } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandStructureType"
-import { type CommandInteraction } from "discord.js"
+import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import { type ChatInputCommandInteraction } from "discord.js"
 
 /**
  * @summary Base class for all slash commands.
@@ -33,7 +34,20 @@ abstract class BaseSlashCommand {
      * @param interaction - The interaction that triggered the command.
      * @returns The result of the command execution.
      */
-    public abstract onExecute(interaction: CommandInteraction): unknown
+    public abstract onExecute(interaction: ChatInputCommandInteraction): unknown
+
+    /**
+     * @summary Generates the default English translation for the slash command.
+     * @description Resolves the English fallback used by Discord's required name and description fields.
+     * @param key - The key of the translation.
+     * @returns The English translation text.
+     */
+    public static generateCommandTranslation(key: string): string {
+        return TranslationsManager.translate({
+            key,
+            language: Language.ENGLISH,
+        })
+    }
 
     /**
      * @summary Generates the translations for the slash command.

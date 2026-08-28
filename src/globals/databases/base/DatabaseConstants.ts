@@ -21,9 +21,9 @@ class DatabaseConstants {
 
     /**
      * @summary The length of the Discord snowflake column.
-     * @description The length of the Discord snowflake column.
+     * @description Discord snowflakes are 64-bit integers, so their decimal form is at most 20 characters.
      */
-    public static readonly DISCORD_SNOWFLAKE_COLUMN_LENGTH: number = 18
+    public static readonly DISCORD_SNOWFLAKE_COLUMN_LENGTH: number = 20
 
     /**
      * @summary The length of a typical content.

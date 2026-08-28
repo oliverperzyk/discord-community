@@ -1,5 +1,5 @@
 import {
-    type CommandInteraction,
+    type ChatInputCommandInteraction,
     Events,
     type Interaction,
     MessageFlags,
@@ -42,7 +42,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @param interaction - The interaction that triggered the event.
      * @returns A promise that resolves when the message is sent.
      */
-    private static async handleUnknownCommand(interaction: CommandInteraction): Promise<void> {
+    private static async handleUnknownCommand(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
@@ -61,7 +61,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @param interaction - The interaction that triggered the event.
      * @returns A promise that resolves when the message is sent.
      */
-    private static async handleUnavailableCommand(interaction: CommandInteraction): Promise<void> {
+    private static async handleUnavailableCommand(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
@@ -97,7 +97,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @description It's in demand to redirect the interaction to the correct component or command.
      */
     public override async onEvent(interaction: Interaction): Promise<void> {
-        if (interaction.isCommand()) {
+        if (interaction.isChatInputCommand()) {
             const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.findCommand(
                 interaction.commandName,
                 interaction.guildId,

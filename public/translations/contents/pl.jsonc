@@ -1,21 +1,39 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    "hello": {
+    "commands.verification-state.name": {
         "type": "BASIC",
-        "text": "Witaj, świecie!"
+        "text": "status-weryfikacji"
     },
-    "coffees": {
-        "type": "PARAMETER",
-        "texts": {
-            "one": "Posiadasz {{ coffees_count }} kawę do odebrania.",
-            "few": "Posiadasz {{ coffees_count }} kawy do odebrania.",
-            "many": "Posiadasz {{ coffees_count }} kaw do odebrania.",
-            "zero": "Posiadasz 0 kaw do odebrania."
-        },
-        "arguments": {
-            "coffees_count": {
-                "type": "NUMBER"
-            }
-        }
+    "commands.verification-state.description": {
+        "type": "BASIC",
+        "text": "Włącza lub wyłącza system weryfikacji w bieżącej gminie."
+    },
+    "commands.verification-state.state.name": {
+        "type": "BASIC",
+        "text": "stan"
+    },
+    "commands.verification-state.state.description": {
+        "type": "BASIC",
+        "text": "Stan systemu weryfikacji"
+    },
+    "commands.verification-state.state.choices.enabled.name": {
+        "type": "BASIC",
+        "text": "włączony"
+    },
+    "commands.verification-state.state.choices.disabled.name": {
+        "type": "BASIC",
+        "text": "wyłączony"
+    },
+    "commands.verification-state.state.invalid": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy stan. Proszę użyć `włączony` lub `wyłączony`."
+    },
+    "commands.verification-state.state.success": {
+        "type": "BASIC",
+        "text": "System weryfikacji został pomyślnie zmieniony na {{ state }}."
+    },
+    "commands.verification-state.state.already": {
+        "type": "BASIC",
+        "text": "System weryfikacji jest już {{ state }}."
     }
 }

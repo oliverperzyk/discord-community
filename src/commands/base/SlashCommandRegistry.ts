@@ -5,6 +5,7 @@ import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
 import { PublicGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PublicGuildConfiguration"
+import { VerificationStatePrivateCommand } from "../private/verification/VerificationStatePrivateCommand"
 
 /**
  * @summary Registry of slash commands.
@@ -20,7 +21,10 @@ class SlashCommandRegistry {
      * @summary The commands to register.
      * @description The commands to register.
      */
-    private static readonly COMMANDS: BaseSlashCommand[] = []
+    private static readonly COMMANDS: BaseSlashCommand[] = [
+        // Private commands.
+        new VerificationStatePrivateCommand(),
+    ]
 
     /**
      * @summary The server type map.
