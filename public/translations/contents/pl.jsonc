@@ -6,7 +6,7 @@
     },
     "commands.verification-state.description": {
         "type": "BASIC",
-        "text": "Włącza lub wyłącza system weryfikacji w bieżącej gminie."
+        "text": "Włącza lub wyłącza system weryfikacji na bieżącym serwerze."
     },
     "commands.verification-state.state.name": {
         "type": "BASIC",
