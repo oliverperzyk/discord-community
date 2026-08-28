@@ -15,7 +15,7 @@ interface ITranslateOptions {
      */
     readonly language: Language | string
     /**
-     * @summary Optional argument values for PARAMETER translations.
+     * @summary Optional argument values for `{{ argument }}` placeholders.
      */
     readonly data?: Readonly<Record<string, TranslationArgumentValue>>
 }

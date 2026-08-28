@@ -2,7 +2,7 @@ import type { TranslationKeyType } from "../enums/TranslationKeyType"
 
 /**
  * @summary Basic translation key.
- * @description A constant translation entry without arguments.
+ * @description A translation entry with a single text that may include `{{ argument }}` placeholders.
  */
 interface ITranslationBasicKey {
     /**

@@ -11,7 +11,7 @@ import {
 } from "discord.js"
 import type { SlashCommandPermissionFlag } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandPermissionFlag"
 import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { VerificationStateService } from "@/oliverperzyk/services/databases/verification/VerificationStateService"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"

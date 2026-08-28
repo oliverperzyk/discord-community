@@ -25,7 +25,7 @@ class TranslationsManager {
 
     /**
      * @summary Placeholder pattern source.
-     * @description Matches `{{ argument_name }}` placeholders inside PARAMETER texts and Markdown files.
+     * @description Matches `{{ argument_name }}` placeholders inside BASIC/PARAMETER texts and Markdown files.
      */
     private static readonly PLACEHOLDER_PATTERN_SOURCE: string = String.raw`\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}`
 
@@ -43,7 +43,7 @@ class TranslationsManager {
 
     /**
      * @summary Translate a key.
-     * @description Resolves a BASIC or PARAMETER translation for the requested language.
+     * @description Resolves a BASIC or PARAMETER translation and interpolates `{{ argument }}` placeholders from `data`.
      * @param options - The translation options.
      * @returns The rendered translation text.
      */
@@ -51,7 +51,9 @@ class TranslationsManager {
         const language: Language = LanguageDataManager.resolveLanguage(options.language)
         const entry: TranslationKey = this.getTranslationEntry(options.key, language)
 
-        if (entry.type === TranslationKeyType.BASIC) return entry.text
+        if (entry.type === TranslationKeyType.BASIC) {
+            return this.interpolateTemplate(options.key, entry.text, options.data)
+        }
         return this.renderParameterTranslation(options.key, language, entry, options.data)
     }
 
@@ -212,7 +214,19 @@ class TranslationsManager {
         this.validateArguments(key, entry, values)
 
         const pluralForm: TranslationPluralForm = this.resolvePluralForm(language, entry, values)
-        const template: string = entry.texts[pluralForm]
+        return this.interpolateTemplate(key, entry.texts[pluralForm], values)
+    }
+
+    /**
+     * @summary Interpolate placeholders in a template.
+     * @description Replaces `{{ argument_name }}` placeholders with values from `data`.
+     * @param key - The translation key used in error messages.
+     * @param template - The template text to interpolate.
+     * @param data - Optional argument values.
+     * @returns The interpolated text.
+     */
+    private static interpolateTemplate(key: string, template: string, data: ITranslateOptions["data"]): string {
+        const values: Readonly<Record<string, TranslationArgumentValue>> = data ?? {}
         return template.replace(this.createPlaceholderPattern(), (_match: string, argumentName: string): string => {
             return this.interpolatePlaceholderValue(key, argumentName, values)
         })

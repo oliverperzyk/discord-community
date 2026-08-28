@@ -4,7 +4,7 @@
  */
 const enum TranslationKeyType {
     /**
-     * @summary A constant text without arguments.
+     * @summary A single text, optionally with `{{ argument }}` placeholders.
      */
     BASIC = "BASIC",
     /**
