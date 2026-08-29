@@ -8,6 +8,8 @@ import { verificationStateTable } from "@/oliverperzyk/globals/databases/verific
 import { eq } from "drizzle-orm"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import { DatabaseIdentifierDataManager } from "@/oliverperzyk/globals/managers/data/base/DatabaseIdentifierDataManager"
+import type { IVerificationStateCreatePayload } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationStateCreatePayload"
+import type { IVerificationStateUpdatePayload } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationStateUpdatePayload"
 
 /**
  * @summary Verification states service class.
@@ -74,51 +76,86 @@ class VerificationStateService extends BaseDatabaseService {
         return queriedValue
     }
 
-    /**
-     * @summary Sets the verification state.
-     * @description This method is used to set the verification state.
-     * @param guildId The ID of the guild to set the verification state for.
-     * @param enabled Whether the verification is enabled.
-     * @returns The verification state.
-     */
-    public static async setVerificationState(
-        guildId: DiscordSnowflake,
-        enabled: boolean,
+    public static async createVerificationState(
+        payload: IVerificationStateCreatePayload,
     ): Promise<IVerificationState | null> {
-        const verificationState: IVerificationState | null = await this.getVerificationStateByGuildId(guildId)
-        if (verificationState === null) {
-            for (let i: number = 0; i < this.MAX_CREATION_ATTEMPTS; i++) {
-                const id: DatabaseIdentifier = DatabaseIdentifierDataManager.randomDatabaseIdentifier
-                if (await this.getVerificationStateById(id)) continue
+        if (await this.getVerificationStateByGuildId(payload.guildId)) return null
+        for (let i: number = 0; i < this.MAX_CREATION_ATTEMPTS; i++) {
+            const id: DatabaseIdentifier = DatabaseIdentifierDataManager.randomDatabaseIdentifier
+            if (await this.getVerificationStateById(id)) continue
 
-                const verificationState: IVerificationState = this.resolveCreateElement({
-                    id,
-                    guildId,
-                    enabled,
-                })
+            const verificationState: IVerificationState | null = this.resolveCreateElement({
+                id,
+                ...payload,
+            })
 
-                await DatabaseClient.drizzleInstance.insert(verificationStateTable).values(verificationState).execute()
-                await CacheClient.deleteValues(`verificationStateById:${id}`, `verificationStateByGuildId:${guildId}`)
-                return verificationState
-            }
-
-            return null
+            await DatabaseClient.drizzleInstance.insert(verificationStateTable).values(verificationState).execute()
+            await CacheClient.deleteValues(
+                `verificationStateById:${id}`,
+                `verificationStateByGuildId:${payload.guildId}`,
+            )
+            return verificationState
         }
+
+        return null
+    }
+
+    /**
+     * @summary Updates the verification state by ID.
+     * @description This method is used to update the verification state by ID.
+     * @param id The ID of the verification state to update.
+     * @param payload The payload for updating the verification state.
+     * @returns The updated verification state.
+     */
+    public static async updateVerificationStateById(
+        id: DatabaseIdentifier,
+        payload: IVerificationStateUpdatePayload,
+    ): Promise<IVerificationState | null> {
+        const verificationState: IVerificationState | null = await this.getVerificationStateById(id)
+        if (verificationState === null) return null
 
         const updatedVerificationState: IVerificationState = this.resolveUpdateElement({
             ...verificationState,
-            enabled,
+            ...payload,
         })
 
         await DatabaseClient.drizzleInstance
             .update(verificationStateTable)
             .set(updatedVerificationState)
-            .where(eq(verificationStateTable.id, verificationState.id))
+            .where(eq(verificationStateTable.id, id))
             .execute()
         await CacheClient.deleteValues(
-            `verificationStateById:${verificationState.id}`,
-            `verificationStateByGuildId:${guildId}`,
+            `verificationStateById:${id}`,
+            `verificationStateByGuildId:${verificationState.guildId}`,
         )
+        return updatedVerificationState
+    }
+
+    /**
+     * @summary Updates the verification state by guild ID.
+     * @description This method is used to update the verification state by guild ID.
+     * @param guildId The ID of the guild to update the verification state for.
+     * @param payload The payload for updating the verification state.
+     * @returns The updated verification state.
+     */
+    public static async updateVerificationStateByGuildId(
+        guildId: DiscordSnowflake,
+        payload: IVerificationStateUpdatePayload,
+    ): Promise<IVerificationState | null> {
+        const verificationState: IVerificationState | null = await this.getVerificationStateByGuildId(guildId)
+        if (verificationState === null) return null
+
+        const updatedVerificationState: IVerificationState = this.resolveUpdateElement({
+            ...verificationState,
+            ...payload,
+        })
+
+        await DatabaseClient.drizzleInstance
+            .update(verificationStateTable)
+            .set(updatedVerificationState)
+            .where(eq(verificationStateTable.guildId, guildId))
+            .execute()
+        await CacheClient.deleteValues(`verificationStateByGuildId:${guildId}`)
         return updatedVerificationState
     }
 
