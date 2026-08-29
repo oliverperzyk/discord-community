@@ -1,40 +1,40 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    "commands.verification-state.name": {
+    // Verification command.
+    "commands.verification.name": {
         "type": "BASIC",
-        "text": "status-weryfikacji"
+        "text": "weryfikacja"
     },
-    "commands.verification-state.description": {
+    "commands.verification.description": {
         "type": "BASIC",
-        "text": "Włącza lub wyłącza system weryfikacji na bieżącym serwerze."
+        "text": "Pozwala na zarządzanie systemem weryfikacji na bieżącym serwerze."
     },
-    "commands.verification-state.state.name": {
+    // Verification settings subcommand.
+    "commands.verification.settings.name": {
         "type": "BASIC",
-        "text": "stan"
+        "text": "ustawienia"
     },
-    "commands.verification-state.state.description": {
+    "commands.verification.settings.description": {
         "type": "BASIC",
-        "text": "Stan systemu weryfikacji"
+        "text": "Pozwala na zarządzanie ustawieniami weryfikacji na bieżącym serwerze."
     },
-    "commands.verification-state.state.choices.enabled.name": {
+    // Verification requests subcommand.
+    "commands.verification.requests.name": {
         "type": "BASIC",
-        "text": "włączony"
+        "text": "żądania"
     },
-    "commands.verification-state.state.choices.disabled.name": {
+    "commands.verification.requests.description": {
         "type": "BASIC",
-        "text": "wyłączony"
+        "text": "Pozwala na zarządzanie żądaniami weryfikacji na bieżącym serwerze."
     },
-    "commands.verification-state.state.invalid": {
+    // Verification message subcommand.
+    "commands.verification.message.name": {
         "type": "BASIC",
-        "text": "Nieprawidłowy stan. Proszę użyć `włączony` lub `wyłączony`."
+        "text": "wiadomość"
     },
-    "commands.verification-state.state.success": {
+    "commands.verification.message.description": {
         "type": "BASIC",
-        "text": "System weryfikacji został pomyślnie zmieniony na {{ state }}."
-    },
-    "commands.verification-state.state.already": {
-        "type": "BASIC",
-        "text": "System weryfikacji jest już {{ state }}."
+        "text": "Wysyła wiadomość weryfikacji na bieżącym kanale."
     },
     // Slowdown command.
     "commands.slowdown.name": {

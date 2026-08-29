@@ -1,41 +1,40 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    // Verification state command.
-    "commands.verification-state.name": {
+    // Verification command.
+    "commands.verification.name": {
         "type": "BASIC",
-        "text": "verification-state"
+        "text": "verification"
     },
-    "commands.verification-state.description": {
+    "commands.verification.description": {
         "type": "BASIC",
-        "text": "Toggles availability of verification system in current guild."
+        "text": "Allows to manage the verification system in the current guild."
     },
-    "commands.verification-state.state.name": {
+    // Verification settings subcommand.
+    "commands.verification.settings.name": {
         "type": "BASIC",
-        "text": "state"
+        "text": "settings"
     },
-    "commands.verification-state.state.description": {
+    "commands.verification.settings.description": {
         "type": "BASIC",
-        "text": "State of the verification"
+        "text": "Allows to manage the verification settings in the current guild."
     },
-    "commands.verification-state.state.choices.enabled.name": {
+    // Verification requests subcommand.
+    "commands.verification.requests.name": {
         "type": "BASIC",
-        "text": "enabled"
+        "text": "requests"
     },
-    "commands.verification-state.state.choices.disabled.name": {
+    "commands.verification.requests.description": {
         "type": "BASIC",
-        "text": "disabled"
+        "text": "Allows to manage the verification requests in the current guild."
     },
-    "commands.verification-state.state.invalid": {
+    // Verification message subcommand.
+    "commands.verification.message.name": {
         "type": "BASIC",
-        "text": "Invalid state. Please use `enabled` or `disabled`."
+        "text": "message"
     },
-    "commands.verification-state.state.success": {
+    "commands.verification.message.description": {
         "type": "BASIC",
-        "text": "Verification system has been successfully changed to be {{ state }}."
-    },
-    "commands.verification-state.state.already": {
-        "type": "BASIC",
-        "text": "Verification system is already {{ state }}."
+        "text": "Sends the verification message in the current channel."
     },
     // Slowdown command.
     "commands.slowdown.name": {
