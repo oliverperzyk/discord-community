@@ -78,6 +78,30 @@
         "type": "BASIC",
         "text": "Wysyła wiadomość weryfikacji na bieżącym kanale."
     },
+    "verification.sidenote": {
+        "type": "BASIC",
+        "text": "Możesz przetłumaczyć wszystkie wiadomości bota klikając przycisk 🌐 powyżej."
+    },
+    "verification.interaction.verify": {
+        "type": "BASIC",
+        "text": "Zweryfikuj się"
+    },
+    "verification.interaction.translate": {
+        "type": "BASIC",
+        "text": "Przetłumacz"
+    },
+    "verification.interaction.other-servers": {
+        "type": "BASIC",
+        "text": "Inne serwery"
+    },
+    "commands.verification.message.invalid-channel": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy kanał. Proszę użyć kanału tekstowego do wysyłania wiadomości z możliwością weryfikacji."
+    },
+    "commands.verification.message.success": {
+        "type": "BASIC",
+        "text": "Wiadomość weryfikacji została wysłana na tym kanale."
+    },
     // Slowdown command.
     "commands.slowdown.name": {
         "type": "BASIC",

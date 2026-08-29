@@ -86,6 +86,30 @@
         "type": "BASIC",
         "text": "Sends the verification message in the current channel."
     },
+    "verification.sidenote": {
+        "type": "BASIC",
+        "text": "You can translate all bot's messgaes by clicking the 🌐 button above."
+    },
+    "verification.interaction.verify": {
+        "type": "BASIC",
+        "text": "Verify"
+    },
+    "verification.interaction.translate": {
+        "type": "BASIC",
+        "text": "Translate"
+    },
+    "verification.interaction.other-servers": {
+        "type": "BASIC",
+        "text": "Other Servers"
+    },
+    "commands.verification.message.invalid-channel": {
+        "type": "BASIC",
+        "text": "Invalid channel. Please use a text channel to send the verification message."
+    },
+    "commands.verification.message.success": {
+        "type": "BASIC",
+        "text": "The verification message has been sent in this channel."
+    },
     // Slowdown command.
     "commands.slowdown.name": {
         "type": "BASIC",
