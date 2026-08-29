@@ -9,6 +9,14 @@
         "type": "BASIC",
         "text": "Invalid role. Please select a valid role."
     },
+    "errors.unknown-message.title": {
+        "type": "BASIC",
+        "text": "Unknown Message"
+    },
+    "errors.unknown-message.description": {
+        "type": "BASIC",
+        "text": "Looks like this message is not supported. Please contact the administrator."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",

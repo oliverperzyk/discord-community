@@ -1,5 +1,6 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ButtonComponent } from "../components/ButtonComponent"
+import { TranslateButtonComponent } from "../../buttons/general/TranslateButtonComponent"
 
 /**
  * @summary Register for all button components.
@@ -19,7 +20,10 @@ class ButtonComponentRegister extends BaseComponentRegister {
      * @description The components of the register.
      * @remarks The components of the register are all button components.
      */
-    protected static override readonly COMPONENTS: ButtonComponent<unknown>[] = []
+    protected static override readonly COMPONENTS: ButtonComponent<unknown>[] = [
+        // General buttons.
+        new TranslateButtonComponent(),
+    ]
 
     /**
      * @summary Get a component by its custom identifier.

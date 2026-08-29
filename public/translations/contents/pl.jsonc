@@ -9,6 +9,14 @@
         "type": "BASIC",
         "text": "Nieprawidłowa rola. Proszę wybrać prawidłową rolę."
     },
+    "errors.unknown-message.title": {
+        "type": "BASIC",
+        "text": "Nieznana Wiadomość"
+    },
+    "errors.unknown-message.description": {
+        "type": "BASIC",
+        "text": "Wygląda na to, że nie jest to obsługiwana wiadomość. Proszę skontaktować się z administratorem."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
