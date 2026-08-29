@@ -5,6 +5,10 @@
         "type": "BASIC",
         "text": "Looks like you're not in a guild. Please use this command in a guild."
     },
+    "errors.invalid-role-id": {
+        "type": "BASIC",
+        "text": "Invalid role. Please select a valid role."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
@@ -55,6 +59,14 @@
     "modal.verification.settings.role.placeholder": {
         "type": "BASIC",
         "text": "Select the role that will be assigned to the users who pass the verification."
+    },
+    "modal.verification.settings.no-changes": {
+        "type": "BASIC",
+        "text": "No changes have been made to the verification settings."
+    },
+    "modal.verification.settings.success": {
+        "type": "BASIC",
+        "text": "Verification settings have been successfully updated."
     },
     // Verification requests subcommand.
     "commands.verification.requests.name": {

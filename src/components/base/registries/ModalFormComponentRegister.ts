@@ -1,5 +1,6 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ModalFormComponent } from "../components/ModalFormComponent"
+import { VerificationSettingsModalFormComponent } from "../../modals/private/verification/VerificationSettingsModalFormComponent"
 
 /**
  * @summary Register for all modal form components.
@@ -19,7 +20,10 @@ class ModalFormComponentRegister extends BaseComponentRegister {
      * @description The components of the register.
      * @remarks The components of the register are all modal form components.
      */
-    protected static override readonly COMPONENTS: ModalFormComponent<unknown>[] = []
+    protected static override readonly COMPONENTS: ModalFormComponent<unknown>[] = [
+        // Verification-related modals.
+        new VerificationSettingsModalFormComponent(),
+    ]
 
     /**
      * @summary Get a component by its custom identifier.

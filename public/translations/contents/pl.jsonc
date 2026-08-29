@@ -5,6 +5,10 @@
         "type": "BASIC",
         "text": "Wygląda na to, że nie jesteś na żadnym serwerze. Proszę użyć tej komendy na serwerze."
     },
+    "errors.invalid-role-id": {
+        "type": "BASIC",
+        "text": "Nieprawidłowa rola. Proszę wybrać prawidłową rolę."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
