@@ -1,6 +1,17 @@
+import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
+import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { type ChatInputCommandInteraction, ModalBuilder } from "discord.js"
+import { IVerificationState } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationState"
+import { VerificationStateService } from "@/oliverperzyk/services/databases/verification/VerificationStateService"
+import {
+    type ChatInputCommandInteraction,
+    ModalBuilder,
+    LabelBuilder,
+    TextDisplayBuilder,
+    CheckboxBuilder,
+    RoleSelectMenuBuilder,
+} from "discord.js"
 
 /**
  * @summary Handle verification settings private subcommand.
@@ -19,18 +30,92 @@ class HandleVerificationSettingsPrivateSubcommand {
      * @param language - The language of the interaction.
      * @returns The modal.
      */
-    private static constructModal(_language: Language): ModalBuilder {
+    private static constructModal(language: Language, verificationState: IVerificationState | null): ModalBuilder {
         return new ModalBuilder()
+            .setCustomId("verificationSettings")
+            .setTitle(
+                TranslationsManager.translate({
+                    key: "modal.verification.settings.title",
+                    language,
+                }),
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(
+                    TranslationsManager.translate({
+                        key: verificationState
+                            ? "modal.verification.settings.not-configured"
+                            : "modal.verification.settings.configure",
+                        language,
+                    }),
+                ),
+            )
+            .addLabelComponents(
+                new LabelBuilder()
+                    .setLabel(
+                        TranslationsManager.translate({
+                            key: "modal.verification.settings.toggle-verification.label",
+                            language,
+                        }),
+                    )
+                    .setDescription(
+                        TranslationsManager.translate({
+                            key: "modal.verification.settings.toggle-verification.description",
+                            language,
+                        }),
+                    )
+                    .setCheckboxComponent(
+                        new CheckboxBuilder().setCustomId("state").setDefault(verificationState?.enabled ?? false),
+                    ),
+                new LabelBuilder()
+                    .setLabel(
+                        TranslationsManager.translate({
+                            key: "modal.verification.settings.role.label",
+                            language,
+                        }),
+                    )
+                    .setDescription(
+                        TranslationsManager.translate({
+                            key: "modal.verification.settings.role.description",
+                            language,
+                        }),
+                    )
+                    .setRoleSelectMenuComponent(
+                        new RoleSelectMenuBuilder()
+                            .setCustomId("role")
+                            .setPlaceholder(
+                                TranslationsManager.translate({
+                                    key: "modal.verification.settings.role.placeholder",
+                                    language,
+                                }),
+                            )
+                            .setDefaultRoles(verificationState?.roleId ? [verificationState.roleId] : [])
+                            .setMinValues(1)
+                            .setMaxValues(1),
+                    ),
+            )
     }
 
     /**
      * @summary Execute the subcommand.
-     * @description Execute the subcommand.
+     * @description Handles the verification settings private subcommand, by simply sending the modal.
      * @param interaction - The interaction.
      */
     public static async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
+        if (!DiscordSnowflakeDataManager.isDiscordSnowflake(interaction.guildId)) {
+            await interaction.reply({
+                content: TranslationsManager.translate({
+                    key: "errors.invalid-guild-id",
+                    language: await LanguageDataManager.resolveLanguageByInteraction(interaction),
+                }),
+                ephemeral: true,
+            })
+            return
+        }
+
         const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
-        await interaction.showModal(this.constructModal(language))
+        const verificationState: IVerificationState | null =
+            await VerificationStateService.getVerificationStateByGuildId(interaction.guildId)
+        await interaction.showModal(this.constructModal(language, verificationState))
     }
 }
 

@@ -1,5 +1,10 @@
 {
     "$schema": "../Translations.schemas.jsonc",
+    // Basic errors.
+    "errors.invalid-guild-id": {
+        "type": "BASIC",
+        "text": "Looks like you're not in a guild. Please use this command in a guild."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
@@ -17,6 +22,39 @@
     "commands.verification.settings.description": {
         "type": "BASIC",
         "text": "Allows to manage the verification settings in the current guild."
+    },
+    // Verification settings modal.
+    "modal.verification.settings.title": {
+        "type": "BASIC",
+        "text": "Verification Settings"
+    },
+    "modal.verification.settings.not-configured": {
+        "type": "BASIC",
+        "text": "Verification settings have not been configured for this guild yet, by default verification is disabled, but you can change it below."
+    },
+    "modal.verification.settings.configure": {
+        "type": "BASIC",
+        "text": "Below you can configure the verification settings for this guild."
+    },
+    "modal.verification.settings.toggle-verification.label": {
+        "type": "BASIC",
+        "text": "Toggle Verification"
+    },
+    "modal.verification.settings.toggle-verification.description": {
+        "type": "BASIC",
+        "text": "Whether the verification is enabled or disabled."
+    },
+    "modal.verification.settings.role.label": {
+        "type": "BASIC",
+        "text": "Verification Role"
+    },
+    "modal.verification.settings.role.description": {
+        "type": "BASIC",
+        "text": "The role that will be assigned to the users who pass the verification."
+    },
+    "modal.verification.settings.role.placeholder": {
+        "type": "BASIC",
+        "text": "Select the role that will be assigned to the users who pass the verification."
     },
     // Verification requests subcommand.
     "commands.verification.requests.name": {

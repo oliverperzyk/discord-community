@@ -1,5 +1,10 @@
 {
     "$schema": "../Translations.schemas.jsonc",
+    // Basic errors.
+    "errors.invalid-guild-id": {
+        "type": "BASIC",
+        "text": "Wygląda na to, że nie jesteś na żadnym serwerze. Proszę użyć tej komendy na serwerze."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
@@ -17,6 +22,39 @@
     "commands.verification.settings.description": {
         "type": "BASIC",
         "text": "Pozwala na zarządzanie ustawieniami weryfikacji na bieżącym serwerze."
+    },
+    // Verification settings modal.
+    "modal.verification.settings.title": {
+        "type": "BASIC",
+        "text": "Ustawienia Weryfikacji"
+    },
+    "modal.verification.settings.not-configured": {
+        "type": "BASIC",
+        "text": "Ustawienia weryfikacji nie zostały jeszcze skonfigurowane dla tego serwera, domyślnie weryfikacja jest wyłączona, ale możesz to zmienić poniżej."
+    },
+    "modal.verification.settings.configure": {
+        "type": "BASIC",
+        "text": "Poniżej możesz skonfigurować ustawienia weryfikacji dla tego serwera."
+    },
+    "modal.verification.settings.toggle-verification.label": {
+        "type": "BASIC",
+        "text": "Włącz/Wyłącz Weryfikację"
+    },
+    "modal.verification.settings.toggle-verification.description": {
+        "type": "BASIC",
+        "text": "Czy weryfikacja jest włączona czy wyłączona."
+    },
+    "modal.verification.settings.role.label": {
+        "type": "BASIC",
+        "text": "Rola Weryfikacji"
+    },
+    "modal.verification.settings.role.description": {
+        "type": "BASIC",
+        "text": "Rola, która zostanie przypisana do użytkowników, którzy przejdą weryfikację."
+    },
+    "modal.verification.settings.role.placeholder": {
+        "type": "BASIC",
+        "text": "Wybierz rolę, która zostanie przypisana do użytkowników, którzy przejdą weryfikację."
     },
     // Verification requests subcommand.
     "commands.verification.requests.name": {
