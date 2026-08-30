@@ -17,6 +17,30 @@
         "type": "BASIC",
         "text": "Wygląda na to, że nie jest to obsługiwana wiadomość. Proszę skontaktować się z administratorem."
     },
+    "errors.unimplemented-component.title": {
+        "type": "BASIC",
+        "text": "Niezaimplementowany Komponent"
+    },
+    "errors.unimplemented-component.description": {
+        "type": "BASIC",
+        "text": "Wygląda na to, że ten komponent nie jest jeszcze zaimplementowany. Skontaktuj się z deweloperem (@oliverperzyk), aby dowiedział się o tym."
+    },
+    "errors.unavailable-command.title": {
+        "type": "BASIC",
+        "text": "Niedostępna Komenda"
+    },
+    "errors.unavailable-command.description": {
+        "type": "BASIC",
+        "text": "Nie jesteś uprawniony do używania tej komendy tutaj, sorki!"
+    },
+    "errors.unimplemented-command.title": {
+        "type": "BASIC",
+        "text": "Niezaimplementowana Komenda"
+    },
+    "errors.unimplemented-command.description": {
+        "type": "BASIC",
+        "text": "Wygląda na to, że ta komenda nie jest jeszcze zaimplementowana. Skontaktuj się z deweloperem (@oliverperzyk), aby dowiedział się o tym."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",

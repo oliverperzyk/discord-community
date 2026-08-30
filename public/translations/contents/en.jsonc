@@ -17,6 +17,30 @@
         "type": "BASIC",
         "text": "Looks like this message is not supported. Please contact the administrator."
     },
+    "errors.unimplemented-component.title": {
+        "type": "BASIC",
+        "text": "Unimplemented Component"
+    },
+    "errors.unimplemented-component.description": {
+        "type": "BASIC",
+        "text": "Looks like, this component is not implemented yet. Let the developer (@oliverperzyk) know about it."
+    },
+    "errors.unavailable-command.title": {
+        "type": "BASIC",
+        "text": "Unavailable Command"
+    },
+    "errors.unavailable-command.description": {
+        "type": "BASIC",
+        "text": "You are not privileged to use this command here, sorry!"
+    },
+    "errors.unimplemented-command.title": {
+        "type": "BASIC",
+        "text": "Unimplemented Command"
+    },
+    "errors.unimplemented-command.description": {
+        "type": "BASIC",
+        "text": "Looks like, this command is not implemented yet. Let the developer (@oliverperzyk) know about it."
+    },
     // Verification command.
     "commands.verification.name": {
         "type": "BASIC",
