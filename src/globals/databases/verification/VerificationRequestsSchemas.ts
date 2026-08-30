@@ -1,10 +1,11 @@
-import { uniqueIndex, varchar } from "drizzle-orm/pg-core"
+import { check, uniqueIndex, varchar } from "drizzle-orm/pg-core"
 import { baseTable } from "../base/BaseTable"
 import { DatabaseConstants } from "../base/DatabaseConstants"
 import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import { baseEnum } from "../base/BaseEnum"
 import { VerificationRequestStateDataManager } from "../../managers/data/verification/requests/VerificationRequestStateDataManager"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
+import { eq, isNull, sql } from "drizzle-orm"
 
 /**
  * @summary The verification request states enum.
@@ -33,8 +34,18 @@ const verificationRequestsTable = baseTable(
             .notNull()
             .default(VerificationRequestState.UNOPENED)
             .$type<VerificationRequestState>(),
+        moderatorComment: varchar("moderatorComment", { length: DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH }),
+        reviewedByUserId: varchar("reviewedByUserId", {
+            length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH,
+        }).$type<DiscordSnowflake>(),
     },
-    (table) => [uniqueIndex("verificationRequest").on(table.userId, table.guildId)],
+    (table) => [
+        uniqueIndex("verificationRequest").on(table.userId, table.guildId),
+        check(
+            "stateCheck",
+            sql`${eq(table.state, VerificationRequestState.UNOPENED)} AND ${isNull(table.reviewedByUserId)}`,
+        ),
+    ],
 )
 
 export { verificationRequestStatesEnum, verificationRequestsTable }
