@@ -122,7 +122,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
                 interaction.guildId,
             )
 
-            if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction)
+            if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction, language)
             if (
                 !(interaction.member?.permissions instanceof PermissionsBitField) ||
                 !interaction.member.permissions.has(commandInstance.requiredPermissions)
