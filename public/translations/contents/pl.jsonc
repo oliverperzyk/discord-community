@@ -77,6 +77,38 @@
         "type": "BASIC",
         "text": "Pozwala na zarządzanie żądaniami weryfikacji na bieżącym serwerze."
     },
+    "modal.verification.title": {
+        "type": "BASIC",
+        "text": "Weryfikacja"
+    },
+    "modal.verification.description": {
+        "type": "BASIC",
+        "text": "Proszę wypełnić formularz weryfikacji, aby zweryfikować się na tym serwerze."
+    },
+    "modal.verification.calculation.title": {
+        "type": "BASIC",
+        "text": "Oblicz wynik."
+    },
+    "modal.verification.calculation.description": {
+        "type": "BASIC",
+        "text": "Ile to jest {{ firstNumber }} + {{ secondNumber }}?"
+    },
+    "modal.verification.calculation.placeholder": {
+        "type": "BASIC",
+        "text": "Wpisz wynik."
+    },
+    "modal.verification.reason.title": {
+        "type": "BASIC",
+        "text": "Dlaczego chciałbyś dołączyć do tego serwera?"
+    },
+    "modal.verification.reason.description": {
+        "type": "BASIC",
+        "text": "Opisz siebie i powiedz dlaczego, powinieneś zostać dodany do tego serwera."
+    },
+    "modal.verification.reason.placeholder": {
+        "type": "BASIC",
+        "text": "Powiedz nieco o sobie..."
+    },
     // Verification message subcommand.
     "commands.verification.message.name": {
         "type": "BASIC",

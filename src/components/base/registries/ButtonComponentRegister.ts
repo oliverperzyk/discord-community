@@ -1,6 +1,7 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ButtonComponent } from "../components/ButtonComponent"
 import { TranslateButtonComponent } from "../../buttons/general/TranslateButtonComponent"
+import { VerifyButtonComponent } from "../../buttons/verification/VerifyButtonComponent"
 
 /**
  * @summary Register for all button components.
@@ -23,6 +24,8 @@ class ButtonComponentRegister extends BaseComponentRegister {
     protected static override readonly COMPONENTS: ButtonComponent<unknown>[] = [
         // General buttons.
         new TranslateButtonComponent(),
+        // Verification buttons.
+        new VerifyButtonComponent(),
     ]
 
     /**

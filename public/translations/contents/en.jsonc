@@ -85,6 +85,38 @@
         "type": "BASIC",
         "text": "Allows to manage the verification requests in the current guild."
     },
+    "modal.verification.title": {
+        "type": "BASIC",
+        "text": "Verification"
+    },
+    "modal.verification.description": {
+        "type": "BASIC",
+        "text": "Please fill out the verification form to verify yourself on this server."
+    },
+    "modal.verification.calculation.title": {
+        "type": "BASIC",
+        "text": "Calculate the result."
+    },
+    "modal.verification.calculation.description": {
+        "type": "BASIC",
+        "text": "How much is {{ firstNumber }} + {{ secondNumber }}?"
+    },
+    "modal.verification.calculation.placeholder": {
+        "type": "BASIC",
+        "text": "Enter the result."
+    },
+    "modal.verification.reason.title": {
+        "type": "BASIC",
+        "text": "Why do you want to join this server?"
+    },
+    "modal.verification.reason.description": {
+        "type": "BASIC",
+        "text": "Describe yourself and tell why, you should be added to this server."
+    },
+    "modal.verification.reason.placeholder": {
+        "type": "BASIC",
+        "text": "Tell a little about yourself..."
+    },
     // Verification message subcommand.
     "commands.verification.message.name": {
         "type": "BASIC",
