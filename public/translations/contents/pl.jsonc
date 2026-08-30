@@ -234,5 +234,50 @@
     "commands.slowdown.channel.invalid": {
         "type": "BASIC",
         "text": "Nieprawidłowy kanał. Proszę użyć kanału tekstowego do ustawienia spowolnienia."
+    },
+    // Embedded message command.
+    "commands.embedded-message.name": {
+        "type": "BASIC",
+        "text": "wstawianie-wiadomości"
+    },
+    "commands.embedded-message.description": {
+        "type": "BASIC",
+        "text": "Wstawia wiadomość w bieżącym kanale."
+    },
+    "commands.embedded-message.message.name": {
+        "type": "BASIC",
+        "text": "wiadomość"
+    },
+    "commands.embedded-message.message.description": {
+        "type": "BASIC",
+        "text": "Typ wiadomości do wstawienia w bieżącym kanale."
+    },
+    "commands.embedded-message.message.choices.information": {
+        "type": "BASIC",
+        "text": "Informacje"
+    },
+    "commands.embedded-message.message.choices.social-posts": {
+        "type": "BASIC",
+        "text": "Posty na mediach społecznościowych"
+    },
+    "commands.embedded-message.message.choices.testing-things": {
+        "type": "BASIC",
+        "text": "Testowanie rzeczy"
+    },
+    "commands.embedded-message.message.choices.voice-channels": {
+        "type": "BASIC",
+        "text": "Kanały głosowe"
+    },
+    "commands.embedded-message.message.choices.message-trap": {
+        "type": "BASIC",
+        "text": "Pułapka na wiadomości"
+    },
+    "commands.embedded-message.message.success": {
+        "type": "BASIC",
+        "text": "Wiadomość została pomyślnie wysłana w bieżącym kanale."
+    },
+    "commands.embedded-message.message.error": {
+        "type": "BASIC",
+        "text": "Wystąpił błąd podczas wysyłania wiadomości. Proszę spróbować ponownie później."
     }
 }

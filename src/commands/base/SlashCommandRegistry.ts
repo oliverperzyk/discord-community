@@ -6,6 +6,7 @@ import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariable
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
 import { SlowdownPrivateCommand } from "../private/moderation/SlowdownPrivateCommand"
 import { GeneralVerificationPrivateCommand } from "../private/verification/GeneralVerificationPrivateCommand"
+import { EmbeddedMessagePrivateCommand } from "../private/EmbeddedMessagePrivateCommand"
 
 /**
  * @summary Registry of slash commands.
@@ -25,6 +26,7 @@ class SlashCommandRegistry {
         // Private commands.
         new SlowdownPrivateCommand(),
         new GeneralVerificationPrivateCommand(),
+        new EmbeddedMessagePrivateCommand(),
     ]
 
     /**

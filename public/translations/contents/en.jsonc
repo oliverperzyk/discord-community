@@ -242,5 +242,50 @@
     "commands.slowdown.channel.invalid": {
         "type": "BASIC",
         "text": "Invalid channel. Please use a text channel to set the slowdown."
+    },
+    // Embedded message command.
+    "commands.embedded-message.name": {
+        "type": "BASIC",
+        "text": "embedded-message"
+    },
+    "commands.embedded-message.description": {
+        "type": "BASIC",
+        "text": "Embeds a message in the current channel."
+    },
+    "commands.embedded-message.message.name": {
+        "type": "BASIC",
+        "text": "message"
+    },
+    "commands.embedded-message.message.description": {
+        "type": "BASIC",
+        "text": "The type of the message to embed in the current channel."
+    },
+    "commands.embedded-message.message.choices.information": {
+        "type": "BASIC",
+        "text": "Information"
+    },
+    "commands.embedded-message.message.choices.social-posts": {
+        "type": "BASIC",
+        "text": "Social Posts"
+    },
+    "commands.embedded-message.message.choices.testing-things": {
+        "type": "BASIC",
+        "text": "Testing Things"
+    },
+    "commands.embedded-message.message.choices.voice-channels": {
+        "type": "BASIC",
+        "text": "Voice Channels"
+    },
+    "commands.embedded-message.message.choices.message-trap": {
+        "type": "BASIC",
+        "text": "Message Trap"
+    },
+    "commands.embedded-message.message.success": {
+        "type": "BASIC",
+        "text": "The embedded message has been successfully sent in the current channel."
+    },
+    "commands.embedded-message.message.error": {
+        "type": "BASIC",
+        "text": "An error occurred while sending the embedded message. Please try again later."
     }
 }
