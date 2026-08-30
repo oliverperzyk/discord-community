@@ -117,6 +117,22 @@
         "type": "BASIC",
         "text": "Tell a little about yourself..."
     },
+    "errors.verification.already-requested": {
+        "type": "BASIC",
+        "text": "You cannot request verification again."
+    },
+    "errors.verification.invalid-result": {
+        "type": "BASIC",
+        "text": "Invalid result. Please try again later."
+    },
+    "modal.verification.message.success.title": {
+        "type": "BASIC",
+        "text": "Verification has been successfully submitted"
+    },
+    "modal.verification.message.success.description": {
+        "type": "BASIC",
+        "text": "Please wait for the administrator's response, you will receive a notification about the verification result in a private message from me (bot)."
+    },
     // Verification message subcommand.
     "commands.verification.message.name": {
         "type": "BASIC",

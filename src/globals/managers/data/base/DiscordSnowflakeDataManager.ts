@@ -33,6 +33,20 @@ class DiscordSnowflakeDataManager {
     )
 
     /**
+     * @summary Cast a value to a Discord snowflake.
+     * @description This method is used to cast a value to a Discord snowflake.
+     * @param value - The value to cast.
+     * @returns The Discord snowflake.
+     */
+    public static castToDiscordSnowflake(value: unknown): DiscordSnowflake {
+        if (!this.isDiscordSnowflake(value)) {
+            throw new Error("Invalid Discord snowflake.")
+        }
+
+        return value as DiscordSnowflake
+    }
+
+    /**
      * @summary Check if a value is a Discord snowflake.
      * @description This method is used to check if a value is a Discord snowflake. It validates the decimal format and that the encoded timestamp is not in the future.
      * @param value - The value to check.

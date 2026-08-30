@@ -109,6 +109,22 @@
         "type": "BASIC",
         "text": "Powiedz nieco o sobie..."
     },
+    "errors.verification.already-requested": {
+        "type": "BASIC",
+        "text": "Nie możesz złożyć kolejnego żądania weryfikacji."
+    },
+    "errors.verification.invalid-result": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy wynik. Proszę spróbować ponownie później."
+    },
+    "modal.verification.message.success.title": {
+        "type": "BASIC",
+        "text": "Weryfikacja została pomyślnie złożona"
+    },
+    "modal.verification.message.success.description": {
+        "type": "BASIC",
+        "text": "Proszę poczekać na odpowiedź administratora, otrzymasz powiadomienie o wyniku weryfikacji w wiadomości prywatnej ode mnie (bota)."
+    },
     // Verification message subcommand.
     "commands.verification.message.name": {
         "type": "BASIC",

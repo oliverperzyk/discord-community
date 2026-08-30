@@ -1,6 +1,7 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ModalFormComponent } from "../components/ModalFormComponent"
 import { VerificationSettingsModalFormComponent } from "../../modals/private/verification/VerificationSettingsModalFormComponent"
+import { VerificationModalFormComponent } from "../../modals/private/verification/VerificationModalFormComponent"
 
 /**
  * @summary Register for all modal form components.
@@ -23,6 +24,7 @@ class ModalFormComponentRegister extends BaseComponentRegister {
     protected static override readonly COMPONENTS: ModalFormComponent<unknown>[] = [
         // Verification-related modals.
         new VerificationSettingsModalFormComponent(),
+        new VerificationModalFormComponent(),
     ]
 
     /**

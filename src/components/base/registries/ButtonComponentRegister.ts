@@ -1,7 +1,7 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ButtonComponent } from "../components/ButtonComponent"
 import { TranslateButtonComponent } from "../../buttons/general/TranslateButtonComponent"
-import { VerifyButtonComponent } from "../../buttons/verification/VerifyButtonComponent"
+import { VerifyButtonComponent } from "../../buttons/private/verification/VerifyButtonComponent"
 
 /**
  * @summary Register for all button components.
