@@ -44,6 +44,18 @@ class VerificationModalFormComponent extends ModalFormComponent<IVerificationMod
             return
         }
 
+        const acceptVerificationInput: boolean = interaction.fields.getCheckbox("accept-verification")
+        if (!acceptVerificationInput) {
+            await interaction.reply({
+                flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
+                components: [
+                    new TextDisplayBuilder().setContent(
+                        TranslationsManager.translate({ key: "errors.verification.not-accepted", language }),
+                    ),
+                ],
+            })
+        }
+
         const resultInput: string = interaction.fields.getTextInputValue("calculation-result")
         const parsedResultInput: number = parseInt(resultInput)
         if (Number.isNaN(parsedResultInput) || parsedResultInput !== result) {

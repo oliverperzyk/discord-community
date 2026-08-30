@@ -5,7 +5,7 @@ import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/ba
 import { baseEnum } from "../base/BaseEnum"
 import { VerificationRequestStateDataManager } from "../../managers/data/verification/requests/VerificationRequestStateDataManager"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
-import { eq, isNull, sql } from "drizzle-orm"
+import { sql } from "drizzle-orm"
 
 /**
  * @summary The verification request states enum.
@@ -43,7 +43,13 @@ const verificationRequestsTable = baseTable(
         uniqueIndex("verificationRequest").on(table.userId, table.guildId),
         check(
             "stateCheck",
-            sql`${eq(table.state, VerificationRequestState.UNOPENED)} AND ${isNull(table.reviewedByUserId)}`,
+            sql`(
+                ${table.state} = ${sql.raw(`'${VerificationRequestState.UNOPENED}'`)}
+                    AND ${table.reviewedByUserId} IS NULL
+            ) OR (
+                ${table.state} <> ${sql.raw(`'${VerificationRequestState.UNOPENED}'`)}
+                    AND ${table.reviewedByUserId} IS NOT NULL
+            )`,
         ),
     ],
 )

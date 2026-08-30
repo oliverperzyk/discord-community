@@ -6,6 +6,7 @@ import {
     TextDisplayBuilder,
     TextInputBuilder,
     TextInputStyle,
+    CheckboxBuilder,
 } from "discord.js"
 import { ButtonComponent } from "../../../base/components/ButtonComponent"
 import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
@@ -13,7 +14,7 @@ import { TranslationsManager } from "@/oliverperzyk/globals/managers/Translation
 import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { ComponentCustomIdentifierHandler } from "../../../base/common/ComponentCustomIdentifierHandler"
-import { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
+import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
 
 /**
@@ -153,6 +154,24 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
                                         language,
                                     }),
                                 ),
+                        ),
+                )
+                .addLabelComponents(
+                    new LabelBuilder()
+                        .setLabel(
+                            TranslationsManager.translate({
+                                key: "modal.verification.accept-verification.title",
+                                language,
+                            }),
+                        )
+                        .setDescription(
+                            TranslationsManager.translate({
+                                key: "modal.verification.accept-verification.description",
+                                language,
+                            }),
+                        )
+                        .setCheckboxComponent(
+                            new CheckboxBuilder().setCustomId("accept-verification").setDefault(false),
                         ),
                 ),
         )

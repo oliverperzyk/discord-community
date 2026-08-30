@@ -109,6 +109,18 @@
         "type": "BASIC",
         "text": "Powiedz nieco o sobie..."
     },
+    "modal.verification.accept-verification.title": {
+        "type": "BASIC",
+        "text": "Zaakceptuj zasady i warunki"
+    },
+    "modal.verification.accept-verification.description": {
+        "type": "BASIC",
+        "text": "Aby stać się członkiem tego serwera, musisz zaakceptować [zasady i warunki]({{ informationChannelLink }}) serwera."
+    },
+    "errors.verification.not-accepted": {
+        "type": "BASIC",
+        "text": "Musisz zaakceptować [zasady i warunki]({{ informationChannelLink }}) serwera, aby zweryfikować się."
+    },
     "errors.verification.already-requested": {
         "type": "BASIC",
         "text": "Nie możesz złożyć kolejnego żądania weryfikacji."

@@ -117,6 +117,18 @@
         "type": "BASIC",
         "text": "Tell a little about yourself..."
     },
+    "modal.verification.accept-verification.title": {
+        "type": "BASIC",
+        "text": "Accept guidelines and conditions"
+    },
+    "modal.verification.accept-verification.description": {
+        "type": "BASIC",
+        "text": "To become a member of this server, you need to accept the guidelines and conditions of the server."
+    },
+    "errors.verification.not-accepted": {
+        "type": "BASIC",
+        "text": "You need to accept the guidelines and conditions of the server, to verify yourself."
+    },
     "errors.verification.already-requested": {
         "type": "BASIC",
         "text": "You cannot request verification again."
