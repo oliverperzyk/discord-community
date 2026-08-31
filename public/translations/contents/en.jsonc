@@ -143,6 +143,55 @@
         "type": "BASIC",
         "text": "<@{{ user }}> has requested verification on <t:{{ timestamp }}:R>."
     },
+    // Verification manage modal content.
+    "modal.manage-verification.title": {
+        "type": "BASIC",
+        "text": "Manage Verification Request"
+    },
+    "modal.manage-verification.content": {
+        "type": "BASIC",
+        "text": "Verification request for <@{{ user }}> has been requested on <t:{{ timestamp }}:R>."
+    },
+    "modal.manage-verification.action.title": {
+        "type": "BASIC",
+        "text": "Action"
+    },
+    "modal.manage-verification.action.description": {
+        "type": "BASIC",
+        "text": "The action to perform on the verification request."
+    },
+    "modal.manage-verification.action.placeholder": {
+        "type": "BASIC",
+        "text": "Select the action to perform on the verification request."
+    },
+    "modal.manage-verification.action.accept": {
+        "type": "BASIC",
+        "text": "Accept"
+    },
+    "modal.manage-verification.action.accept.description": {
+        "type": "BASIC",
+        "text": "Accept the verification request."
+    },
+    "modal.manage-verification.action.reject": {
+        "type": "BASIC",
+        "text": "Reject"
+    },
+    "modal.manage-verification.action.reject.description": {
+        "type": "BASIC",
+        "text": "Reject the verification request."
+    },
+    "modal.manage-verification.comment.title": {
+        "type": "BASIC",
+        "text": "Comment"
+    },
+    "modal.manage-verification.comment.description": {
+        "type": "BASIC",
+        "text": "The comment to add to the verification request."
+    },
+    "modal.manage-verification.comment.placeholder": {
+        "type": "BASIC",
+        "text": "Enter the comment to add to the verification request."
+    },
     // Verification modal content and responses.
     "modal.verification.title": {
         "type": "BASIC",

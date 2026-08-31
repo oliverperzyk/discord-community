@@ -3,6 +3,7 @@ import { ButtonComponent } from "../components/ButtonComponent"
 import { TranslateButtonComponent } from "../../buttons/general/TranslateButtonComponent"
 import { VerifyButtonComponent } from "../../buttons/private/verification/VerifyButtonComponent"
 import { VerificationRequestsPageButtonComponent } from "../../buttons/private/verification/VerificationRequestsPageButtonComponent"
+import { ManageVerificationRequestButtonComponent } from "../../buttons/private/verification/ManageVerificationRequestButtonComponent"
 
 /**
  * @summary Register for all button components.
@@ -28,6 +29,7 @@ class ButtonComponentRegister extends BaseComponentRegister {
         // Verification buttons.
         new VerifyButtonComponent(),
         new VerificationRequestsPageButtonComponent(),
+        new ManageVerificationRequestButtonComponent(),
     ]
 
     /**

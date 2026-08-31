@@ -2,8 +2,8 @@ import { ModalFormComponent } from "@/oliverperzyk/components/base/components/Mo
 import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
-import { IVerificationModalFormComponentOptions } from "@/oliverperzyk/models/components/modals/private/verification/interfaces/IVerificationModalFormComponentOptions"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import type { IVerificationModalFormComponentOptions } from "@/oliverperzyk/models/components/modals/private/verification/interfaces/IVerificationModalFormComponentOptions"
+import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
 import { GuildMember, MessageFlags, ModalSubmitInteraction, TextDisplayBuilder } from "discord.js"
 

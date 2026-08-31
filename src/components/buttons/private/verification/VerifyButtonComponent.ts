@@ -16,6 +16,7 @@ import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/L
 import { ComponentCustomIdentifierHandler } from "../../../base/common/ComponentCustomIdentifierHandler"
 import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
+import { DatabaseConstants } from "@/oliverperzyk/globals/databases/base/DatabaseConstants"
 
 /**
  * @summary The verify button component.
@@ -148,6 +149,7 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
                                 .setCustomId("reason")
                                 .setRequired(true)
                                 .setStyle(TextInputStyle.Paragraph)
+                                .setMaxLength(DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH)
                                 .setPlaceholder(
                                     TranslationsManager.translate({
                                         key: "modal.verification.reason.placeholder",
