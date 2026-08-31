@@ -107,6 +107,13 @@ class VerificationMessages {
             )
     }
 
+    /**
+     * @summary Get the verification requests message.
+     * @description Builds the persistent verification requests Container for the given language and page.
+     * @param language - The language to render the message in.
+     * @param page - The page number.
+     * @returns The verification requests message container.
+     */
     public static async getVerificationRequestsMessage(language: Language, page: number): Promise<ContainerBuilder> {
         const verificationRequests: IPaginationResult<IVerificationRequest> =
             await VerificationRequestsService.getVerificationRequestsByPage(page)
@@ -223,8 +230,9 @@ class VerificationMessages {
                     .setStyle(ButtonStyle.Secondary)
                     .setDisabled(page === 1)
                     .setCustomId(
-                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("previous-verification-requests", {
-                            page,
+                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("verification-requests", {
+                            page: page - 1,
+                            a: "previous",
                         }),
                     ),
                 new ButtonBuilder()
@@ -240,8 +248,9 @@ class VerificationMessages {
                     .setStyle(ButtonStyle.Secondary)
                     .setDisabled(page === totalPages)
                     .setCustomId(
-                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("next-verification-requests", {
-                            page,
+                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("verification-requests", {
+                            page: page + 1,
+                            a: "next",
                         }),
                     ),
             ),
