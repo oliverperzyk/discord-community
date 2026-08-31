@@ -1,14 +1,20 @@
 import { ComponentCustomIdentifierHandler } from "@/oliverperzyk/components/base/common/ComponentCustomIdentifierHandler"
 import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
+import { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
+import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
 import {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
     ContainerBuilder,
     SectionBuilder,
+    SeparatorBuilder,
+    SeparatorSpacingSize,
     TextDisplayBuilder,
 } from "discord.js"
+import { ReusableComponents } from "../ReusableComponents"
 
 /**
  * @summary Builders for verification messages.
@@ -54,22 +60,7 @@ class VerificationMessages {
         const container: ContainerBuilder = new ContainerBuilder().addSectionComponents(
             new SectionBuilder()
                 .addTextDisplayComponents(new TextDisplayBuilder().setContent(heading))
-                .setButtonAccessory(
-                    new ButtonBuilder()
-                        .setEmoji({ name: "🌐" })
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "verification.interaction.translate",
-                                language,
-                            }),
-                        )
-                        .setStyle(ButtonStyle.Secondary)
-                        .setCustomId(
-                            ComponentCustomIdentifierHandler.resolveCustomIdentifier("translate", {
-                                m: "verification-message",
-                            }),
-                        ),
-                ),
+                .setButtonAccessory(ReusableComponents.translateButton(language, "verification-message")),
         )
 
         if (bodyParagraphs.length > 0) {
@@ -114,6 +105,149 @@ class VerificationMessages {
                         }),
                 ),
             )
+    }
+
+    public static async getVerificationRequestsMessage(language: Language, page: number): Promise<ContainerBuilder> {
+        const verificationRequests: IPaginationResult<IVerificationRequest> =
+            await VerificationRequestsService.getVerificationRequestsByPage(page)
+        const totalPages: number = VerificationRequestsService.getTotalPages(verificationRequests.totalCount)
+
+        if (verificationRequests.totalCount === 0) {
+            return new ContainerBuilder()
+                .addSectionComponents(
+                    new SectionBuilder()
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(
+                                "# ✅ " +
+                                    TranslationsManager.translate({
+                                        key: "container.verification.requests.title-no-requests",
+                                        language,
+                                    }),
+                            ),
+                        )
+                        .setButtonAccessory(ReusableComponents.translateButton(language, "verification-requests")),
+                )
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(
+                        "# ✅ " +
+                            TranslationsManager.translate({
+                                key: "container.verification.requests.no-requests",
+                                language,
+                            }),
+                    ),
+                )
+        }
+
+        const container: ContainerBuilder = new ContainerBuilder().addSectionComponents(
+            new SectionBuilder()
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(
+                        "# ✅ " +
+                            TranslationsManager.translate({
+                                key: "container.verification.requests.title",
+                                language,
+                                data: {
+                                    page,
+                                    totalPages,
+                                },
+                            }),
+                    ),
+                    new TextDisplayBuilder().setContent(
+                        TranslationsManager.translate({
+                            key: "container.verification.requests.page-info",
+                            language,
+                            data: {
+                                totalCount: verificationRequests.totalCount,
+                            },
+                        }),
+                    ),
+                )
+                .setButtonAccessory(ReusableComponents.translateButton(language, "verification-requests")),
+        )
+
+        for (let i: number = 0; i < verificationRequests.items.length; i++) {
+            const verificationRequest: IVerificationRequest = verificationRequests.items[i]
+            container.addSectionComponents(
+                new SectionBuilder()
+                    .addTextDisplayComponents(
+                        new TextDisplayBuilder().setContent(
+                            TranslationsManager.translate({
+                                key: "container.verification.requests.request",
+                                language,
+                                data: {
+                                    user: verificationRequest.userId,
+                                    timestamp: Math.floor(verificationRequest.createdAt.getTime() / 1000),
+                                },
+                            }),
+                        ),
+                    )
+                    .setButtonAccessory(
+                        new ButtonBuilder()
+                            .setEmoji({
+                                name: "✏️",
+                            })
+                            .setLabel(
+                                TranslationsManager.translate({
+                                    key: "common.manage",
+                                    language,
+                                }),
+                            )
+                            .setCustomId(
+                                ComponentCustomIdentifierHandler.resolveCustomIdentifier("manage-verification", {
+                                    id: verificationRequest.id,
+                                }),
+                            )
+                            .setStyle(ButtonStyle.Primary),
+                    ),
+            )
+
+            if (i < verificationRequests.items.length - 1) {
+                container.addSeparatorComponents(
+                    new SeparatorBuilder().setDivider(false).setSpacing(SeparatorSpacingSize.Small),
+                )
+            }
+        }
+
+        container.addActionRowComponents(
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setEmoji({
+                        name: "⬅️",
+                    })
+                    .setLabel(
+                        TranslationsManager.translate({
+                            key: "common.previous-page",
+                            language,
+                        }),
+                    )
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(page === 1)
+                    .setCustomId(
+                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("previous-verification-requests", {
+                            page,
+                        }),
+                    ),
+                new ButtonBuilder()
+                    .setEmoji({
+                        name: "➡️",
+                    })
+                    .setLabel(
+                        TranslationsManager.translate({
+                            key: "common.next-page",
+                            language,
+                        }),
+                    )
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(page === totalPages)
+                    .setCustomId(
+                        ComponentCustomIdentifierHandler.resolveCustomIdentifier("next-verification-requests", {
+                            page,
+                        }),
+                    ),
+            ),
+        )
+
+        return container
     }
 }
 

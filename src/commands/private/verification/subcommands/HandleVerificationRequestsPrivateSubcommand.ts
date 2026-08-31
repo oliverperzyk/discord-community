@@ -1,4 +1,7 @@
-import { type ChatInputCommandInteraction } from "discord.js"
+import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
+import { VerificationMessages } from "@/oliverperzyk/globals/messages/verification/VerificationMessages"
+import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
+import { ContainerBuilder, type ChatInputCommandInteraction, MessageFlags } from "discord.js"
 
 /**
  * @summary Handle verification requests private subcommand.
@@ -16,8 +19,13 @@ class HandleVerificationRequestsPrivateSubcommand {
      * @description Execute the subcommand that allows to manage the verification requests.
      * @param interaction - The interaction.
      */
-    public static async onExecute(_interaction: ChatInputCommandInteraction): Promise<void> {
-        return
+    public static async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
+        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
+        const message: ContainerBuilder = await VerificationMessages.getVerificationRequestsMessage(language, 1)
+        await interaction.reply({
+            flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
+            components: [message],
+        })
     }
 }
 

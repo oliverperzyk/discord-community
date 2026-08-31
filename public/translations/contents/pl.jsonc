@@ -1,5 +1,18 @@
 {
     "$schema": "../Translations.schemas.jsonc",
+    // Common translations.
+    "common.manage": {
+        "type": "BASIC",
+        "text": "Zarządzaj"
+    },
+    "common.previous-page": {
+        "type": "BASIC",
+        "text": "Poprzednia Strona"
+    },
+    "common.next-page": {
+        "type": "BASIC",
+        "text": "Następna Strona"
+    },
     // Basic errors.
     "errors.invalid-guild-id": {
         "type": "BASIC",
@@ -101,6 +114,28 @@
         "type": "BASIC",
         "text": "Pozwala na zarządzanie żądaniami weryfikacji na bieżącym serwerze."
     },
+    // Container verification requests content.
+    "container.verification.requests.title": {
+        "type": "BASIC",
+        "text": "Żądania Weryfikacji ({{ page }}/{{ totalPages }})"
+    },
+    "container.verification.requests.title-no-requests": {
+        "type": "BASIC",
+        "text": "Żądania Weryfikacji"
+    },
+    "container.verification.requests.no-requests": {
+        "type": "BASIC",
+        "text": "Nie znaleziono żadnych żądań weryfikacji, jeszcze. Upewnij się, że weryfikacja jest włączona i że rola weryfikacji jest ustawiona."
+    },
+    "container.verification.requests.page-info": {
+        "type": "BASIC",
+        "text": "Istnieje {{ totalCount }} żądań weryfikacji w sumie."
+    },
+    "container.verification.requests.request": {
+        "type": "BASIC",
+        "text": "<@{{ user }}> zażądał weryfikacji na <t:{{ timestamp }}:R>."
+    },
+    // Verification modal content and responses.
     "modal.verification.title": {
         "type": "BASIC",
         "text": "Weryfikacja"

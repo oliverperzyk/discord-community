@@ -1,5 +1,18 @@
 {
     "$schema": "../Translations.schemas.jsonc",
+    // Common translations.
+    "common.manage": {
+        "type": "BASIC",
+        "text": "Manage"
+    },
+    "common.previous-page": {
+        "type": "BASIC",
+        "text": "Previous Page"
+    },
+    "common.next-page": {
+        "type": "BASIC",
+        "text": "Next Page"
+    },
     // Basic errors.
     "errors.invalid-guild-id": {
         "type": "BASIC",
@@ -109,6 +122,28 @@
         "type": "BASIC",
         "text": "Allows to manage the verification requests in the current guild."
     },
+    // Container verification requests content.
+    "container.verification.requests.title": {
+        "type": "BASIC",
+        "text": "Verification Requests ({{ page }}/{{ totalPages }})"
+    },
+    "container.verification.requests.title-no-requests": {
+        "type": "BASIC",
+        "text": "Verification Requests"
+    },
+    "container.verification.requests.no-requests": {
+        "type": "BASIC",
+        "text": "No verification requests found, yet. Make sure that the verification is enabled and that the verification role is set."
+    },
+    "container.verification.requests.page-info": {
+        "type": "BASIC",
+        "text": "There are {{ totalCount }} verification request(s) in total."
+    },
+    "container.verification.requests.request": {
+        "type": "BASIC",
+        "text": "<@{{ user }}> has requested verification on <t:{{ timestamp }}:R>."
+    },
+    // Verification modal content and responses.
     "modal.verification.title": {
         "type": "BASIC",
         "text": "Verification"
