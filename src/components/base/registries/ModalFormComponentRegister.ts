@@ -2,6 +2,7 @@ import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ModalFormComponent } from "../components/ModalFormComponent"
 import { VerificationSettingsModalFormComponent } from "../../modals/private/verification/VerificationSettingsModalFormComponent"
 import { VerificationModalFormComponent } from "../../modals/private/verification/VerificationModalFormComponent"
+import { ManageVerificationRequestModalFormComponent } from "../../modals/private/verification/ManageVerificationRequestModalFormComponent"
 
 /**
  * @summary Register for all modal form components.
@@ -25,6 +26,7 @@ class ModalFormComponentRegister extends BaseComponentRegister {
         // Verification-related modals.
         new VerificationSettingsModalFormComponent(),
         new VerificationModalFormComponent(),
+        new ManageVerificationRequestModalFormComponent(),
     ]
 
     /**
