@@ -145,31 +145,27 @@ class VerificationMessages {
                 )
         }
 
-        const container: ContainerBuilder = new ContainerBuilder().addSectionComponents(
-            new SectionBuilder()
-                .addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent(
-                        "# ✅ " +
-                            TranslationsManager.translate({
-                                key: "container.verification.requests.title",
-                                language,
-                                data: {
-                                    page,
-                                    totalPages,
-                                },
-                            }),
-                    ),
-                    new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "container.verification.requests.page-info",
-                            language,
-                            data: {
-                                totalCount: verificationRequests.totalCount,
-                            },
-                        }),
-                    ),
-                )
-                .setButtonAccessory(ReusableComponents.translateButton(language, "verification-requests")),
+        const container: ContainerBuilder = new ContainerBuilder().addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+                "# ✅ " +
+                    TranslationsManager.translate({
+                        key: "container.verification.requests.title",
+                        language,
+                        data: {
+                            page,
+                            totalPages,
+                        },
+                    }),
+            ),
+            new TextDisplayBuilder().setContent(
+                TranslationsManager.translate({
+                    key: "container.verification.requests.page-info",
+                    language,
+                    data: {
+                        totalCount: verificationRequests.totalCount,
+                    },
+                }),
+            ),
         )
 
         for (let i: number = 0; i < verificationRequests.items.length; i++) {

@@ -152,6 +152,14 @@
         "type": "BASIC",
         "text": "Verification request for <@{{ user }}> has been requested on <t:{{ timestamp }}:R>."
     },
+    "modal.manage-verification.arguments.title": {
+        "type": "BASIC",
+        "text": "User's Statement"
+    },
+    "modal.manage-verification.arguments.empty": {
+        "type": "BASIC",
+        "text": "User did not fill out the verification form, so there are no arguments to show."
+    },
     "modal.manage-verification.action.title": {
         "type": "BASIC",
         "text": "Action"

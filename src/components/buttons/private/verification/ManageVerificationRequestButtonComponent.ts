@@ -84,15 +84,17 @@ class ManageVerificationRequestButtonComponent extends ButtonComponent<IManageVe
                     new LabelBuilder()
                         .setLabel(
                             TranslationsManager.translate({
-                                key: "modal.manage-verification.action.title",
+                                key: "modal.manage-verification.arguments.title",
                                 language,
                             }),
                         )
                         .setDescription(
-                            TranslationsManager.translate({
-                                key: "modal.manage-verification.action.description",
-                                language,
-                            }),
+                            verificationRequest.comment ??
+                                "> + " +
+                                    TranslationsManager.translate({
+                                        key: "modal.manage-verification.arguments.empty",
+                                        language,
+                                    }),
                         )
                         .setStringSelectMenuComponent(
                             new StringSelectMenuBuilder()
