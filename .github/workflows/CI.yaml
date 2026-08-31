@@ -3,6 +3,10 @@
 name: Validate whole codebase.
 on:
     push:
+        paths-ignore:
+            - "**/*.sh"
+            - "deployment/Caddyfile"
+            - ".*ignore"
     pull_request:
 permissions:
     contents: read
