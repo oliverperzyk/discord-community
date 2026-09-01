@@ -1,41 +1,298 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    // Verification state command.
-    "commands.verification-state.name": {
+    // Common translations.
+    "common.manage": {
         "type": "BASIC",
-        "text": "verification-state"
+        "text": "Manage"
     },
-    "commands.verification-state.description": {
+    "common.previous-page": {
         "type": "BASIC",
-        "text": "Toggles availability of verification system in current guild."
+        "text": "Previous Page"
     },
-    "commands.verification-state.state.name": {
+    "common.next-page": {
         "type": "BASIC",
-        "text": "state"
+        "text": "Next Page"
     },
-    "commands.verification-state.state.description": {
+    // Basic errors.
+    "errors.invalid-guild-id": {
         "type": "BASIC",
-        "text": "State of the verification"
+        "text": "Looks like you're not in a guild. Please use this command in a guild."
     },
-    "commands.verification-state.state.choices.enabled.name": {
+    "errors.invalid-role-id": {
         "type": "BASIC",
-        "text": "enabled"
+        "text": "Invalid role. Please select a valid role."
     },
-    "commands.verification-state.state.choices.disabled.name": {
+    "errors.unknown-message.title": {
         "type": "BASIC",
-        "text": "disabled"
+        "text": "Unknown Message"
     },
-    "commands.verification-state.state.invalid": {
+    "errors.unknown-message.description": {
         "type": "BASIC",
-        "text": "Invalid state. Please use `enabled` or `disabled`."
+        "text": "Looks like this message is not supported. Please contact the administrator."
     },
-    "commands.verification-state.state.success": {
+    "errors.unimplemented-component.title": {
         "type": "BASIC",
-        "text": "Verification system has been successfully changed to be {{ state }}."
+        "text": "Unimplemented Component"
     },
-    "commands.verification-state.state.already": {
+    "errors.unimplemented-component.description": {
         "type": "BASIC",
-        "text": "Verification system is already {{ state }}."
+        "text": "Looks like, this component is not implemented yet. Let the developer (@oliverperzyk) know about it."
+    },
+    "errors.unavailable-command.title": {
+        "type": "BASIC",
+        "text": "Unavailable Command"
+    },
+    "errors.unavailable-command.description": {
+        "type": "BASIC",
+        "text": "You are not privileged to use this command here, sorry!"
+    },
+    "errors.unimplemented-command.title": {
+        "type": "BASIC",
+        "text": "Unimplemented Command"
+    },
+    "errors.unimplemented-command.description": {
+        "type": "BASIC",
+        "text": "Looks like, this command is not implemented yet. Let the developer (@oliverperzyk) know about it."
+    },
+    // Verification command.
+    "commands.verification.name": {
+        "type": "BASIC",
+        "text": "verification"
+    },
+    "commands.verification.description": {
+        "type": "BASIC",
+        "text": "Allows to manage the verification system in the current guild."
+    },
+    // Verification settings subcommand.
+    "commands.verification.settings.name": {
+        "type": "BASIC",
+        "text": "settings"
+    },
+    "commands.verification.settings.description": {
+        "type": "BASIC",
+        "text": "Allows to manage the verification settings in the current guild."
+    },
+    // Verification settings modal.
+    "modal.verification.settings.title": {
+        "type": "BASIC",
+        "text": "Verification Settings"
+    },
+    "modal.verification.settings.not-configured": {
+        "type": "BASIC",
+        "text": "Verification settings have not been configured for this guild yet, by default verification is disabled, but you can change it below."
+    },
+    "modal.verification.settings.configure": {
+        "type": "BASIC",
+        "text": "Below you can configure the verification settings for this guild."
+    },
+    "modal.verification.settings.toggle-verification.label": {
+        "type": "BASIC",
+        "text": "Toggle Verification"
+    },
+    "modal.verification.settings.toggle-verification.description": {
+        "type": "BASIC",
+        "text": "Whether the verification is enabled or disabled."
+    },
+    "modal.verification.settings.role.label": {
+        "type": "BASIC",
+        "text": "Verification Role"
+    },
+    "modal.verification.settings.role.description": {
+        "type": "BASIC",
+        "text": "The role that will be assigned to the users who pass the verification."
+    },
+    "modal.verification.settings.role.placeholder": {
+        "type": "BASIC",
+        "text": "Select the role that will be assigned to the users who pass the verification."
+    },
+    "modal.verification.settings.no-changes": {
+        "type": "BASIC",
+        "text": "No changes have been made to the verification settings."
+    },
+    "modal.verification.settings.success": {
+        "type": "BASIC",
+        "text": "Verification settings have been successfully updated."
+    },
+    // Verification requests subcommand.
+    "commands.verification.requests.name": {
+        "type": "BASIC",
+        "text": "requests"
+    },
+    "commands.verification.requests.description": {
+        "type": "BASIC",
+        "text": "Allows to manage the verification requests in the current guild."
+    },
+    // Container verification requests content.
+    "container.verification.requests.title": {
+        "type": "BASIC",
+        "text": "Verification Requests ({{ page }}/{{ totalPages }})"
+    },
+    "container.verification.requests.title-no-requests": {
+        "type": "BASIC",
+        "text": "Verification Requests"
+    },
+    "container.verification.requests.no-requests": {
+        "type": "BASIC",
+        "text": "No verification requests found, yet. Make sure that the verification is enabled and that the verification role is set."
+    },
+    "container.verification.requests.page-info": {
+        "type": "BASIC",
+        "text": "There are {{ totalCount }} verification request(s) in total."
+    },
+    "container.verification.requests.request": {
+        "type": "BASIC",
+        "text": "<@{{ user }}> has requested verification on <t:{{ timestamp }}:R>."
+    },
+    // Verification manage modal content.
+    "modal.manage-verification.title": {
+        "type": "BASIC",
+        "text": "Manage Verification Request"
+    },
+    "modal.manage-verification.content": {
+        "type": "BASIC",
+        "text": "Verification request for <@{{ user }}> has been requested on <t:{{ timestamp }}:R>."
+    },
+    "modal.manage-verification.arguments.title": {
+        "type": "BASIC",
+        "text": "User's Statement"
+    },
+    "modal.manage-verification.arguments.empty": {
+        "type": "BASIC",
+        "text": "User did not fill out the verification form, so there are no arguments to show."
+    },
+    "modal.manage-verification.action.title": {
+        "type": "BASIC",
+        "text": "Action"
+    },
+    "modal.manage-verification.action.description": {
+        "type": "BASIC",
+        "text": "The action to perform on the verification request."
+    },
+    "modal.manage-verification.action.placeholder": {
+        "type": "BASIC",
+        "text": "Select the action to perform on the verification request."
+    },
+    "modal.manage-verification.action.accept": {
+        "type": "BASIC",
+        "text": "Accept"
+    },
+    "modal.manage-verification.action.accept.description": {
+        "type": "BASIC",
+        "text": "Accept the verification request."
+    },
+    "modal.manage-verification.action.reject": {
+        "type": "BASIC",
+        "text": "Reject"
+    },
+    "modal.manage-verification.action.reject.description": {
+        "type": "BASIC",
+        "text": "Reject the verification request."
+    },
+    "modal.manage-verification.comment.title": {
+        "type": "BASIC",
+        "text": "Comment"
+    },
+    "modal.manage-verification.comment.description": {
+        "type": "BASIC",
+        "text": "The comment to add to the verification request."
+    },
+    "modal.manage-verification.comment.placeholder": {
+        "type": "BASIC",
+        "text": "Enter the comment to add to the verification request."
+    },
+    // Verification modal content and responses.
+    "modal.verification.title": {
+        "type": "BASIC",
+        "text": "Verification"
+    },
+    "modal.verification.description": {
+        "type": "BASIC",
+        "text": "Please fill out the verification form to verify yourself on this server."
+    },
+    "modal.verification.calculation.title": {
+        "type": "BASIC",
+        "text": "Calculate the result."
+    },
+    "modal.verification.calculation.description": {
+        "type": "BASIC",
+        "text": "How much is {{ firstNumber }} + {{ secondNumber }}?"
+    },
+    "modal.verification.calculation.placeholder": {
+        "type": "BASIC",
+        "text": "Enter the result."
+    },
+    "modal.verification.reason.title": {
+        "type": "BASIC",
+        "text": "Why do you want to join this server?"
+    },
+    "modal.verification.reason.description": {
+        "type": "BASIC",
+        "text": "Describe yourself and tell why, you should be added to this server."
+    },
+    "modal.verification.reason.placeholder": {
+        "type": "BASIC",
+        "text": "Tell a little about yourself..."
+    },
+    "modal.verification.accept-verification.title": {
+        "type": "BASIC",
+        "text": "Accept guidelines and conditions"
+    },
+    "modal.verification.accept-verification.description": {
+        "type": "BASIC",
+        "text": "To become a member of this server, you need to accept the guidelines and conditions of the server."
+    },
+    "errors.verification.not-accepted": {
+        "type": "BASIC",
+        "text": "You need to accept the guidelines and conditions of the server, to verify yourself."
+    },
+    "errors.verification.already-requested": {
+        "type": "BASIC",
+        "text": "You cannot request verification again."
+    },
+    "errors.verification.invalid-result": {
+        "type": "BASIC",
+        "text": "Invalid result. Please try again later."
+    },
+    "modal.verification.message.success.title": {
+        "type": "BASIC",
+        "text": "Verification has been successfully submitted"
+    },
+    "modal.verification.message.success.description": {
+        "type": "BASIC",
+        "text": "Please wait for the administrator's response, you will receive a notification about the verification result in a private message from me (bot)."
+    },
+    // Verification message subcommand.
+    "commands.verification.message.name": {
+        "type": "BASIC",
+        "text": "message"
+    },
+    "commands.verification.message.description": {
+        "type": "BASIC",
+        "text": "Sends the verification message in the current channel."
+    },
+    "verification.sidenote": {
+        "type": "BASIC",
+        "text": "You can translate all bot's messgaes by clicking the 🌐 button above."
+    },
+    "verification.interaction.verify": {
+        "type": "BASIC",
+        "text": "Verify"
+    },
+    "verification.interaction.translate": {
+        "type": "BASIC",
+        "text": "Translate"
+    },
+    "verification.interaction.other-servers": {
+        "type": "BASIC",
+        "text": "Other Servers"
+    },
+    "commands.verification.message.invalid-channel": {
+        "type": "BASIC",
+        "text": "Invalid channel. Please use a text channel to send the verification message."
+    },
+    "commands.verification.message.success": {
+        "type": "BASIC",
+        "text": "The verification message has been sent in this channel."
     },
     // Slowdown command.
     "commands.slowdown.name": {
@@ -77,5 +334,50 @@
     "commands.slowdown.channel.invalid": {
         "type": "BASIC",
         "text": "Invalid channel. Please use a text channel to set the slowdown."
+    },
+    // Embedded message command.
+    "commands.embedded-message.name": {
+        "type": "BASIC",
+        "text": "embedded-message"
+    },
+    "commands.embedded-message.description": {
+        "type": "BASIC",
+        "text": "Embeds a message in the current channel."
+    },
+    "commands.embedded-message.message.name": {
+        "type": "BASIC",
+        "text": "message"
+    },
+    "commands.embedded-message.message.description": {
+        "type": "BASIC",
+        "text": "The type of the message to embed in the current channel."
+    },
+    "commands.embedded-message.message.choices.information": {
+        "type": "BASIC",
+        "text": "Information"
+    },
+    "commands.embedded-message.message.choices.social-posts": {
+        "type": "BASIC",
+        "text": "Social Posts"
+    },
+    "commands.embedded-message.message.choices.testing-things": {
+        "type": "BASIC",
+        "text": "Testing Things"
+    },
+    "commands.embedded-message.message.choices.voice-channels": {
+        "type": "BASIC",
+        "text": "Voice Channels"
+    },
+    "commands.embedded-message.message.choices.message-trap": {
+        "type": "BASIC",
+        "text": "Message Trap"
+    },
+    "commands.embedded-message.message.success": {
+        "type": "BASIC",
+        "text": "The embedded message has been successfully sent in the current channel."
+    },
+    "commands.embedded-message.message.error": {
+        "type": "BASIC",
+        "text": "An error occurred while sending the embedded message. Please try again later."
     }
 }

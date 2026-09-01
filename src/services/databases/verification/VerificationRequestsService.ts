@@ -154,9 +154,9 @@ class VerificationRequestsService extends BaseDatabaseService {
 
             const verificationRequest: IVerificationRequest = this.resolveCreateElement({
                 id,
-                userId: payload.userId,
-                guildId: payload.guildId,
-                comment: payload.comment,
+                ...payload,
+                moderatorComment: null,
+                reviewedByUserId: null,
                 state: VerificationRequestState.UNOPENED,
             })
 

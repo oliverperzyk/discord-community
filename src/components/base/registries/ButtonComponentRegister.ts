@@ -1,5 +1,9 @@
 import { BaseComponentRegister } from "./BaseComponentRegister"
 import { ButtonComponent } from "../components/ButtonComponent"
+import { TranslateButtonComponent } from "../../buttons/general/TranslateButtonComponent"
+import { VerifyButtonComponent } from "../../buttons/private/verification/VerifyButtonComponent"
+import { VerificationRequestsPageButtonComponent } from "../../buttons/private/verification/VerificationRequestsPageButtonComponent"
+import { ManageVerificationRequestButtonComponent } from "../../buttons/private/verification/ManageVerificationRequestButtonComponent"
 
 /**
  * @summary Register for all button components.
@@ -19,7 +23,14 @@ class ButtonComponentRegister extends BaseComponentRegister {
      * @description The components of the register.
      * @remarks The components of the register are all button components.
      */
-    protected static override readonly COMPONENTS: ButtonComponent<unknown>[] = []
+    protected static override readonly COMPONENTS: ButtonComponent<unknown>[] = [
+        // General buttons.
+        new TranslateButtonComponent(),
+        // Verification buttons.
+        new VerifyButtonComponent(),
+        new VerificationRequestsPageButtonComponent(),
+        new ManageVerificationRequestButtonComponent(),
+    ]
 
     /**
      * @summary Get a component by its custom identifier.

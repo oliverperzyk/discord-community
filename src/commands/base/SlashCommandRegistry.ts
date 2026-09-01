@@ -4,8 +4,9 @@ import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/manage
 import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
-import { VerificationStatePrivateCommand } from "../private/verification/VerificationStatePrivateCommand"
 import { SlowdownPrivateCommand } from "../private/moderation/SlowdownPrivateCommand"
+import { GeneralVerificationPrivateCommand } from "../private/verification/GeneralVerificationPrivateCommand"
+import { EmbeddedMessagePrivateCommand } from "../private/EmbeddedMessagePrivateCommand"
 
 /**
  * @summary Registry of slash commands.
@@ -23,8 +24,9 @@ class SlashCommandRegistry {
      */
     private static readonly COMMANDS: BaseSlashCommand[] = [
         // Private commands.
-        new VerificationStatePrivateCommand(),
         new SlowdownPrivateCommand(),
+        new GeneralVerificationPrivateCommand(),
+        new EmbeddedMessagePrivateCommand(),
     ]
 
     /**

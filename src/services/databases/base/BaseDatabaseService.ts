@@ -102,6 +102,16 @@ abstract class BaseDatabaseService {
             .execute()) as DatabaseCountReturnType
         return queriedValue[0].count ?? 0
     }
+
+    /**
+     * @summary Get the total pages.
+     * @description This method is used to get the total pages for a given total count.
+     * @param totalCount - The total count of the entries.
+     * @returns The total pages.
+     */
+    public static getTotalPages(totalCount: number): number {
+        return Math.ceil(totalCount / this.PAGE_SIZE)
+    }
 }
 
 export { BaseDatabaseService }

@@ -1,0 +1,41 @@
+# Bare minimum configuration of the application for development purposes.
+---
+volumes:
+    database-data:
+        name: oliverperzyk-discord-database-development-data
+networks:
+    app-network:
+        name: oliverperzyk-discord-community-network
+        driver: bridge
+services:
+    database:
+        container_name: oliverperzyk-discord-database-development
+        image: postgres:18.1-alpine
+        restart: unless-stopped
+        init: true
+        env_file:
+            - ../.env
+        environment:
+            POSTGRES_DB: ${DATABASE_ENGINE_NAME:-discord-community}
+            POSTGRES_USER: ${DATABASE_ENGINE_USERNAME:-oliverperzyk}
+            POSTGRES_PASSWORD: ${DATABASE_ENGINE_PASSWORD:-oliverperzyk}
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "pg_isready",
+                    "-U",
+                    "${DATABASE_ENGINE_USERNAME:-oliverperzyk}",
+                    "-d",
+                    "${DATABASE_ENGINE_NAME:-discord-community}",
+                ]
+            interval: 30s
+            timeout: 5s
+            start_period: 15s
+            retries: 3
+        ports:
+            - "${DATABASE_ENGINE_PORT:-5432}:5432"
+        volumes:
+            - database-data:/var/lib/postgresql/data
+        networks:
+            - app-network

@@ -1,40 +1,233 @@
 {
     "$schema": "../Translations.schemas.jsonc",
-    "commands.verification-state.name": {
+    // Common translations.
+    "common.manage": {
         "type": "BASIC",
-        "text": "status-weryfikacji"
+        "text": "Zarządzaj"
     },
-    "commands.verification-state.description": {
+    "common.previous-page": {
         "type": "BASIC",
-        "text": "Włącza lub wyłącza system weryfikacji na bieżącym serwerze."
+        "text": "Poprzednia Strona"
     },
-    "commands.verification-state.state.name": {
+    "common.next-page": {
         "type": "BASIC",
-        "text": "stan"
+        "text": "Następna Strona"
     },
-    "commands.verification-state.state.description": {
+    // Basic errors.
+    "errors.invalid-guild-id": {
         "type": "BASIC",
-        "text": "Stan systemu weryfikacji"
+        "text": "Wygląda na to, że nie jesteś na żadnym serwerze. Proszę użyć tej komendy na serwerze."
     },
-    "commands.verification-state.state.choices.enabled.name": {
+    "errors.invalid-role-id": {
         "type": "BASIC",
-        "text": "włączony"
+        "text": "Nieprawidłowa rola. Proszę wybrać prawidłową rolę."
     },
-    "commands.verification-state.state.choices.disabled.name": {
+    "errors.unknown-message.title": {
         "type": "BASIC",
-        "text": "wyłączony"
+        "text": "Nieznana Wiadomość"
     },
-    "commands.verification-state.state.invalid": {
+    "errors.unknown-message.description": {
         "type": "BASIC",
-        "text": "Nieprawidłowy stan. Proszę użyć `włączony` lub `wyłączony`."
+        "text": "Wygląda na to, że nie jest to obsługiwana wiadomość. Proszę skontaktować się z administratorem."
     },
-    "commands.verification-state.state.success": {
+    "errors.unimplemented-component.title": {
         "type": "BASIC",
-        "text": "System weryfikacji został pomyślnie zmieniony na {{ state }}."
+        "text": "Niezaimplementowany Komponent"
     },
-    "commands.verification-state.state.already": {
+    "errors.unimplemented-component.description": {
         "type": "BASIC",
-        "text": "System weryfikacji jest już {{ state }}."
+        "text": "Wygląda na to, że ten komponent nie jest jeszcze zaimplementowany. Skontaktuj się z deweloperem (@oliverperzyk), aby dowiedział się o tym."
+    },
+    "errors.unavailable-command.title": {
+        "type": "BASIC",
+        "text": "Niedostępna Komenda"
+    },
+    "errors.unavailable-command.description": {
+        "type": "BASIC",
+        "text": "Nie jesteś uprawniony do używania tej komendy tutaj, sorki!"
+    },
+    "errors.unimplemented-command.title": {
+        "type": "BASIC",
+        "text": "Niezaimplementowana Komenda"
+    },
+    "errors.unimplemented-command.description": {
+        "type": "BASIC",
+        "text": "Wygląda na to, że ta komenda nie jest jeszcze zaimplementowana. Skontaktuj się z deweloperem (@oliverperzyk), aby dowiedział się o tym."
+    },
+    // Verification command.
+    "commands.verification.name": {
+        "type": "BASIC",
+        "text": "weryfikacja"
+    },
+    "commands.verification.description": {
+        "type": "BASIC",
+        "text": "Pozwala na zarządzanie systemem weryfikacji na bieżącym serwerze."
+    },
+    // Verification settings subcommand.
+    "commands.verification.settings.name": {
+        "type": "BASIC",
+        "text": "ustawienia"
+    },
+    "commands.verification.settings.description": {
+        "type": "BASIC",
+        "text": "Pozwala na zarządzanie ustawieniami weryfikacji na bieżącym serwerze."
+    },
+    // Verification settings modal.
+    "modal.verification.settings.title": {
+        "type": "BASIC",
+        "text": "Ustawienia Weryfikacji"
+    },
+    "modal.verification.settings.not-configured": {
+        "type": "BASIC",
+        "text": "Ustawienia weryfikacji nie zostały jeszcze skonfigurowane dla tego serwera, domyślnie weryfikacja jest wyłączona, ale możesz to zmienić poniżej."
+    },
+    "modal.verification.settings.configure": {
+        "type": "BASIC",
+        "text": "Poniżej możesz skonfigurować ustawienia weryfikacji dla tego serwera."
+    },
+    "modal.verification.settings.toggle-verification.label": {
+        "type": "BASIC",
+        "text": "Włącz/Wyłącz Weryfikację"
+    },
+    "modal.verification.settings.toggle-verification.description": {
+        "type": "BASIC",
+        "text": "Czy weryfikacja jest włączona czy wyłączona."
+    },
+    "modal.verification.settings.role.label": {
+        "type": "BASIC",
+        "text": "Rola Weryfikacji"
+    },
+    "modal.verification.settings.role.description": {
+        "type": "BASIC",
+        "text": "Rola, która zostanie przypisana do użytkowników, którzy przejdą weryfikację."
+    },
+    "modal.verification.settings.role.placeholder": {
+        "type": "BASIC",
+        "text": "Wybierz rolę, która zostanie przypisana do użytkowników, którzy przejdą weryfikację."
+    },
+    // Verification requests subcommand.
+    "commands.verification.requests.name": {
+        "type": "BASIC",
+        "text": "żądania"
+    },
+    "commands.verification.requests.description": {
+        "type": "BASIC",
+        "text": "Pozwala na zarządzanie żądaniami weryfikacji na bieżącym serwerze."
+    },
+    // Container verification requests content.
+    "container.verification.requests.title": {
+        "type": "BASIC",
+        "text": "Żądania Weryfikacji ({{ page }}/{{ totalPages }})"
+    },
+    "container.verification.requests.title-no-requests": {
+        "type": "BASIC",
+        "text": "Żądania Weryfikacji"
+    },
+    "container.verification.requests.no-requests": {
+        "type": "BASIC",
+        "text": "Nie znaleziono żadnych żądań weryfikacji, jeszcze. Upewnij się, że weryfikacja jest włączona i że rola weryfikacji jest ustawiona."
+    },
+    "container.verification.requests.page-info": {
+        "type": "BASIC",
+        "text": "Istnieje {{ totalCount }} żądań weryfikacji w sumie."
+    },
+    "container.verification.requests.request": {
+        "type": "BASIC",
+        "text": "<@{{ user }}> zażądał weryfikacji na <t:{{ timestamp }}:R>."
+    },
+    // Verification modal content and responses.
+    "modal.verification.title": {
+        "type": "BASIC",
+        "text": "Weryfikacja"
+    },
+    "modal.verification.description": {
+        "type": "BASIC",
+        "text": "Proszę wypełnić formularz weryfikacji, aby zweryfikować się na tym serwerze."
+    },
+    "modal.verification.calculation.title": {
+        "type": "BASIC",
+        "text": "Oblicz wynik."
+    },
+    "modal.verification.calculation.description": {
+        "type": "BASIC",
+        "text": "Ile to jest {{ firstNumber }} + {{ secondNumber }}?"
+    },
+    "modal.verification.calculation.placeholder": {
+        "type": "BASIC",
+        "text": "Wpisz wynik."
+    },
+    "modal.verification.reason.title": {
+        "type": "BASIC",
+        "text": "Dlaczego chciałbyś dołączyć do tego serwera?"
+    },
+    "modal.verification.reason.description": {
+        "type": "BASIC",
+        "text": "Opisz siebie i powiedz dlaczego, powinieneś zostać dodany do tego serwera."
+    },
+    "modal.verification.reason.placeholder": {
+        "type": "BASIC",
+        "text": "Powiedz nieco o sobie..."
+    },
+    "modal.verification.accept-verification.title": {
+        "type": "BASIC",
+        "text": "Zaakceptuj zasady i warunki"
+    },
+    "modal.verification.accept-verification.description": {
+        "type": "BASIC",
+        "text": "Aby stać się członkiem tego serwera, musisz zaakceptować [zasady i warunki]({{ informationChannelLink }}) serwera."
+    },
+    "errors.verification.not-accepted": {
+        "type": "BASIC",
+        "text": "Musisz zaakceptować [zasady i warunki]({{ informationChannelLink }}) serwera, aby zweryfikować się."
+    },
+    "errors.verification.already-requested": {
+        "type": "BASIC",
+        "text": "Nie możesz złożyć kolejnego żądania weryfikacji."
+    },
+    "errors.verification.invalid-result": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy wynik. Proszę spróbować ponownie później."
+    },
+    "modal.verification.message.success.title": {
+        "type": "BASIC",
+        "text": "Weryfikacja została pomyślnie złożona"
+    },
+    "modal.verification.message.success.description": {
+        "type": "BASIC",
+        "text": "Proszę poczekać na odpowiedź administratora, otrzymasz powiadomienie o wyniku weryfikacji w wiadomości prywatnej ode mnie (bota)."
+    },
+    // Verification message subcommand.
+    "commands.verification.message.name": {
+        "type": "BASIC",
+        "text": "wiadomość"
+    },
+    "commands.verification.message.description": {
+        "type": "BASIC",
+        "text": "Wysyła wiadomość weryfikacji na bieżącym kanale."
+    },
+    "verification.sidenote": {
+        "type": "BASIC",
+        "text": "Możesz przetłumaczyć wszystkie wiadomości bota klikając przycisk 🌐 powyżej."
+    },
+    "verification.interaction.verify": {
+        "type": "BASIC",
+        "text": "Zweryfikuj się"
+    },
+    "verification.interaction.translate": {
+        "type": "BASIC",
+        "text": "Przetłumacz"
+    },
+    "verification.interaction.other-servers": {
+        "type": "BASIC",
+        "text": "Inne serwery"
+    },
+    "commands.verification.message.invalid-channel": {
+        "type": "BASIC",
+        "text": "Nieprawidłowy kanał. Proszę użyć kanału tekstowego do wysyłania wiadomości z możliwością weryfikacji."
+    },
+    "commands.verification.message.success": {
+        "type": "BASIC",
+        "text": "Wiadomość weryfikacji została wysłana na tym kanale."
     },
     // Slowdown command.
     "commands.slowdown.name": {
@@ -76,5 +269,50 @@
     "commands.slowdown.channel.invalid": {
         "type": "BASIC",
         "text": "Nieprawidłowy kanał. Proszę użyć kanału tekstowego do ustawienia spowolnienia."
+    },
+    // Embedded message command.
+    "commands.embedded-message.name": {
+        "type": "BASIC",
+        "text": "wstawianie-wiadomości"
+    },
+    "commands.embedded-message.description": {
+        "type": "BASIC",
+        "text": "Wstawia wiadomość w bieżącym kanale."
+    },
+    "commands.embedded-message.message.name": {
+        "type": "BASIC",
+        "text": "wiadomość"
+    },
+    "commands.embedded-message.message.description": {
+        "type": "BASIC",
+        "text": "Typ wiadomości do wstawienia w bieżącym kanale."
+    },
+    "commands.embedded-message.message.choices.information": {
+        "type": "BASIC",
+        "text": "Informacje"
+    },
+    "commands.embedded-message.message.choices.social-posts": {
+        "type": "BASIC",
+        "text": "Posty na mediach społecznościowych"
+    },
+    "commands.embedded-message.message.choices.testing-things": {
+        "type": "BASIC",
+        "text": "Testowanie rzeczy"
+    },
+    "commands.embedded-message.message.choices.voice-channels": {
+        "type": "BASIC",
+        "text": "Kanały głosowe"
+    },
+    "commands.embedded-message.message.choices.message-trap": {
+        "type": "BASIC",
+        "text": "Pułapka na wiadomości"
+    },
+    "commands.embedded-message.message.success": {
+        "type": "BASIC",
+        "text": "Wiadomość została pomyślnie wysłana w bieżącym kanale."
+    },
+    "commands.embedded-message.message.error": {
+        "type": "BASIC",
+        "text": "Wystąpił błąd podczas wysyłania wiadomości. Proszę spróbować ponownie później."
     }
 }
