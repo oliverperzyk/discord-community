@@ -15,6 +15,7 @@ import {
     TextDisplayBuilder,
 } from "discord.js"
 import { ReusableComponents } from "../ReusableComponents"
+import { SocialInformation } from "../../SocialInformation"
 
 /**
  * @summary Builders for verification messages.
@@ -83,7 +84,7 @@ class VerificationMessages {
                             }),
                         )
                         .setStyle(ButtonStyle.Link)
-                        .setURL("https://discord.oliverperzyk.com"),
+                        .setURL(SocialInformation.COMMUNITIES_LIST_LINK.toString()),
                     new ButtonBuilder()
                         .setEmoji({ name: "✅" })
                         .setLabel(
