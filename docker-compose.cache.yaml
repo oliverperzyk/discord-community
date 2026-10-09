@@ -1,6 +1,7 @@
 # Configuration of cache container for the application.
 # Caching engine is not required to run the application, but it's recommended for performance.
 ---
+name: oliverperzyk-discord
 services:
     discord-application:
         depends_on:

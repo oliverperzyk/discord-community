@@ -1,5 +1,6 @@
 # Bare minimum configuration of the application for development purposes.
 ---
+name: oliverperzyk-discord-development
 volumes:
     database-data:
         name: oliverperzyk-discord-development-database-data

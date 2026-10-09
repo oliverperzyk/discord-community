@@ -1,5 +1,6 @@
 # General configuration of the application.
 ---
+name: oliverperzyk-discord
 networks:
     app-network:
         name: oliverperzyk-discord-network

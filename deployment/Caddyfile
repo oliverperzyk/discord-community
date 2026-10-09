@@ -1,4 +1,4 @@
-discord.oliverperzyk.com {
+community.oliverperzyk.com {
     encode gzip
     reverse_proxy discord-community:3000
 }
