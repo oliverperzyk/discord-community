@@ -1,6 +1,7 @@
 # Configuration of the production deployment stack (VPS).
 # Copy this file + Caddyfile to the VPS (e.g. ~/discord-bot), alongside a real .env.
 ---
+name: oliverperzyk-discord-deployment
 networks:
     app-network:
         name: oliverperzyk-discord-community-network

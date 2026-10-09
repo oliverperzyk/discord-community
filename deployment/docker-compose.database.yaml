@@ -1,6 +1,7 @@
 # Configuration of database container for the application.
 # It's recommended to host a database container for the application in a cloud environment, but it's an alternative.
 ---
+name: oliverperzyk-discord-deployment
 services:
     discord-community:
         depends_on:

@@ -1,5 +1,6 @@
 # Configuration of database container for the application.
 ---
+name: oliverperzyk-discord
 volumes:
     database-data:
         name: oliverperzyk-discord-database

@@ -1,6 +1,7 @@
 # Caddy reverse proxy for the production deployment stack (VPS).
 # Use when Caddy is not already installed on the host.
 ---
+name: oliverperzyk-discord-deployment
 services:
     caddy:
         container_name: oliverperzyk-discord-caddy
