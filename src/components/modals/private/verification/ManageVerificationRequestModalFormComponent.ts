@@ -48,10 +48,14 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
         if (!verificationRequest) {
             await interaction.reply({
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-                content: TranslationsManager.translateMarkdown({
-                    file: "ErrorManageVerifcationRequestNotFound",
-                    language,
-                }),
+                components: [
+                    new TextDisplayBuilder().setContent(
+                        TranslationsManager.translateMarkdown({
+                            file: "ErrorManageVerifcationRequestNotFound",
+                            language,
+                        }),
+                    ),
+                ],
             })
             return
         }
@@ -120,7 +124,7 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
 
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-            content: [
+            components: [
                 new ContainerBuilder().addTextDisplayComponents(
                     new TextDisplayBuilder().setContent(
                         TranslationsManager.translateMarkdown({
