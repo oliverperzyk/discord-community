@@ -5,7 +5,7 @@ import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/L
 import type { IVerificationModalFormComponentOptions } from "@/oliverperzyk/models/components/modals/private/verification/interfaces/IVerificationModalFormComponentOptions"
 import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
-import { GuildMember, MessageFlags, ModalSubmitInteraction, TextDisplayBuilder } from "discord.js"
+import { ContainerBuilder, GuildMember, MessageFlags, ModalSubmitInteraction, TextDisplayBuilder } from "discord.js"
 
 class VerificationModalFormComponent extends ModalFormComponent<IVerificationModalFormComponentOptions> {
     /**
@@ -54,6 +54,7 @@ class VerificationModalFormComponent extends ModalFormComponent<IVerificationMod
                     ),
                 ],
             })
+            return
         }
 
         const resultInput: string = interaction.fields.getTextInputValue("calculation-result")
@@ -90,12 +91,20 @@ class VerificationModalFormComponent extends ModalFormComponent<IVerificationMod
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
-                new TextDisplayBuilder().setContent(
-                    "### ✅ " +
-                        TranslationsManager.translate({ key: "modal.verification.message.success.title", language }),
-                ),
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({ key: "modal.verification.message.success.description", language }),
+                new ContainerBuilder().addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(
+                        "### ✅ " +
+                            TranslationsManager.translate({
+                                key: "modal.verification.message.success.title",
+                                language,
+                            }),
+                    ),
+                    new TextDisplayBuilder().setContent(
+                        TranslationsManager.translate({
+                            key: "modal.verification.message.success.description",
+                            language,
+                        }),
+                    ),
                 ),
             ],
         })

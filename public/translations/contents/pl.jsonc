@@ -174,7 +174,7 @@
     },
     "modal.verification.accept-verification.description": {
         "type": "BASIC",
-        "text": "Aby stać się członkiem tego serwera, musisz zaakceptować [zasady i warunki]({{ informationChannelLink }}) serwera."
+        "text": "Aby stać się członkiem tego serwera, musisz zaakceptować zasady i warunki serwera."
     },
     "errors.verification.not-accepted": {
         "type": "BASIC",
