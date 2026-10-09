@@ -2,7 +2,7 @@
 ---
 volumes:
     database-data:
-        name: oliverperzyk-discord-database
+        name: oliverperzyk-discord-database-data
 services:
     discord-application:
         depends_on:

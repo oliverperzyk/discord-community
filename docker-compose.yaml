@@ -2,7 +2,7 @@
 ---
 networks:
     app-network:
-        name: oliverperzyk-discord-community-network
+        name: oliverperzyk-discord-network
         driver: bridge
 services:
     discord-application:

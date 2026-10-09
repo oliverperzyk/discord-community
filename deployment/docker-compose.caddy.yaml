@@ -1,6 +1,11 @@
 # Caddy reverse proxy for the production deployment stack (VPS).
-# Use when Caddy is not already installed on the host.
+# Use when Caddy is not already installed on the host, otherwise, rely on the main Caddy service.
 ---
+volumes:
+    caddy_data:
+        name: oliverperzyk-discord-caddy-data
+    caddy_config:
+        name: oliverperzyk-discord-caddy-config
 services:
     caddy:
         container_name: oliverperzyk-discord-caddy
@@ -24,8 +29,3 @@ services:
             options:
                 max-size: "10m"
                 max-file: "3"
-volumes:
-    caddy_data:
-        name: oliverperzyk-discord-caddy-data
-    caddy_config:
-        name: oliverperzyk-discord-caddy-config
