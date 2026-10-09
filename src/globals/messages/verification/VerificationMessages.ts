@@ -175,14 +175,15 @@ class VerificationMessages {
                 new SectionBuilder()
                     .addTextDisplayComponents(
                         new TextDisplayBuilder().setContent(
-                            TranslationsManager.translate({
-                                key: "container.verification.requests.request",
-                                language,
-                                data: {
-                                    user: verificationRequest.userId,
-                                    timestamp: Math.floor(verificationRequest.createdAt.getTime() / 1000),
-                                },
-                            }),
+                            "- " +
+                                TranslationsManager.translate({
+                                    key: "container.verification.requests.request",
+                                    language,
+                                    data: {
+                                        user: verificationRequest.userId,
+                                        timestamp: Math.floor(verificationRequest.createdAt.getTime() / 1000),
+                                    },
+                                }),
                         ),
                     )
                     .setButtonAccessory(

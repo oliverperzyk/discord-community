@@ -1,6 +1,7 @@
-### ❌ Weryfikacja
+# ❌ Weryfikacja
 
 Sorry, but you've been rejected by a moderator.
 
-Here's moderator's (<@{{ moderatorUserId }}>) note:
+## <@{{ moderatorUserId }}>'s note:
+
 {{ note }}

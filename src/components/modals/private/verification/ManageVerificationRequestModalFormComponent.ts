@@ -7,6 +7,7 @@ import type { IManageVerificationRequestModalFormComponentOptions } from "@/oliv
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { VerificationRequestState } from "@/oliverperzyk/models/services/databases/verification/requests/enums/VerificationRequestState"
 import type { IVerificationState } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationState"
+import { PersonalizationService } from "@/oliverperzyk/services/databases/personalization/PersonalizationService"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
 import { VerificationStateService } from "@/oliverperzyk/services/databases/verification/VerificationStateService"
 import {
@@ -30,7 +31,7 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
      * @summary The custom identifier of the component.
      * @description The custom identifier of the component.
      */
-    public readonly customIdentifier: string = "manage-verification-request"
+    public readonly customIdentifier: string = "manage-verification"
 
     /**
      * @summary The method to handle the modal submit interaction.
@@ -79,6 +80,9 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
             }
         }
 
+        const managedUserLanguage: Language =
+            (await PersonalizationService.getPersonalizationByUserId(verificationRequest.userId))?.language ??
+            Language.ENGLISH
         await DiscordApplicationInstanceManager.sendMessageToUser(verificationRequest.userId, {
             flags: [MessageFlags.IsComponentsV2],
             components: [
@@ -90,7 +94,7 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
                                     action === "accept"
                                         ? "DirectMessageVerificationAcceptedRequest"
                                         : "DirectMessageVerificationRejectedRequest",
-                                language,
+                                language: managedUserLanguage,
                                 data: {
                                     moderatorUserId: DiscordSnowflakeDataManager.castToDiscordSnowflake(
                                         interaction.user.id,
@@ -116,10 +120,16 @@ class ManageVerificationRequestModalFormComponent extends ModalFormComponent<IMa
 
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-            content: TranslationsManager.translateMarkdown({
-                file: "ManageVerificationRequestResolved",
-                language,
-            }),
+            content: [
+                new ContainerBuilder().addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent(
+                        TranslationsManager.translateMarkdown({
+                            file: "ManageVerificationRequestResolved",
+                            language,
+                        }),
+                    ),
+                ),
+            ],
         })
     }
 }

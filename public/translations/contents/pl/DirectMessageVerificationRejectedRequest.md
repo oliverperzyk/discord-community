@@ -1,6 +1,7 @@
-### ❌ Weryfikacja
+# ❌ Weryfikacja
 
-Przepraszamy, ale Twój wniosek został odrzucony.
+Przepraszamy, ale Twój wniosek został odrzucony przez moderatora.
 
-Niżej jest notatka moderatora (<@{{ moderatorUserId }}>):
+## notatka (<@{{ moderatorUserId }}>)a:
+
 {{ note }}
