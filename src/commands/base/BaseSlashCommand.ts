@@ -11,12 +11,14 @@ import { type ChatInputCommandInteraction } from "discord.js"
  * @summary Base class for all slash commands.
  * @description This class is the base class for all slash commands.
  */
-abstract class BaseSlashCommand {
+abstract class BaseSlashCommand<
+    TServerType extends SlashCommandServerType = Exclude<SlashCommandServerType, SlashCommandServerType.GUILD_SCOPED>,
+> {
     /**
      * @summary The server type of the slash command.
-     * @description The type of server(s) on which the command is available.
+     * @description The type of server(s) on which the command is available. Plain subclasses cannot use GUILD_SCOPED.
      */
-    public abstract readonly serverType: SlashCommandServerType
+    public abstract readonly serverType: TServerType
     /**
      * @summary The structure of the slash command.
      * @description The structure of the slash command builder.

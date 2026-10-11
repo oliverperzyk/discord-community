@@ -9,7 +9,6 @@ import {
     type ModalSubmitInteraction,
 } from "discord.js"
 import { BaseEventListener } from "../base/BaseEventListener"
-import type { BaseSlashCommand } from "@/oliverperzyk/commands/base/BaseSlashCommand"
 import { SlashCommandRegistry } from "@/oliverperzyk/commands/base/SlashCommandRegistry"
 import { ComponentCustomIdentifierHandler } from "@/oliverperzyk/components/base/common/ComponentCustomIdentifierHandler"
 import { ButtonComponentRegister } from "@/oliverperzyk/components/base/registries/ButtonComponentRegister"
@@ -98,10 +97,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      */
     public override async onEvent(interaction: Interaction): Promise<void> {
         if (interaction.isChatInputCommand()) {
-            const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.findCommand(
-                interaction.commandName,
-                interaction.guildId,
-            )
+            const commandInstance = SlashCommandRegistry.findCommand(interaction.commandName, interaction.guildId)
 
             if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction)
             if (

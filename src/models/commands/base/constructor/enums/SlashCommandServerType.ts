@@ -14,6 +14,11 @@ const enum SlashCommandServerType {
      */
     PRIVATE = "PRIVATE",
     /**
+     * @summary Selected guilds.
+     * @description The command is available only in the guilds specified by its AVAILABLE_IN set.
+     */
+    GUILD_SCOPED = "GUILD_SCOPED",
+    /**
      * @summary Application commands.
      * @description The command is available on all Discord servers, as a global application command.
      */

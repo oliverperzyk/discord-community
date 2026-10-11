@@ -22,7 +22,7 @@ class GeneralVerificationPrivateCommand extends BaseSlashCommand {
      * @summary The server type of the command.
      * @description The server type of the command.
      */
-    public override readonly serverType: SlashCommandServerType = SlashCommandServerType.PRIVATE
+    public override readonly serverType = SlashCommandServerType.PRIVATE
 
     /**
      * @summary The structure of the command.

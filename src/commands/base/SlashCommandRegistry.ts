@@ -1,5 +1,8 @@
 import { SlashCommandServerType } from "@/oliverperzyk/models/commands/base/constructor/enums/SlashCommandServerType"
+import { SlashCommandError } from "@/oliverperzyk/models/builders/process-errors/SlashCommandError"
 import type { BaseSlashCommand } from "./BaseSlashCommand"
+import { BaseGuildSlashCommand } from "./BaseGuildSlashCommand"
+import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
 import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/managers/DiscordApplicationInstanceManager"
 import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
@@ -7,6 +10,11 @@ import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/
 import { SlowdownPrivateCommand } from "../private/moderation/SlowdownPrivateCommand"
 import { GeneralVerificationPrivateCommand } from "../private/verification/GeneralVerificationPrivateCommand"
 import { EmbeddedMessagePrivateCommand } from "../private/EmbeddedMessagePrivateCommand"
+
+/**
+ * @summary Slash commands supported by the registry.
+ */
+type RegisteredSlashCommand = BaseSlashCommand | BaseGuildSlashCommand
 
 /**
  * @summary Registry of slash commands.
@@ -22,7 +30,7 @@ class SlashCommandRegistry {
      * @summary The commands to register.
      * @description The commands to register.
      */
-    private static readonly COMMANDS: BaseSlashCommand[] = [
+    private static readonly COMMANDS: RegisteredSlashCommand[] = [
         // Private commands.
         new SlowdownPrivateCommand(),
         new GeneralVerificationPrivateCommand(),
@@ -43,38 +51,52 @@ class SlashCommandRegistry {
      * @description This method registers all slash commands to the Discord API.
      */
     public static async registerCommands(): Promise<void> {
-        const privateCommands: BaseSlashCommand[] = []
-        const applicationCommands: BaseSlashCommand[] = []
+        const guildCommands: Map<string, RegisteredSlashCommand[]> = new Map([[PrivateGuildConfiguration.guildId, []]])
+        const applicationCommands: RegisteredSlashCommand[] = []
+        const allServersCommands: RegisteredSlashCommand[] = []
 
         for (const command of this.COMMANDS) {
             switch (command.serverType) {
                 case SlashCommandServerType.PRIVATE:
-                    privateCommands.push(command)
+                    guildCommands.get(PrivateGuildConfiguration.guildId)!.push(command)
                     break
+                case SlashCommandServerType.GUILD_SCOPED: {
+                    const commandName: string = command.structure.name
+                    if (!(command instanceof BaseGuildSlashCommand)) {
+                        throw SlashCommandError.fromInvalidGuildScopedCommand(commandName)
+                    }
+                    for (const guildId of command.AVAILABLE_IN) {
+                        const commands: RegisteredSlashCommand[] = guildCommands.get(guildId) ?? []
+                        commands.push(command)
+                        guildCommands.set(guildId, commands)
+                    }
+                    break
+                }
                 case SlashCommandServerType.APPLICATION:
                     applicationCommands.push(command)
                     break
                 case SlashCommandServerType.ALL_SERVERS:
-                    privateCommands.push(command)
+                    allServersCommands.push(command)
                     break
             }
         }
 
         await Promise.all([
-            await DiscordApplicationInstanceManager.instance.rest.put(
+            DiscordApplicationInstanceManager.instance.rest.put(
                 Routes.applicationCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER),
                 {
-                    body: applicationCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
+                    body: applicationCommands.map((command: RegisteredSlashCommand) => command.structure.toJSON()),
                 },
             ),
-            await DiscordApplicationInstanceManager.instance.rest.put(
-                Routes.applicationGuildCommands(
-                    EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER,
-                    PrivateGuildConfiguration.guildId,
+            ...Array.from(guildCommands, ([guildId, commands]) =>
+                DiscordApplicationInstanceManager.instance.rest.put(
+                    Routes.applicationGuildCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER, guildId),
+                    {
+                        body: [...commands, ...allServersCommands].map((command: RegisteredSlashCommand) =>
+                            command.structure.toJSON(),
+                        ),
+                    },
                 ),
-                {
-                    body: privateCommands.map((command: BaseSlashCommand) => command.structure.toJSON()),
-                },
             ),
         ])
     }
@@ -86,18 +108,27 @@ class SlashCommandRegistry {
      * @param guildId - Guild identifier, which will be used to determine the server type of a command.
      * @returns Instance of a command or null, if it does not exist.
      */
-    public static findCommand(name: string, guildId: string | null | undefined): BaseSlashCommand | null {
-        const serverType: SlashCommandServerType = guildId
-            ? this.SERVER_TYPE_MAP.get(guildId.trim())!
+    public static findCommand(name: string, guildId: string | null | undefined): RegisteredSlashCommand | null {
+        const normalizedGuildId: string | undefined = guildId?.trim()
+        const serverType: SlashCommandServerType | undefined = normalizedGuildId
+            ? this.SERVER_TYPE_MAP.get(normalizedGuildId)
             : SlashCommandServerType.APPLICATION
         return (
-            this.COMMANDS.find(
-                ({ structure, serverType: commandServerType }) =>
-                    structure.name === name &&
-                    (serverType === commandServerType ||
-                        commandServerType === SlashCommandServerType.APPLICATION ||
-                        commandServerType === SlashCommandServerType.ALL_SERVERS),
-            ) ?? null
+            this.COMMANDS.find((command: RegisteredSlashCommand): boolean => {
+                if (command.structure.name !== name) return false
+                if (command.serverType === SlashCommandServerType.GUILD_SCOPED) {
+                    return (
+                        command instanceof BaseGuildSlashCommand &&
+                        DiscordSnowflakeDataManager.isDiscordSnowflake(normalizedGuildId) &&
+                        command.AVAILABLE_IN.has(normalizedGuildId)
+                    )
+                }
+                return (
+                    serverType === command.serverType ||
+                    command.serverType === SlashCommandServerType.APPLICATION ||
+                    command.serverType === SlashCommandServerType.ALL_SERVERS
+                )
+            }) ?? null
         )
     }
 }

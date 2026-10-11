@@ -20,7 +20,7 @@ class EmbeddedMessagePrivateCommand extends BaseSlashCommand {
      * @summary The server type of the command.
      * @description The server type of the command.
      */
-    public readonly serverType: SlashCommandServerType = SlashCommandServerType.PRIVATE
+    public override readonly serverType = SlashCommandServerType.PRIVATE
 
     /**
      * @summary The structure of the command.
