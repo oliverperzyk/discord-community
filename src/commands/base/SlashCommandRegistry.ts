@@ -47,6 +47,32 @@ class SlashCommandRegistry {
     >([[PrivateGuildConfiguration.guildId, SlashCommandServerType.PRIVATE]])
 
     /**
+     * @summary Validate slash command names.
+     * @description Requires unique names within a registration scope, including names reserved by application commands.
+     * @param commands - The commands registered in the scope.
+     * @param guildId - The guild identifier, or undefined for application commands.
+     * @param reservedNames - Command names already available in the scope.
+     * @returns The validated names, including reserved names.
+     */
+    private static validateCommandNames(
+        commands: readonly RegisteredSlashCommand[],
+        guildId?: string,
+        reservedNames: ReadonlySet<string> = new Set(),
+    ): ReadonlySet<string> {
+        const commandNames: Set<string> = new Set(reservedNames)
+        for (const command of commands) {
+            const commandName: string = command.structure.name
+            if (commandNames.has(commandName)) {
+                throw guildId === undefined
+                    ? SlashCommandError.fromDuplicateApplicationCommand(commandName)
+                    : SlashCommandError.fromDuplicateGuildCommand(commandName, guildId)
+            }
+            commandNames.add(commandName)
+        }
+        return commandNames
+    }
+
+    /**
      * @summary Register all slash commands to the Discord API.
      * @description This method registers all slash commands to the Discord API.
      */
@@ -81,6 +107,12 @@ class SlashCommandRegistry {
             }
         }
 
+        const applicationNames: ReadonlySet<string> = this.validateCommandNames(applicationCommands)
+        for (const [guildId, commands] of guildCommands) {
+            commands.push(...allServersCommands)
+            this.validateCommandNames(commands, guildId, applicationNames)
+        }
+
         await Promise.all([
             DiscordApplicationInstanceManager.instance.rest.put(
                 Routes.applicationCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER),
@@ -92,9 +124,7 @@ class SlashCommandRegistry {
                 DiscordApplicationInstanceManager.instance.rest.put(
                     Routes.applicationGuildCommands(EnvironmentVariables.DISCORD_APPLICATION_IDENTIFIER, guildId),
                     {
-                        body: [...commands, ...allServersCommands].map((command: RegisteredSlashCommand) =>
-                            command.structure.toJSON(),
-                        ),
+                        body: commands.map((command: RegisteredSlashCommand) => command.structure.toJSON()),
                     },
                 ),
             ),

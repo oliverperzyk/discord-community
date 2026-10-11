@@ -30,6 +30,27 @@ class SlashCommandError extends Error {
     public static fromInvalidGuildScopedCommand(commandName: string): SlashCommandError {
         return new this(`Guild-scoped command "${commandName}" must extend BaseGuildSlashCommand.`, commandName)
     }
+
+    /**
+     * @summary Create an error for a duplicate application command.
+     * @description Identifies a command name declared more than once in the application scope.
+     * @param commandName - The duplicate command name.
+     * @returns The SlashCommandError instance.
+     */
+    public static fromDuplicateApplicationCommand(commandName: string): SlashCommandError {
+        return new this(`Application slash command "${commandName}" is declared more than once.`, commandName)
+    }
+
+    /**
+     * @summary Create an error for a duplicate guild command.
+     * @description Identifies a command name with overlapping availability in a guild.
+     * @param commandName - The duplicate command name.
+     * @param guildId - The identifier of the guild with the conflicting command name.
+     * @returns The SlashCommandError instance.
+     */
+    public static fromDuplicateGuildCommand(commandName: string, guildId: string): SlashCommandError {
+        return new this(`Slash command "${commandName}" is declared more than once in guild "${guildId}".`, commandName)
+    }
 }
 
 export { SlashCommandError }
