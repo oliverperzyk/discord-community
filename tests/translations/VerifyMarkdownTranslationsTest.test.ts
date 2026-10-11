@@ -20,7 +20,14 @@ describe("Verify Markdown translations", async (): Promise<void> => {
      * @returns The path to the Markdown translations directory.
      */
     const resolveLanguageDirectory = (language: Language): string => {
-        return join(cwd(), "public", "translations", "contents", LanguageDataManager.resolveLocaleCode(language))
+        return join(
+            cwd(),
+            "public",
+            "translations",
+            "contents",
+            LanguageDataManager.resolveLocaleCode(language),
+            "markdown",
+        )
     }
 
     /**
