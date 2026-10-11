@@ -23,7 +23,7 @@ services:
         networks:
             - app-network
         depends_on:
-            discord-community:
+            discord-application:
                 condition: service_healthy
         logging:
             driver: json-file

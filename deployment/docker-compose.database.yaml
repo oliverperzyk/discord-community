@@ -3,7 +3,7 @@
 ---
 name: oliverperzyk-discord-deployment
 services:
-    discord-community:
+    discord-application:
         depends_on:
             database:
                 condition: service_healthy
@@ -20,7 +20,7 @@ services:
             POSTGRES_USER: ${DATABASE_ENGINE_USER:-oliverperzyk}
             POSTGRES_PASSWORD: ${DATABASE_ENGINE_PASSWORD:-oliverperzyk}
         ports:
-            - "{DATABASE_ENGINE_PORT:-5432}:5432"
+            - "${DATABASE_ENGINE_PORT:-5432}:5432"
         healthcheck:
             test: ["CMD", "pg_isready", "-U", "postgres"]
             interval: 30s
