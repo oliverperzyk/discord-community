@@ -1,7 +1,4 @@
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { IVerificationState } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationState"
 import { VerificationStateService } from "@/oliverperzyk/services/databases/verification/VerificationStateService"
 import {
@@ -27,66 +24,34 @@ class HandleVerificationSettingsPrivateSubcommand {
     /**
      * @summary Construct the modal.
      * @description Construct the modal that allows to manage the verification settings.
-     * @param language - The language of the interaction.
      * @returns The modal.
      */
-    private static constructModal(language: Language, verificationState: IVerificationState | null): ModalBuilder {
+    private static constructModal(verificationState: IVerificationState | null): ModalBuilder {
         return new ModalBuilder()
             .setCustomId("verificationSettings")
-            .setTitle(
-                TranslationsManager.translate({
-                    key: "modal.verification.settings.title",
-                    language,
-                }),
-            )
+            .setTitle("Verification Settings")
             .addTextDisplayComponents(
                 new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({
-                        key: verificationState
-                            ? "modal.verification.settings.not-configured"
-                            : "modal.verification.settings.configure",
-                        language,
-                    }),
+                    verificationState
+                        ? "Verification settings have not been configured for this guild yet, by default verification is disabled, but you can change it below."
+                        : "Below you can configure the verification settings for this guild.",
                 ),
             )
             .addLabelComponents(
                 new LabelBuilder()
-                    .setLabel(
-                        TranslationsManager.translate({
-                            key: "modal.verification.settings.toggle-verification.label",
-                            language,
-                        }),
-                    )
-                    .setDescription(
-                        TranslationsManager.translate({
-                            key: "modal.verification.settings.toggle-verification.description",
-                            language,
-                        }),
-                    )
+                    .setLabel("Toggle Verification")
+                    .setDescription("Whether the verification is enabled or disabled.")
                     .setCheckboxComponent(
                         new CheckboxBuilder().setCustomId("state").setDefault(verificationState?.enabled ?? false),
                     ),
                 new LabelBuilder()
-                    .setLabel(
-                        TranslationsManager.translate({
-                            key: "modal.verification.settings.role.label",
-                            language,
-                        }),
-                    )
-                    .setDescription(
-                        TranslationsManager.translate({
-                            key: "modal.verification.settings.role.description",
-                            language,
-                        }),
-                    )
+                    .setLabel("Verification Role")
+                    .setDescription("The role that will be assigned to the users who pass the verification.")
                     .setRoleSelectMenuComponent(
                         new RoleSelectMenuBuilder()
                             .setCustomId("role")
                             .setPlaceholder(
-                                TranslationsManager.translate({
-                                    key: "modal.verification.settings.role.placeholder",
-                                    language,
-                                }),
+                                "Select the role that will be assigned to the users who pass the verification.",
                             )
                             .setDefaultRoles(verificationState?.roleId ? [verificationState.roleId] : [])
                             .setMinValues(1)
@@ -103,19 +68,15 @@ class HandleVerificationSettingsPrivateSubcommand {
     public static async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
         if (!DiscordSnowflakeDataManager.isDiscordSnowflake(interaction.guildId)) {
             await interaction.reply({
-                content: TranslationsManager.translate({
-                    key: "errors.invalid-guild-id",
-                    language: await LanguageDataManager.resolveLanguageByInteraction(interaction),
-                }),
+                content: "Looks like you're not in a guild. Please use this command in a guild.",
                 ephemeral: true,
             })
             return
         }
 
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const verificationState: IVerificationState | null =
             await VerificationStateService.getVerificationStateByGuildId(interaction.guildId)
-        await interaction.showModal(this.constructModal(language, verificationState))
+        await interaction.showModal(this.constructModal(verificationState))
     }
 }
 

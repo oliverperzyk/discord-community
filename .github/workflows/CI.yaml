@@ -2,6 +2,7 @@
 ---
 name: Validate whole codebase.
 on:
+    workflow_dispatch:
     push:
         paths-ignore:
             - "**/*.sh"
@@ -30,7 +31,7 @@ jobs:
             DATABASE_URL: postgres://oliverperzyk:oliverperzyk@localhost:6379/oliverperzyk
         services:
             database:
-                image: postgres:18.1-alpine
+                image: postgres:18.6-alpine
                 env:
                     POSTGRES_DB: oliverperzyk
                     POSTGRES_USER: oliverperzyk

@@ -1,8 +1,6 @@
 import { ButtonComponent } from "@/oliverperzyk/components/base/components/ButtonComponent"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { VerificationMessages } from "@/oliverperzyk/globals/messages/verification/VerificationMessages"
 import type { IVerificationRequestsPageButtonComponentOptions } from "@/oliverperzyk/models/components/buttons/private/verification/requests/interfaces/IVerificationRequestsPageButtonComponentOptions"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { type ButtonInteraction, type InteractionUpdateOptions, MessageFlags } from "discord.js"
 
 /**
@@ -26,10 +24,9 @@ class VerificationRequestsPageButtonComponent extends ButtonComponent<IVerificat
         interaction: ButtonInteraction,
         { page }: Readonly<IVerificationRequestsPageButtonComponentOptions>,
     ): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const payload: InteractionUpdateOptions = {
             flags: [MessageFlags.IsComponentsV2],
-            components: [await VerificationMessages.getVerificationRequestsMessage(language, page)],
+            components: [await VerificationMessages.getVerificationRequestsMessage(page)],
         }
 
         if (interaction.message.flags.has(MessageFlags.Ephemeral) || !interaction.message.editable) {

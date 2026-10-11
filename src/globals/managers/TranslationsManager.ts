@@ -2,6 +2,7 @@ import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariable
 import { ConfigurationManager } from "@/oliverperzyk/globals/managers/ConfigurationManager"
 import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { TranslationError } from "@/oliverperzyk/models/builders/process-errors/TranslationError"
+import { ConfigurationFileError } from "@/oliverperzyk/models/builders/process-errors/ConfigurationFileError"
 import { NodeEnvironment } from "@/oliverperzyk/models/globals/environment/enums/NodeEnvironment"
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { TranslationArgumentDataType } from "@/oliverperzyk/models/globals/translations/enums/TranslationArgumentDataType"
@@ -13,10 +14,13 @@ import type { ITranslationParameterKey } from "@/oliverperzyk/models/globals/tra
 import type { ITranslationsLocale } from "@/oliverperzyk/models/globals/translations/interfaces/ITranslationsLocale"
 import type { TranslationArgumentValue } from "@/oliverperzyk/models/globals/translations/types/TranslationArgumentValue"
 import type { TranslationKey } from "@/oliverperzyk/models/globals/translations/types/TranslationKey"
+import { existsSync, lstatSync, readdirSync } from "fs"
+import { extname, join } from "path"
+import { cwd } from "process"
 
 /**
  * @summary Manager for locale translations.
- * @description Loads locale JSONC and Markdown files from public/translations and resolves BASIC/PARAMETER keys.
+ * @description Merges locale JSON/JSONC files and loads Markdown messages to resolve BASIC/PARAMETER keys.
  */
 class TranslationsManager {
     /**
@@ -33,7 +37,7 @@ class TranslationsManager {
 
     /**
      * @summary Loaded locale cache.
-     * @description Caches parsed locale files keyed by language.
+     * @description Caches merged locale dictionaries keyed by language.
      */
     private static readonly localeCache: Map<Language, ITranslationsLocale> = new Map<Language, ITranslationsLocale>()
 
@@ -72,18 +76,48 @@ class TranslationsManager {
     }
 
     /**
-     * @summary Get a locale file.
-     * @description Loads and caches the locale file for a language.
+     * @summary Get a locale dictionary.
+     * @description Merges and caches all JSON/JSONC feature files for a language, rejecting duplicate keys.
      * @param language - The language to load.
-     * @returns The locale file contents.
+     * @returns The merged locale dictionary without schema metadata.
      */
     private static getLocale(language: Language): ITranslationsLocale {
         const cachedLocale: ITranslationsLocale | undefined = this.localeCache.get(language)
         if (cachedLocale) return cachedLocale
 
-        const locale: ITranslationsLocale = ConfigurationManager.getConfiguration<ITranslationsLocale>(
-            `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}.jsonc`,
-        )
+        const relativeDirectory: string = `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}/json`
+        const directory: string = join(cwd(), "public", relativeDirectory)
+        if (!existsSync(directory)) throw ConfigurationFileError.fromMissingFile(directory)
+        if (!lstatSync(directory).isDirectory()) throw ConfigurationFileError.fromInvalidFile(directory)
+
+        const files: string[] = readdirSync(directory, { recursive: true, encoding: "utf8" })
+            .filter(
+                (file: string): boolean =>
+                    [".json", ".jsonc"].includes(extname(file)) && lstatSync(join(directory, file)).isFile(),
+            )
+            .sort()
+        const locale: Record<string, TranslationKey | string | undefined> = Object.create(null)
+        const sourceFiles: Map<string, string> = new Map<string, string>()
+
+        for (const file of files) {
+            const relativeFile: string = join(relativeDirectory, file)
+            const entries: ITranslationsLocale =
+                ConfigurationManager.getConfiguration<ITranslationsLocale>(relativeFile)
+            if (entries === null || typeof entries !== "object" || Array.isArray(entries)) {
+                throw ConfigurationFileError.fromInvalidFile(join(directory, file))
+            }
+
+            for (const [key, entry] of Object.entries(entries)) {
+                if (key === "$schema") continue
+                const previousFile: string | undefined = sourceFiles.get(key)
+                if (previousFile !== undefined) {
+                    throw TranslationError.fromDuplicateKey(key, language, previousFile, relativeFile)
+                }
+                sourceFiles.set(key, relativeFile)
+                locale[key] = entry
+            }
+        }
+
         this.localeCache.set(language, locale)
         return locale
     }
@@ -107,7 +141,7 @@ class TranslationsManager {
 
     /**
      * @summary Resolve a Markdown translation file path.
-     * @description Builds a `public/translations/contents/{locale}/{file}.md` path and rejects traversal.
+     * @description Builds a `public/translations/contents/{locale}/markdown/{file}.md` path and rejects traversal.
      * @param file - The Markdown file requested by the caller.
      * @param language - The language used to select the locale directory.
      * @returns The path relative to `public/`.
@@ -123,7 +157,7 @@ class TranslationsManager {
             throw TranslationError.fromInvalidMarkdownFile(file)
         }
 
-        return `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}/${normalizedFile}.md`
+        return `translations/contents/${LanguageDataManager.resolveLocaleCode(language)}/markdown/${normalizedFile}.md`
     }
 
     /**

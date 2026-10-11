@@ -1,8 +1,9 @@
+import { file, write } from "bun"
+
 /**
  * @summary Entrypoint that initializes the test environment.
  * @description This class initializes the test environment.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class TestEnvironment {
     /**
      * @summary Private constructor.
@@ -11,12 +12,10 @@ class TestEnvironment {
     private constructor() {}
 
     /**
-     * @summary Static initializer.
-     * @description Static initializer to initialize the test environment.
+     * @summary Initialization promise.
+     * @description Allows the preload to await test environment initialization.
      */
-    static {
-        void this.init()
-    }
+    public static readonly initialization: Promise<void> = this.init()
 
     /**
      * @summary Initialize the test environment.
@@ -24,5 +23,14 @@ class TestEnvironment {
      */
     private static async init(): Promise<void> {
         console.log("Initializing test environment...")
+        const exampleEnvironment: URL = new URL("../.env.example", import.meta.url)
+        for (const relativePath of ["../.env", "../deployment/.env"]) {
+            const environment: URL = new URL(relativePath, import.meta.url)
+            if (!(await file(environment).exists())) {
+                await write(environment, file(exampleEnvironment))
+            }
+        }
     }
 }
+
+await TestEnvironment.initialization

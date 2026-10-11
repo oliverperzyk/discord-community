@@ -1,6 +1,4 @@
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { VerificationMessages } from "@/oliverperzyk/globals/messages/verification/VerificationMessages"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { type ChatInputCommandInteraction, MessageFlags } from "discord.js"
 
 /**
@@ -20,10 +18,9 @@ class HandleVerificationRequestsPrivateSubcommand {
      * @param interaction - The interaction.
      */
     public static async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-            components: [await VerificationMessages.getVerificationRequestsMessage(language, 1)],
+            components: [await VerificationMessages.getVerificationRequestsMessage(1)],
         })
     }
 }

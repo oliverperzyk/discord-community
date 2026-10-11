@@ -33,6 +33,27 @@ class TranslationError extends Error {
     }
 
     /**
+     * @summary Create an error for a duplicate translation key.
+     * @description Identifies a key declared in more than one feature file for the same language.
+     * @param key - The duplicate translation key.
+     * @param language - The language being loaded.
+     * @param firstFile - The file that first declared the key.
+     * @param secondFile - The file that also declared the key.
+     * @returns The TranslationError instance.
+     */
+    public static fromDuplicateKey(
+        key: string,
+        language: string,
+        firstFile: string,
+        secondFile: string,
+    ): TranslationError {
+        return new this(
+            `Translation key "${key}" is duplicated for language "${language}" in "${firstFile}" and "${secondFile}".`,
+            key,
+        )
+    }
+
+    /**
      * @summary Create an error for a missing translation argument.
      * @description Creates a new instance of an error related to a missing argument.
      * @param key - The translation key that requires the argument.

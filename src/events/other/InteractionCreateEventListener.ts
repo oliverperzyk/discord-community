@@ -24,9 +24,6 @@ import { RoleSelectMenuComponentRegister } from "@/oliverperzyk/components/base/
 import type { RoleSelectMenuComponent } from "@/oliverperzyk/components/base/components/RoleSelectMenuComponent"
 import { UserSelectMenuComponentRegister } from "@/oliverperzyk/components/base/registries/UserSelectMenuComponentRegister"
 import type { UserSelectMenuComponent } from "@/oliverperzyk/components/base/components/UserSelectMenuComponent"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 
 /**
  * @summary Event listener for the interaction create event.
@@ -45,18 +42,13 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @param interaction - The interaction that triggered the event.
      * @returns A promise that resolves when the message is sent.
      */
-    private static async handleUnknownCommand(
-        interaction: ChatInputCommandInteraction,
-        language: Language,
-    ): Promise<void> {
+    private static async handleUnknownCommand(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
+                new TextDisplayBuilder().setContent("### 🐞Unknown Command"),
                 new TextDisplayBuilder().setContent(
-                    "### 🐞" + TranslationsManager.translate({ key: "errors.unknown-command.title", language }),
-                ),
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({ key: "errors.unimplemented-command.description", language }),
+                    "Looks like, this command is not implemented yet. Let the developer (@oliverperzyk) know about it.",
                 ),
             ],
             allowedMentions: {},
@@ -69,19 +61,12 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @param interaction - The interaction that triggered the event.
      * @returns A promise that resolves when the message is sent.
      */
-    private static async handleUnavailableCommand(
-        interaction: ChatInputCommandInteraction,
-        language: Language,
-    ): Promise<void> {
+    private static async handleUnavailableCommand(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
-                new TextDisplayBuilder().setContent(
-                    "### 🙅" + TranslationsManager.translate({ key: "errors.unavailable-command.title", language }),
-                ),
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({ key: "errors.unavailable-command.description", language }),
-                ),
+                new TextDisplayBuilder().setContent("### 🙅Unavailable Command"),
+                new TextDisplayBuilder().setContent("You are not privileged to use this command here, sorry!"),
             ],
             allowedMentions: {},
         })
@@ -95,16 +80,13 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      */
     private static async handleUnimplementedComponent(
         interaction: MessageComponentInteraction | ModalSubmitInteraction,
-        language: Language,
     ): Promise<void> {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
+                new TextDisplayBuilder().setContent("### 🐞Unimplemented Component"),
                 new TextDisplayBuilder().setContent(
-                    "### 🐞" + TranslationsManager.translate({ key: "errors.unimplemented-component.title", language }),
-                ),
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({ key: "errors.unimplemented-component.description", language }),
+                    "Looks like, this component is not implemented yet. Let the developer (@oliverperzyk) know about it.",
                 ),
             ],
         })
@@ -115,19 +97,18 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
      * @description It's in demand to redirect the interaction to the correct component or command.
      */
     public override async onEvent(interaction: Interaction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         if (interaction.isChatInputCommand()) {
             const commandInstance: BaseSlashCommand | null = SlashCommandRegistry.findCommand(
                 interaction.commandName,
                 interaction.guildId,
             )
 
-            if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction, language)
+            if (!commandInstance) return InteractionCreateEventListener.handleUnknownCommand(interaction)
             if (
                 !(interaction.member?.permissions instanceof PermissionsBitField) ||
                 !interaction.member.permissions.has(commandInstance.requiredPermissions)
             )
-                return InteractionCreateEventListener.handleUnavailableCommand(interaction, language)
+                return InteractionCreateEventListener.handleUnavailableCommand(interaction)
 
             await commandInstance.onExecute(interaction)
             return
@@ -139,8 +120,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: ButtonComponent<unknown> | null =
                 ButtonComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
             return
         }
@@ -151,8 +131,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: ModalFormComponent<unknown> | null =
                 ModalFormComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
             return
         }
@@ -163,8 +142,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: StringSelectMenuComponent<unknown> | null =
                 StringSelectMenuComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
             return
         }
@@ -175,8 +153,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: ChannelSelectMenuComponent<unknown> | null =
                 ChannelSelectMenuComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
             return
         }
@@ -187,8 +164,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: RoleSelectMenuComponent<unknown> | null =
                 RoleSelectMenuComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
             return
         }
@@ -199,8 +175,7 @@ class InteractionCreateEventListener extends BaseEventListener<Events.Interactio
             )
             const componentInstance: UserSelectMenuComponent<unknown> | null =
                 UserSelectMenuComponentRegister.getComponentByCustomIdentifier(customIdentifier)
-            if (!componentInstance)
-                return InteractionCreateEventListener.handleUnimplementedComponent(interaction, language)
+            if (!componentInstance) return InteractionCreateEventListener.handleUnimplementedComponent(interaction)
             await componentInstance.onInteract(interaction, options)
         }
     }

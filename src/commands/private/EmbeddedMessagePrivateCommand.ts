@@ -9,9 +9,6 @@ import {
     TextDisplayBuilder,
     PermissionFlagsBits,
 } from "discord.js"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import type { SlashCommandPermissionFlag } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandPermissionFlag"
 
 /**
@@ -31,68 +28,31 @@ class EmbeddedMessagePrivateCommand extends BaseSlashCommand {
      */
     public readonly structure: SlashCommandStructureType = new SlashCommandBuilder()
         .setName("embedded-message")
-        .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.embedded-message.name"))
-        .setDescription(BaseSlashCommand.generateCommandTranslation("commands.embedded-message.description"))
-        .setDescriptionLocalizations(
-            BaseSlashCommand.generateCommandsTranslations("commands.embedded-message.description"),
-        )
+        .setDescription("Embeds a message in the current channel.")
         .addStringOption((option: SlashCommandStringOption) =>
             option
                 .setName("message")
-                .setNameLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.embedded-message.message.name"),
-                )
-                .setDescription(
-                    BaseSlashCommand.generateCommandTranslation("commands.embedded-message.message.description"),
-                )
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.embedded-message.message.description"),
-                )
+                .setDescription("The type of the message to embed in the current channel.")
                 .setRequired(true)
                 .addChoices(
                     {
-                        name: BaseSlashCommand.generateCommandTranslation(
-                            "commands.embedded-message.message.choices.information",
-                        ),
-                        name_localizations: BaseSlashCommand.generateCommandsTranslations(
-                            "commands.embedded-message.message.choices.information",
-                        ),
+                        name: "Information",
                         value: "information",
                     },
                     {
-                        name: BaseSlashCommand.generateCommandTranslation(
-                            "commands.embedded-message.message.choices.social-posts",
-                        ),
-                        name_localizations: BaseSlashCommand.generateCommandsTranslations(
-                            "commands.embedded-message.message.choices.social-posts",
-                        ),
+                        name: "Social Posts",
                         value: "social-posts",
                     },
                     {
-                        name: BaseSlashCommand.generateCommandTranslation(
-                            "commands.embedded-message.message.choices.testing-things",
-                        ),
-                        name_localizations: BaseSlashCommand.generateCommandsTranslations(
-                            "commands.embedded-message.message.choices.testing-things",
-                        ),
+                        name: "Testing Things",
                         value: "testing-things",
                     },
                     {
-                        name: BaseSlashCommand.generateCommandTranslation(
-                            "commands.embedded-message.message.choices.voice-channels",
-                        ),
-                        name_localizations: BaseSlashCommand.generateCommandsTranslations(
-                            "commands.embedded-message.message.choices.voice-channels",
-                        ),
+                        name: "Voice Channels",
                         value: "voice-channels",
                     },
                     {
-                        name: BaseSlashCommand.generateCommandTranslation(
-                            "commands.embedded-message.message.choices.message-trap",
-                        ),
-                        name_localizations: BaseSlashCommand.generateCommandsTranslations(
-                            "commands.embedded-message.message.choices.message-trap",
-                        ),
+                        name: "Message Trap",
                         value: "message-trap",
                     },
                 ),
@@ -113,7 +73,6 @@ class EmbeddedMessagePrivateCommand extends BaseSlashCommand {
      * @returns The result of the command execution.
      */
     public async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
-        const replyLanguage: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const selectedMessageType: string = interaction.options.getString("message", true)
         try {
             switch (selectedMessageType) {
@@ -133,10 +92,7 @@ class EmbeddedMessagePrivateCommand extends BaseSlashCommand {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "commands.embedded-message.message.success",
-                            language: replyLanguage,
-                        }),
+                        "The embedded message has been successfully sent in the current channel.",
                     ),
                 ],
             })
@@ -145,10 +101,7 @@ class EmbeddedMessagePrivateCommand extends BaseSlashCommand {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "commands.embedded-message.message.error",
-                            language: replyLanguage,
-                        }),
+                        "An error occurred while sending the embedded message. Please try again later.",
                     ),
                 ],
             })

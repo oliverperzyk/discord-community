@@ -10,21 +10,27 @@ The only exception is when you use many conditions - then it's better **to use m
 
     ```bash
      ~/contents
-         /en  # English Markdown translations.
-         /pl  # Polish Markdown translations.
-         en.json # Smaller translation entries in English.
-         pl.json # Smaller translation entries in Polish.
+         /en
+             /json      # English JSON/JSONC feature files.
+                 example.json
+             /markdown  # English Markdown messages.
+                 .gitkeep
+         /pl
+             /json      # Polish JSON/JSONC feature files.
+                 example.json
+             /markdown  # Polish Markdown messages.
+                 .gitkeep
     ```
 
-    If there's a folder with the language, you can go to second step, otherwise create it in `contents` directory.
+    Create the locale's `markdown/` directory if it does not exist. JSON feature files are merged separately from the locale's `json/` directory.
 
 > [!IMPORTANT]
 > If you don't know how to name the directory, refer to [Discord's API reference](https://docs.discord.com/developers/reference#locales). The application does not support region-based locales of a certain language, so omit the second part of it (e.g, we do not support `en-GB` and `en-US` as there's only `en`).
 
-2. Add new markdown file with your translation.
+2. Add a Markdown file under `public/translations/contents/{locale}/markdown/`.
 
     ```bash
-     # ~/[eg]/PublicRules.md
+     # public/translations/contents/en/markdown/PublicRules.md
     Rules of the public server:
     1. Do not insult other members.
     2. Have fun.
@@ -42,3 +48,7 @@ The only exception is when you use many conditions - then it's better **to use m
     ```
 
 Congrats, you just added a new translation! 🥳
+
+The `file` argument is relative to the locale's `markdown/` directory. Both `PublicRules` and `PublicRules.md` work; nested paths such as `rules/PublicRules` are supported. Callers do not include the `markdown/` prefix.
+
+Markdown placeholders can resolve translation keys from any JSON/JSONC feature file in the same locale's merged dictionary. Other placeholders use the supplied `data` values. File names do not add prefixes to translation keys.

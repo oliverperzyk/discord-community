@@ -1,10 +1,7 @@
 import { ComponentCustomIdentifierHandler } from "@/oliverperzyk/components/base/common/ComponentCustomIdentifierHandler"
 import { ButtonComponent } from "@/oliverperzyk/components/base/components/ButtonComponent"
 import { DatabaseConstants } from "@/oliverperzyk/globals/databases/base/DatabaseConstants"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import type { IManageVerificationRequestButtonComponentOptions } from "@/oliverperzyk/models/components/buttons/private/verification/requests/interfaces/IManageVerificationRequestButtonComponentOptions"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
 import {
@@ -40,7 +37,6 @@ class ManageVerificationRequestButtonComponent extends ButtonComponent<IManageVe
         interaction: ButtonInteraction,
         { id }: Readonly<IManageVerificationRequestButtonComponentOptions>,
     ): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const verificationRequest: IVerificationRequest | null =
             await VerificationRequestsService.getVerificationRequestById(id)
         if (!verificationRequest) {
@@ -48,7 +44,7 @@ class ManageVerificationRequestButtonComponent extends ButtonComponent<IManageVe
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({ key: "errors.verification.request-not-found", language }),
+                        "Looks like this verification request does not exist in our database. Sorry.",
                     ),
                 ],
             })
@@ -62,116 +58,55 @@ class ManageVerificationRequestButtonComponent extends ButtonComponent<IManageVe
                         id,
                     }),
                 )
-                .setTitle(
-                    TranslationsManager.translate({
-                        key: "modal.manage-verification.title",
-                        language,
-                    }),
-                )
+                .setTitle("Manage Verification Request")
                 .addTextDisplayComponents(
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "modal.manage-verification.content",
-                            language,
-                            data: {
-                                user: verificationRequest.userId,
-                                timestamp: Math.floor(verificationRequest.createdAt.getTime() / 1000),
-                            },
-                        }),
+                        `Verification request for <@${verificationRequest.userId}> has been requested on <t:${Math.floor(verificationRequest.createdAt.getTime() / 1000)}:R>.`,
                     ),
                 )
                 .addLabelComponents(
                     new LabelBuilder()
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "modal.manage-verification.arguments.title",
-                                language,
-                            }),
-                        )
+                        .setLabel("User's Statement")
                         .setDescription(
                             verificationRequest.comment ??
-                                "> + " +
-                                    TranslationsManager.translate({
-                                        key: "modal.manage-verification.arguments.empty",
-                                        language,
-                                    }),
+                                "> + User did not fill out the verification form, so there are no arguments to show.",
                         )
                         .setStringSelectMenuComponent(
                             new StringSelectMenuBuilder()
                                 .setCustomId("action")
                                 .setMaxValues(1)
                                 .setRequired(true)
-                                .setPlaceholder(
-                                    TranslationsManager.translate({
-                                        key: "modal.manage-verification.action.placeholder",
-                                        language,
-                                    }),
-                                )
+                                .setPlaceholder("Select the action to perform on the verification request.")
                                 .setOptions(
                                     new StringSelectMenuOptionBuilder()
                                         .setEmoji({
                                             name: "✅",
                                         })
-                                        .setLabel(
-                                            TranslationsManager.translate({
-                                                key: "modal.manage-verification.action.accept",
-                                                language,
-                                            }),
-                                        )
-                                        .setDescription(
-                                            TranslationsManager.translate({
-                                                key: "modal.manage-verification.action.accept.description",
-                                                language,
-                                            }),
-                                        )
+                                        .setLabel("Accept")
+                                        .setDescription("Accept the verification request.")
                                         .setDefault(true)
                                         .setValue("accept"),
                                     new StringSelectMenuOptionBuilder()
                                         .setEmoji({
                                             name: "❌",
                                         })
-                                        .setLabel(
-                                            TranslationsManager.translate({
-                                                key: "modal.manage-verification.action.reject",
-                                                language,
-                                            }),
-                                        )
-                                        .setDescription(
-                                            TranslationsManager.translate({
-                                                key: "modal.manage-verification.action.reject.description",
-                                                language,
-                                            }),
-                                        )
+                                        .setLabel("Reject")
+                                        .setDescription("Reject the verification request.")
                                         .setValue("reject"),
                                 ),
                         ),
                 )
                 .addLabelComponents(
                     new LabelBuilder()
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "modal.manage-verification.comment.title",
-                                language,
-                            }),
-                        )
-                        .setDescription(
-                            TranslationsManager.translate({
-                                key: "modal.manage-verification.comment.description",
-                                language,
-                            }),
-                        )
+                        .setLabel("Comment")
+                        .setDescription("The comment to add to the verification request.")
                         .setTextInputComponent(
                             new TextInputBuilder()
                                 .setCustomId("comment")
                                 .setRequired(false)
                                 .setStyle(TextInputStyle.Paragraph)
                                 .setMaxLength(DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH)
-                                .setPlaceholder(
-                                    TranslationsManager.translate({
-                                        key: "modal.manage-verification.comment.placeholder",
-                                        language,
-                                    }),
-                                ),
+                                .setPlaceholder("Enter the comment to add to the verification request."),
                         ),
                 ),
         )
