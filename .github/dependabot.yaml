@@ -34,7 +34,10 @@ updates:
     - package-ecosystem: docker-compose
       target-branch: development
       open-pull-requests-limit: 10
-      directory: /deployment
+      directories:
+          - /deployment
+          - /development
+          - /
       assignees:
           - oliverperzyk
       labels:
