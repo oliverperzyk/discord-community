@@ -23,6 +23,16 @@ interface IVerificationRequest extends IBaseEntity {
      */
     readonly comment: string | null
     /**
+     * @summary The comment of the verification request by a moderator.
+     * @description The comment of the verification request by a moderator. Might be null if the moderator comment is not provided.
+     */
+    readonly moderatorComment: string | null
+    /**
+     * @summary The ID of the user who reviewed the verification request.
+     * @description The ID of the user who reviewed the verification request. Might be null if the verification request is not reviewed.
+     */
+    readonly reviewedByUserId: DiscordSnowflake | null
+    /**
      * @summary The state of the verification request.
      * @description The state of the verification request (e.g. OPENED, CLOSED, etc.).
      */

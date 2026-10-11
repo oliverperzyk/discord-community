@@ -1,4 +1,11 @@
-import { Client, GatewayIntentBits } from "discord.js"
+import {
+    Client,
+    GatewayIntentBits,
+    type Message,
+    type MessageCreateOptions,
+    type MessagePayload,
+    type UserResolvable,
+} from "discord.js"
 import { EnvironmentVariables } from "../EnvironmentVariables"
 
 /**
@@ -56,6 +63,24 @@ class DiscordApplicationInstanceManager {
         }
 
         return this.internalInstance
+    }
+
+    /**
+     * @summary Send a message to a user.
+     * @description A wrapper around method to send a message to a user, as original one throws an error if the user is not found.
+     * @param userId - The user ID to send the message to.
+     * @param message - The message to send.
+     * @returns The message or `null` if the user couldn't receive the message.
+     */
+    public static async sendMessageToUser(
+        userId: UserResolvable,
+        message: string | MessagePayload | MessageCreateOptions,
+    ): Promise<Message<false> | null> {
+        try {
+            return await this.instance.users.send(userId, message)
+        } catch {
+            return null
+        }
     }
 }
 

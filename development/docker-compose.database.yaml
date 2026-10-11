@@ -3,10 +3,10 @@
 name: oliverperzyk-discord-development
 volumes:
     database-data:
-        name: oliverperzyk-discord-database-development-data
+        name: oliverperzyk-discord-development-database-data
 networks:
     app-network:
-        name: oliverperzyk-discord-community-network
+        name: oliverperzyk-discord-development-network
         driver: bridge
 services:
     database:
@@ -37,6 +37,6 @@ services:
         ports:
             - "${DATABASE_ENGINE_PORT:-5432}:5432"
         volumes:
-            - database-data:/var/lib/postgresql/data
+            - database-data:/var/lib/postgresql
         networks:
             - app-network

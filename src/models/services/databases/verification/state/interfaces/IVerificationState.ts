@@ -16,6 +16,11 @@ interface IVerificationState extends IBaseEntity {
      * @description Whether the verification is enabled.
      */
     readonly enabled: boolean
+    /**
+     * @summary The ID of the role.
+     * @description The ID of the role.
+     */
+    readonly roleId: DiscordSnowflake
 }
 
 export type { IVerificationState }

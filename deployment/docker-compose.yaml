@@ -4,11 +4,11 @@
 name: oliverperzyk-discord-deployment
 networks:
     app-network:
-        name: oliverperzyk-discord-community-network
+        name: oliverperzyk-discord-network
         driver: bridge
 services:
-    discord-community:
-        container_name: oliverperzyk-discord-community
+    discord-application:
+        container_name: oliverperzyk-discord
         image: ghcr.io/oliverperzyk/discord-community:${IMAGE_TAG:-latest}
         restart: unless-stopped
         init: true

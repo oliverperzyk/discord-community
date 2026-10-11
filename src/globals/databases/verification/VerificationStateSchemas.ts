@@ -13,6 +13,9 @@ const verificationStateTable = baseTable("verification_state", {
         .unique()
         .$type<DiscordSnowflake>(),
     enabled: boolean("state").notNull().default(false),
+    roleId: varchar("roleId", { length: DatabaseConstants.DISCORD_SNOWFLAKE_COLUMN_LENGTH })
+        .notNull()
+        .$type<DiscordSnowflake>(),
 })
 
 export { verificationStateTable }
