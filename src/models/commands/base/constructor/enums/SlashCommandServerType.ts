@@ -24,10 +24,10 @@ const enum SlashCommandServerType {
      */
     APPLICATION = "APPLICATION",
     /**
-     * @summary All servers.
-     * @description The command is available on all Discord servers, but is not a global application command.
+     * @summary All guilds.
+     * @description The command is available in all Discord guilds, but is not a global application command.
      */
-    ALL_SERVERS = "ALL_SERVERS",
+    ALL_GUILDS = "ALL_GUILDS",
 }
 
 export { SlashCommandServerType }

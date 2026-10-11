@@ -21,7 +21,7 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
      * @summary The server type of the command.
      * @description The server(s) on which the command is available.
      */
-    public override readonly serverType = SlashCommandServerType.PRIVATE
+    public override readonly serverType = SlashCommandServerType.ALL_GUILDS
 
     /**
      * @summary The structure of the command.

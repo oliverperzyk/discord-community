@@ -7,7 +7,7 @@ import { DiscordApplicationInstanceManager } from "@/oliverperzyk/globals/manage
 import { Routes } from "discord.js"
 import { EnvironmentVariables } from "@/oliverperzyk/globals/EnvironmentVariables"
 import { PrivateGuildConfiguration } from "@/oliverperzyk/globals/configuration/guilds/PrivateGuildConfiguration"
-import { SlowdownPrivateCommand } from "../private/moderation/SlowdownPrivateCommand"
+import { SlowdownPrivateCommand } from "../guilds/all/SlowdownPrivateCommand"
 import { GeneralVerificationPrivateCommand } from "../private/verification/GeneralVerificationPrivateCommand"
 import { EmbeddedMessagePrivateCommand } from "../private/EmbeddedMessagePrivateCommand"
 
@@ -79,7 +79,7 @@ class SlashCommandRegistry {
     public static async registerCommands(): Promise<void> {
         const guildCommands: Map<string, RegisteredSlashCommand[]> = new Map([[PrivateGuildConfiguration.guildId, []]])
         const applicationCommands: RegisteredSlashCommand[] = []
-        const allServersCommands: RegisteredSlashCommand[] = []
+        const allGuildsCommands: RegisteredSlashCommand[] = []
 
         for (const command of this.COMMANDS) {
             switch (command.serverType) {
@@ -101,15 +101,15 @@ class SlashCommandRegistry {
                 case SlashCommandServerType.APPLICATION:
                     applicationCommands.push(command)
                     break
-                case SlashCommandServerType.ALL_SERVERS:
-                    allServersCommands.push(command)
+                case SlashCommandServerType.ALL_GUILDS:
+                    allGuildsCommands.push(command)
                     break
             }
         }
 
         const applicationNames: ReadonlySet<string> = this.validateCommandNames(applicationCommands)
         for (const [guildId, commands] of guildCommands) {
-            commands.push(...allServersCommands)
+            commands.push(...allGuildsCommands)
             this.validateCommandNames(commands, guildId, applicationNames)
         }
 
@@ -156,7 +156,7 @@ class SlashCommandRegistry {
                 return (
                     serverType === command.serverType ||
                     command.serverType === SlashCommandServerType.APPLICATION ||
-                    command.serverType === SlashCommandServerType.ALL_SERVERS
+                    command.serverType === SlashCommandServerType.ALL_GUILDS
                 )
             }) ?? null
         )
