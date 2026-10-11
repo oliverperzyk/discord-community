@@ -64,6 +64,18 @@ jobs:
               with:
                   dockerfile: Dockerfile
                   config: .hadolint.yaml
+            - name: Check linting of Docker Compose files.
+              run: |
+                  docker compose --env-file .env.example -f docker-compose.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f docker-compose.yaml -f docker-compose.cache.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f docker-compose.yaml -f docker-compose.database.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f docker-compose.yaml -f docker-compose.cache.yaml -f docker-compose.database.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f deployment/docker-compose.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f deployment/docker-compose.yaml -f deployment/docker-compose.cache.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f deployment/docker-compose.yaml -f deployment/docker-compose.database.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f deployment/docker-compose.yaml -f deployment/docker-compose.caddy.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f deployment/docker-compose.yaml -f deployment/docker-compose.cache.yaml -f deployment/docker-compose.database.yaml -f deployment/docker-compose.caddy.yaml config --quiet --no-env-resolution
+                  docker compose --env-file .env.example -f development/docker-compose.database.yaml config --quiet --no-env-resolution
             - name: Check typings with TypeScript compiler.
               run: bunx tsc --noEmit --project tsconfig.json
             - name: Run tests.
