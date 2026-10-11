@@ -1,8 +1,8 @@
 import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import type { IPersonalization } from "@/oliverperzyk/models/services/databases/personalization/languages/interfaces/IPersonalization"
-import type { DiscordSnowflake } from "@/oliverperzyk/models/services/discord/base/types/DiscordSnowflake"
 import { PersonalizationService } from "@/oliverperzyk/services/databases/personalization/PersonalizationService"
-import { Interaction, Locale } from "discord.js"
+import { type Interaction, Locale, type User } from "discord.js"
+import { DiscordSnowflakeDataManager } from "./DiscordSnowflakeDataManager"
 
 /**
  * @summary The data manager for languages.
@@ -96,9 +96,23 @@ class LanguageDataManager {
      */
     public static async resolveLanguageByInteraction(interaction: Interaction): Promise<Language> {
         const personalization: IPersonalization | null = await PersonalizationService.getPersonalizationByUserId(
-            interaction.user.id as DiscordSnowflake,
+            DiscordSnowflakeDataManager.castToDiscordSnowflake(interaction.user.id),
         )
         return personalization?.language ?? this.resolveLanguage(interaction.locale)
+    }
+
+    /**
+     * @summary Resolves the language by user.
+     * @description Returns the user's stored language preference, falling back to English when none is set.
+     * @param user - The user to resolve the language by.
+     * @returns The resolved language.
+     */
+    public static async resolveLanguageByUser(user: User): Promise<Language> {
+        const personalization: IPersonalization | null = await PersonalizationService.getPersonalizationByUserId(
+            DiscordSnowflakeDataManager.castToDiscordSnowflake(user.id),
+        )
+
+        return personalization?.language ?? Language.ENGLISH
     }
 }
 
