@@ -1,6 +1,4 @@
 import { ButtonBuilder, ButtonStyle } from "discord.js"
-import { TranslationsManager } from "../managers/TranslationsManager"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { ComponentCustomIdentifierHandler } from "@/oliverperzyk/components/base/common/ComponentCustomIdentifierHandler"
 
 /**
@@ -16,20 +14,14 @@ class ReusableComponents {
 
     /**
      * @summary Create a translate button.
-     * @description Creates a translate button for a given message.
-     * @param language - The language to translate the button to.
+     * @description Retained for future use; English-only messages do not include this button.
      * @param messageId - The ID of the message to translate.
      * @returns The translate button.
      */
-    public static translateButton(language: Language, messageId: string): ButtonBuilder {
+    public static translateButton(messageId: string): ButtonBuilder {
         return new ButtonBuilder()
             .setEmoji({ name: "🌐" })
-            .setLabel(
-                TranslationsManager.translate({
-                    key: "verification.interaction.translate",
-                    language,
-                }),
-            )
+            .setLabel("Translate")
             .setStyle(ButtonStyle.Secondary)
             .setCustomId(
                 ComponentCustomIdentifierHandler.resolveCustomIdentifier("translate", {

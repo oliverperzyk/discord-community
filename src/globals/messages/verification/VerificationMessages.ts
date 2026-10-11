@@ -1,6 +1,4 @@
 import { ComponentCustomIdentifierHandler } from "@/oliverperzyk/components/base/common/ComponentCustomIdentifierHandler"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { IPaginationResult } from "@/oliverperzyk/models/services/databases/base/interfaces/IPaginationResult"
 import { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
@@ -14,12 +12,11 @@ import {
     SeparatorSpacingSize,
     TextDisplayBuilder,
 } from "discord.js"
-import { ReusableComponents } from "../ReusableComponents"
 import { SocialInformation } from "../../SocialInformation"
 
 /**
  * @summary Builders for verification messages.
- * @description Constructs Components V2 verification messages for a given language.
+ * @description Constructs Components V2 verification messages in English.
  */
 class VerificationMessages {
     /**
@@ -29,143 +26,61 @@ class VerificationMessages {
     private constructor() {}
 
     /**
-     * @summary Split Markdown into paragraph blocks.
-     * @description Splits Markdown on blank lines so each block can be its own Text Display.
-     * @param content - The Markdown content to split.
-     * @returns The non-empty paragraph blocks.
-     */
-    private static splitMarkdownParagraphs(content: string): string[] {
-        return content
-            .trim()
-            .split(/\n{2,}/)
-            .map((paragraph: string): string => paragraph.trim())
-            .filter((paragraph: string): boolean => paragraph.length > 0)
-    }
-
-    /**
      * @summary Get the verification message.
-     * @description Builds the persistent verification Container for the given language.
-     * @param language - The language to render the message in.
+     * @description Builds the persistent verification Container in English.
      * @returns The verification message container.
      */
-    public static getVerificationMessage(language: Language): ContainerBuilder {
-        const paragraphs: string[] = this.splitMarkdownParagraphs(
-            TranslationsManager.translateMarkdown({
-                file: "VerificationMessage.md",
-                language,
-            }),
-        )
-        const heading: string = paragraphs[0] ?? ""
-        const bodyParagraphs: string[] = paragraphs.slice(1)
-
-        const container: ContainerBuilder = new ContainerBuilder().addSectionComponents(
-            new SectionBuilder()
-                .addTextDisplayComponents(new TextDisplayBuilder().setContent(heading))
-                .setButtonAccessory(ReusableComponents.translateButton(language, "verification-message")),
-        )
-
-        if (bodyParagraphs.length > 0) {
-            container.addTextDisplayComponents(
-                ...bodyParagraphs.map(
-                    (paragraph: string): TextDisplayBuilder => new TextDisplayBuilder().setContent(paragraph),
+    public static getVerificationMessage(): ContainerBuilder {
+        return new ContainerBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent("# 🍪 Welcome"),
+                new TextDisplayBuilder().setContent(
+                    "This server is a community, just for friends & their friends. As because I do not let everyone slide in, you must verify before you _might_ get access to other channels here.",
+                ),
+                new TextDisplayBuilder().setContent(
+                    "I'd rather know who join this server, than accept everyone. You can find my other Discord servers related to my projects the link below.",
                 ),
             )
-        }
-
-        return container
             .addActionRowComponents(
                 new ActionRowBuilder<ButtonBuilder>().addComponents(
                     new ButtonBuilder()
                         .setEmoji({ name: "💬" })
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "verification.interaction.other-servers",
-                                language,
-                            }),
-                        )
+                        .setLabel("Other Servers")
                         .setStyle(ButtonStyle.Link)
                         .setURL(SocialInformation.COMMUNITIES_LIST_LINK.toString()),
                     new ButtonBuilder()
                         .setEmoji({ name: "✅" })
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "verification.interaction.verify",
-                                language,
-                            }),
-                        )
+                        .setLabel("Verify")
                         .setStyle(ButtonStyle.Primary)
                         .setCustomId(ComponentCustomIdentifierHandler.resolveCustomIdentifier("verify")),
-                ),
-            )
-            .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(
-                    "-# " +
-                        TranslationsManager.translate({
-                            key: "verification.sidenote",
-                            language,
-                        }),
                 ),
             )
     }
 
     /**
      * @summary Get the verification requests message.
-     * @description Builds the persistent verification requests Container for the given language and page.
-     * @param language - The language to render the message in.
+     * @description Builds the persistent verification requests Container in English for the given page.
      * @param page - The page number.
      * @returns The verification requests message container.
      */
-    public static async getVerificationRequestsMessage(language: Language, page: number): Promise<ContainerBuilder> {
+    public static async getVerificationRequestsMessage(page: number): Promise<ContainerBuilder> {
         const verificationRequests: IPaginationResult<IVerificationRequest> =
             await VerificationRequestsService.getVerificationRequestsByPage(page)
         const totalPages: number = VerificationRequestsService.getTotalPages(verificationRequests.totalCount)
 
         if (verificationRequests.totalCount === 0) {
-            return new ContainerBuilder()
-                .addSectionComponents(
-                    new SectionBuilder()
-                        .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent(
-                                "# ✅ " +
-                                    TranslationsManager.translate({
-                                        key: "container.verification.requests.title-no-requests",
-                                        language,
-                                    }),
-                            ),
-                        )
-                        .setButtonAccessory(ReusableComponents.translateButton(language, "verification-requests")),
-                )
-                .addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent(
-                        "# ✅ " +
-                            TranslationsManager.translate({
-                                key: "container.verification.requests.no-requests",
-                                language,
-                            }),
-                    ),
-                )
+            return new ContainerBuilder().addTextDisplayComponents(
+                new TextDisplayBuilder().setContent("# ✅ Verification Requests"),
+                new TextDisplayBuilder().setContent(
+                    "# ✅ No verification requests found, yet. Make sure that the verification is enabled and that the verification role is set.",
+                ),
+            )
         }
 
         const container: ContainerBuilder = new ContainerBuilder().addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(`# ✅ Verification Requests (${page}/${totalPages})`),
             new TextDisplayBuilder().setContent(
-                "# ✅ " +
-                    TranslationsManager.translate({
-                        key: "container.verification.requests.title",
-                        language,
-                        data: {
-                            page,
-                            totalPages,
-                        },
-                    }),
-            ),
-            new TextDisplayBuilder().setContent(
-                TranslationsManager.translate({
-                    key: "container.verification.requests.page-info",
-                    language,
-                    data: {
-                        totalCount: verificationRequests.totalCount,
-                    },
-                }),
+                `There are ${verificationRequests.totalCount} verification request(s) in total.`,
             ),
         )
 
@@ -175,15 +90,7 @@ class VerificationMessages {
                 new SectionBuilder()
                     .addTextDisplayComponents(
                         new TextDisplayBuilder().setContent(
-                            "- " +
-                                TranslationsManager.translate({
-                                    key: "container.verification.requests.request",
-                                    language,
-                                    data: {
-                                        user: verificationRequest.userId,
-                                        timestamp: Math.floor(verificationRequest.createdAt.getTime() / 1000),
-                                    },
-                                }),
+                            `- <@${verificationRequest.userId}> has requested verification on <t:${Math.floor(verificationRequest.createdAt.getTime() / 1000)}:R>.`,
                         ),
                     )
                     .setButtonAccessory(
@@ -191,12 +98,7 @@ class VerificationMessages {
                             .setEmoji({
                                 name: "✏️",
                             })
-                            .setLabel(
-                                TranslationsManager.translate({
-                                    key: "common.manage",
-                                    language,
-                                }),
-                            )
+                            .setLabel("Manage")
                             .setCustomId(
                                 ComponentCustomIdentifierHandler.resolveCustomIdentifier("manage-verification", {
                                     id: verificationRequest.id,
@@ -219,12 +121,7 @@ class VerificationMessages {
                     .setEmoji({
                         name: "⬅️",
                     })
-                    .setLabel(
-                        TranslationsManager.translate({
-                            key: "common.previous-page",
-                            language,
-                        }),
-                    )
+                    .setLabel("Previous Page")
                     .setStyle(ButtonStyle.Secondary)
                     .setDisabled(page === 1)
                     .setCustomId(
@@ -237,12 +134,7 @@ class VerificationMessages {
                     .setEmoji({
                         name: "➡️",
                     })
-                    .setLabel(
-                        TranslationsManager.translate({
-                            key: "common.next-page",
-                            language,
-                        }),
-                    )
+                    .setLabel("Next Page")
                     .setStyle(ButtonStyle.Secondary)
                     .setDisabled(page === totalPages)
                     .setCustomId(

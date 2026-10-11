@@ -30,47 +30,19 @@ class GeneralVerificationPrivateCommand extends BaseSlashCommand {
      */
     public override readonly structure: SlashCommandStructureType = new SlashCommandBuilder()
         .setName("verification")
-        .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.verification.name"))
-        .setDescription(BaseSlashCommand.generateCommandTranslation("commands.verification.description"))
-        .setDescriptionLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.verification.description"))
+        .setDescription("Allows to manage the verification system in the current guild.")
         .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
             subcommand
                 .setName("settings")
-                .setNameLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.settings.name"),
-                )
-                .setDescription(
-                    BaseSlashCommand.generateCommandTranslation("commands.verification.settings.description"),
-                )
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.settings.description"),
-                ),
+                .setDescription("Allows to manage the verification settings in the current guild."),
         )
         .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
             subcommand
                 .setName("requests")
-                .setNameLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.requests.name"),
-                )
-                .setDescription(
-                    BaseSlashCommand.generateCommandTranslation("commands.verification.requests.description"),
-                )
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.requests.description"),
-                ),
+                .setDescription("Allows to manage the verification requests in the current guild."),
         )
         .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
-            subcommand
-                .setName("message")
-                .setNameLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.message.name"),
-                )
-                .setDescription(
-                    BaseSlashCommand.generateCommandTranslation("commands.verification.message.description"),
-                )
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.verification.message.description"),
-                ),
+            subcommand.setName("message").setDescription("Sends the verification message in the current channel."),
         )
 
     /**

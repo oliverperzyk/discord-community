@@ -11,9 +11,6 @@ import {
     TextDisplayBuilder,
 } from "discord.js"
 import type { SlashCommandPermissionFlag } from "@/oliverperzyk/models/commands/base/constructor/types/SlashCommandPermissionFlag"
-import { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 
 /**
  * @summary Private command to set the slowdown for the current channel.
@@ -32,28 +29,18 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
      */
     public override readonly structure: SlashCommandStructureType = new SlashCommandBuilder()
         .setName("slowdown")
-        .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.slowdown.name"))
-        .setDescription(BaseSlashCommand.generateCommandTranslation("commands.slowdown.description"))
-        .setDescriptionLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.slowdown.description"))
+        .setDescription("Sets the slowdown for the current channel.")
         .addIntegerOption((option: SlashCommandIntegerOption) =>
             option
                 .setName("seconds")
-                .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.slowdown.seconds.name"))
-                .setDescription(BaseSlashCommand.generateCommandTranslation("commands.slowdown.seconds.description"))
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.slowdown.seconds.description"),
-                )
+                .setDescription("Seconds to slow down the users' messages.")
                 .setMinValue(0)
                 .setMaxValue(59),
         )
         .addIntegerOption((option: SlashCommandIntegerOption) =>
             option
                 .setName("minutes")
-                .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.slowdown.minutes.name"))
-                .setDescription(BaseSlashCommand.generateCommandTranslation("commands.slowdown.minutes.description"))
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.slowdown.minutes.description"),
-                )
+                .setDescription("Minutes to slow down the users' messages.")
                 .setMinValue(0)
                 .setMaxValue(59)
                 .setRequired(false),
@@ -61,11 +48,7 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
         .addIntegerOption((option: SlashCommandIntegerOption) =>
             option
                 .setName("hours")
-                .setNameLocalizations(BaseSlashCommand.generateCommandsTranslations("commands.slowdown.hours.name"))
-                .setDescription(BaseSlashCommand.generateCommandTranslation("commands.slowdown.hours.description"))
-                .setDescriptionLocalizations(
-                    BaseSlashCommand.generateCommandsTranslations("commands.slowdown.hours.description"),
-                )
+                .setDescription("Hours to slow down the users' messages.")
                 .setMinValue(0)
                 .setMaxValue(6)
                 .setRequired(false),
@@ -86,7 +69,6 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
      * @returns The result of the command execution.
      */
     public async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const seconds: number = interaction.options.getInteger("seconds", false) ?? 0
         const minutes: number = interaction.options.getInteger("minutes", false) ?? 0
         const hours: number = interaction.options.getInteger("hours", false) ?? 0
@@ -97,7 +79,7 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({ key: "commands.slowdown.channel.invalid", language }),
+                        "Invalid channel. Please use a text channel to set the slowdown.",
                     ),
                 ],
             })
@@ -108,12 +90,7 @@ class SlowdownPrivateCommand extends BaseSlashCommand {
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({
-                        key: "commands.slowdown.success",
-                        language,
-                    }),
-                ),
+                new TextDisplayBuilder().setContent("Slowdown has been successfully changed for this channel."),
             ],
         })
     }

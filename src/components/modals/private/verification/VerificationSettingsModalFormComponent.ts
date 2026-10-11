@@ -1,8 +1,5 @@
 import { ModalFormComponent } from "@/oliverperzyk/components/base/components/ModalFormComponent"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
 import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import type { IVerificationState } from "@/oliverperzyk/models/services/databases/verification/state/interfaces/IVerificationState"
 import { VerificationStateService } from "@/oliverperzyk/services/databases/verification/VerificationStateService"
 import { MessageFlags, type ModalSubmitInteraction, type Snowflake, TextDisplayBuilder } from "discord.js"
@@ -24,16 +21,12 @@ class VerificationSettingsModalFormComponent extends ModalFormComponent {
      * @param interaction - The interaction that triggered the component.
      */
     public async onInteract(interaction: ModalSubmitInteraction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         if (!DiscordSnowflakeDataManager.isDiscordSnowflake(interaction.guildId)) {
             await interaction.reply({
                 flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "errors.invalid-guild-id",
-                            language,
-                        }),
+                        "Looks like you're not in a guild. Please use this command in a guild.",
                     ),
                 ],
             })
@@ -45,14 +38,7 @@ class VerificationSettingsModalFormComponent extends ModalFormComponent {
         if (!DiscordSnowflakeDataManager.isDiscordSnowflake(selectedRoleId)) {
             await interaction.reply({
                 flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-                components: [
-                    new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "errors.invalid-role-id",
-                            language,
-                        }),
-                    ),
-                ],
+                components: [new TextDisplayBuilder().setContent("Invalid role. Please select a valid role.")],
             })
             return
         }
@@ -63,12 +49,7 @@ class VerificationSettingsModalFormComponent extends ModalFormComponent {
             await interaction.reply({
                 flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
                 components: [
-                    new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "modal.verification.settings.no-changes",
-                            language,
-                        }),
-                    ),
+                    new TextDisplayBuilder().setContent("No changes have been made to the verification settings."),
                 ],
             })
             return
@@ -80,14 +61,7 @@ class VerificationSettingsModalFormComponent extends ModalFormComponent {
         })
         await interaction.reply({
             flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-            components: [
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({
-                        key: "modal.verification.settings.success",
-                        language,
-                    }),
-                ),
-            ],
+            components: [new TextDisplayBuilder().setContent("Verification settings have been successfully updated.")],
         })
         return
     }

@@ -10,9 +10,6 @@ import {
 } from "discord.js"
 import { ButtonComponent } from "../../../base/components/ButtonComponent"
 import { DiscordSnowflakeDataManager } from "@/oliverperzyk/globals/managers/data/base/DiscordSnowflakeDataManager"
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { ComponentCustomIdentifierHandler } from "../../../base/common/ComponentCustomIdentifierHandler"
 import type { IVerificationRequest } from "@/oliverperzyk/models/services/databases/verification/requests/interfaces/IVerificationRequest"
 import { VerificationRequestsService } from "@/oliverperzyk/services/databases/verification/VerificationRequestsService"
@@ -35,7 +32,6 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
      * @param interaction - The interaction that triggered the button.
      */
     public async onInteract(interaction: ButtonInteraction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         const guildId: string | null = interaction.guildId
         if (
             !DiscordSnowflakeDataManager.isDiscordSnowflake(guildId) ||
@@ -45,10 +41,7 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "errors.invalid-guild-id",
-                            language,
-                        }),
+                        "Looks like you're not in a guild. Please use this command in a guild.",
                     ),
                 ],
             })
@@ -60,11 +53,7 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
         if (verificationRequest !== null) {
             await interaction.reply({
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
-                components: [
-                    new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({ key: "errors.verification.already-requested", language }),
-                    ),
-                ],
+                components: [new TextDisplayBuilder().setContent("You cannot request verification again.")],
             })
             return
         }
@@ -79,38 +68,16 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
                         result: firstNumber + secondNumber,
                     }),
                 )
-                .setTitle(
-                    TranslationsManager.translate({
-                        key: "modal.verification.title",
-                        language,
-                    }),
-                )
+                .setTitle("Verification")
                 .addTextDisplayComponents(
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "modal.verification.description",
-                            language,
-                        }),
+                        "Please fill out the verification form to verify yourself on this server.",
                     ),
                 )
                 .addLabelComponents(
                     new LabelBuilder()
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "modal.verification.calculation.title",
-                                language,
-                            }),
-                        )
-                        .setDescription(
-                            TranslationsManager.translate({
-                                key: "modal.verification.calculation.description",
-                                language,
-                                data: {
-                                    firstNumber,
-                                    secondNumber,
-                                },
-                            }),
-                        )
+                        .setLabel("Calculate the result.")
+                        .setDescription(`How much is ${firstNumber} + ${secondNumber}?`)
                         .setTextInputComponent(
                             new TextInputBuilder()
                                 .setCustomId("calculation-result")
@@ -118,59 +85,27 @@ class VerifyButtonComponent extends ButtonComponent<undefined> {
                                 .setMaxLength(2)
                                 .setRequired(true)
                                 .setStyle(TextInputStyle.Short)
-                                .setPlaceholder(
-                                    TranslationsManager.translate({
-                                        key: "modal.verification.calculation.placeholder",
-                                        language,
-                                    }),
-                                ),
+                                .setPlaceholder("Enter the result."),
                         ),
                 )
                 .addLabelComponents(
                     new LabelBuilder()
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "modal.verification.reason.title",
-                                language,
-                            }),
-                        )
-                        .setDescription(
-                            TranslationsManager.translate({
-                                key: "modal.verification.reason.description",
-                                language,
-                                data: {
-                                    firstNumber,
-                                    secondNumber,
-                                },
-                            }),
-                        )
+                        .setLabel("Why do you want to join this server?")
+                        .setDescription("Describe yourself and tell why, you should be added to this server.")
                         .setTextInputComponent(
                             new TextInputBuilder()
                                 .setCustomId("reason")
                                 .setRequired(true)
                                 .setStyle(TextInputStyle.Paragraph)
                                 .setMaxLength(DatabaseConstants.BASE_CONTENT_COLUMN_LENGTH)
-                                .setPlaceholder(
-                                    TranslationsManager.translate({
-                                        key: "modal.verification.reason.placeholder",
-                                        language,
-                                    }),
-                                ),
+                                .setPlaceholder("Tell a little about yourself..."),
                         ),
                 )
                 .addLabelComponents(
                     new LabelBuilder()
-                        .setLabel(
-                            TranslationsManager.translate({
-                                key: "modal.verification.accept-verification.title",
-                                language,
-                            }),
-                        )
+                        .setLabel("Accept guidelines and conditions")
                         .setDescription(
-                            TranslationsManager.translate({
-                                key: "modal.verification.accept-verification.description",
-                                language,
-                            }),
+                            "To become a member of this server, you need to accept the guidelines and conditions of the server.",
                         )
                         .setCheckboxComponent(
                             new CheckboxBuilder().setCustomId("accept-verification").setDefault(false),

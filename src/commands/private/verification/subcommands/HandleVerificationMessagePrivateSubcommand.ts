@@ -1,7 +1,4 @@
-import { TranslationsManager } from "@/oliverperzyk/globals/managers/TranslationsManager"
-import { LanguageDataManager } from "@/oliverperzyk/globals/managers/data/base/LanguageDataManager"
 import { VerificationMessages } from "@/oliverperzyk/globals/messages/verification/VerificationMessages"
-import type { Language } from "@/oliverperzyk/models/services/databases/base/enums/Language"
 import { type ChatInputCommandInteraction, MessageFlags, TextDisplayBuilder } from "discord.js"
 
 /**
@@ -21,16 +18,12 @@ class HandleVerificationMessagePrivateSubcommand {
      * @param interaction - The interaction.
      */
     public static async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
-        const language: Language = await LanguageDataManager.resolveLanguageByInteraction(interaction)
         if (!interaction.channel?.isSendable()) {
             await interaction.reply({
                 flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
                 components: [
                     new TextDisplayBuilder().setContent(
-                        TranslationsManager.translate({
-                            key: "commands.verification.message.invalid-channel",
-                            language,
-                        }),
+                        "Invalid channel. Please use a text channel to send the verification message.",
                     ),
                 ],
             })
@@ -39,17 +32,12 @@ class HandleVerificationMessagePrivateSubcommand {
 
         await interaction.channel.send({
             flags: [MessageFlags.IsComponentsV2],
-            components: [VerificationMessages.getVerificationMessage(language)],
+            components: [VerificationMessages.getVerificationMessage()],
         })
         await interaction.reply({
             flags: [MessageFlags.Ephemeral, MessageFlags.IsComponentsV2],
             components: [
-                new TextDisplayBuilder().setContent(
-                    TranslationsManager.translate({
-                        key: "commands.verification.message.success",
-                        language,
-                    }),
-                ),
+                new TextDisplayBuilder().setContent("The verification message has been sent in this channel."),
             ],
         })
         return
